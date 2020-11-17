@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 public class TitleUtils {
 
     /**
-     * Display a title to a specific player
+     * Display title to a specific player
      * @param player
      * @param titleText
      * @param subTitleText

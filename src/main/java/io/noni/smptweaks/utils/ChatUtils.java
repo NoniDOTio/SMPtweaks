@@ -1,10 +1,10 @@
-package io.noni.smptweaks.classes;
+package io.noni.smptweaks.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class Chat {
+public class ChatUtils {
 
     /**
      * Message a player a positive or neutral message
