@@ -1,5 +1,6 @@
 package io.noni.smptweaks.utils;
 
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -51,21 +52,65 @@ public class ChatUtils {
 
 
     /**
-     * Announce a message
+     * Message a player a system message
+     * @param player
      * @param message
      */
-    public static void announce(String message) {
-        Bukkit.broadcastMessage(ChatColor.GREEN + message);
+    public static void system(Player player, String message) {
+        player.sendMessage(ChatColor.YELLOW + message);
     }
 
 
     /**
-     * Announce an array of messages
+     * Message a player an array of system messages
+     * @param player
      * @param messages
      */
-    public static void announce(String[] messages) {
+    public static void system(Player player, String[] messages) {
         for (String message : messages) {
-            announce(message);
+            system(player, message);
+        }
+    }
+
+
+    /**
+     * Send a simple message to player
+     * @param message
+     */
+    public static void chat(Player player, String message) {
+        player.sendMessage(ChatColor.WHITE + message);
+    }
+
+
+    /**
+     * Send an array of simple messages
+     * @param messages
+     */
+    public static void chat(Player player, String[] messages) {
+        for (String message : messages) {
+            chat(player, message);
+        }
+    }
+
+
+    /**
+     * Send TextComponent message to player
+     * @param player
+     * @param textComponent
+     */
+    public static void chatRaw(Player player, TextComponent textComponent) {
+        player.spigot().sendMessage(textComponent);
+    }
+
+
+    /**
+     * Send an array of TextComponent messages to player
+     * @param player
+     * @param textComponents
+     */
+    public static void chatRaw(Player player, TextComponent[] textComponents) {
+        for (TextComponent textComponent : textComponents) {
+            chatRaw(player, textComponent);
         }
     }
 
@@ -74,9 +119,39 @@ public class ChatUtils {
      * Broadcast message
      * @param message
      */
-    public static void chat(String message) {
+    public static void broadcast(String message) {
         Bukkit.broadcastMessage(ChatColor.WHITE + message);
     }
 
+
+    /**
+     * Broadcast an array of messages
+     * @param messages
+     */
+    public static void broadcast(String[] messages) {
+        for(String message : messages) {
+            broadcast(message);
+        }
+    }
+
+
+    /**
+     * Broadcast a TextComponent
+     * @param textComponent
+     */
+    public static void broadcastRaw(TextComponent textComponent) {
+        Bukkit.getServer().spigot().broadcast(textComponent);
+    }
+
+
+    /**
+     * Broadcast an array of TextComponents
+     * @param textComponents
+     */
+    public static void broadcastRaw(TextComponent[] textComponents) {
+        for(TextComponent textComponent : textComponents) {
+            broadcastRaw(textComponent);
+        }
+    }
 
 }
