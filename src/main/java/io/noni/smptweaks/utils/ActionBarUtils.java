@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 public class ActionBarUtils {
 
+    private ActionBarUtils() {
+        throw new AssertionError("This utility class cannot be instantiated");
+    }
 
     /**
      * Send a positive or neutral action bar message to a player
@@ -16,7 +19,6 @@ public class ActionBarUtils {
     public static void notify(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.AQUA + message));
     }
-
 
     /**
      * Send a negative action bar message to a player

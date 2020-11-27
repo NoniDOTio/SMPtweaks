@@ -7,6 +7,10 @@ import org.bukkit.entity.Player;
 
 public class ChatUtils {
 
+    private ChatUtils() {
+        throw new AssertionError("This utility class cannot be instantiated");
+    }
+
     /**
      * Message a player a positive or neutral message
      * @param player
@@ -15,7 +19,6 @@ public class ChatUtils {
     public static void notify(Player player, String message) {
         player.sendMessage(ChatColor.AQUA + message);
     }
-
 
     /**
      * Message a player an array of positive or neutral messages
@@ -28,7 +31,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Message a player a negative message
      * @param player
@@ -37,7 +39,6 @@ public class ChatUtils {
     public static void negativeNotify(Player player, String message) {
         player.sendMessage(ChatColor.RED + message);
     }
-
 
     /**
      * Message a player an array of negative messages
@@ -50,7 +51,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Message a player a system message
      * @param player
@@ -59,7 +59,6 @@ public class ChatUtils {
     public static void system(Player player, String message) {
         player.sendMessage(ChatColor.YELLOW + message);
     }
-
 
     /**
      * Message a player an array of system messages
@@ -72,7 +71,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Send a simple message to player
      * @param message
@@ -80,7 +78,6 @@ public class ChatUtils {
     public static void chat(Player player, String message) {
         player.sendMessage(ChatColor.WHITE + message);
     }
-
 
     /**
      * Send an array of simple messages
@@ -92,7 +89,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Send TextComponent message to player
      * @param player
@@ -101,7 +97,6 @@ public class ChatUtils {
     public static void chatRaw(Player player, TextComponent textComponent) {
         player.spigot().sendMessage(textComponent);
     }
-
 
     /**
      * Send an array of TextComponent messages to player
@@ -114,7 +109,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Broadcast message
      * @param message
@@ -122,7 +116,6 @@ public class ChatUtils {
     public static void broadcast(String message) {
         Bukkit.broadcastMessage(ChatColor.WHITE + message);
     }
-
 
     /**
      * Broadcast an array of messages
@@ -134,7 +127,6 @@ public class ChatUtils {
         }
     }
 
-
     /**
      * Broadcast a TextComponent
      * @param textComponent
@@ -142,7 +134,6 @@ public class ChatUtils {
     public static void broadcastRaw(TextComponent textComponent) {
         Bukkit.getServer().spigot().broadcast(textComponent);
     }
-
 
     /**
      * Broadcast an array of TextComponents
