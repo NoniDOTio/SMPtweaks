@@ -2,70 +2,47 @@ package io.noni.smptweaks.utils;
 
 import io.noni.smptweaks.SMPTweaks;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 
-public class PDCUtils {
-    PersistentDataContainer container;
+class PDCUtils {
 
-
-    /**
-     * Get PersistentDataContainer of a player
-     * @param player
-     */
-    public PDCUtils(Player player) {
-        this.container = player.getPersistentDataContainer();
+    private PDCUtils() {
+        throw new AssertionError("This utility class cannot be instantiated");
     }
 
-
-    /**
-     * Get PersistentDataContainer of an item
-     * @param item
-     */
-    public PDCUtils(ItemStack item) {
-        this.container = item.getItemMeta().getPersistentDataContainer();
+    public static <T> T get(PersistentDataHolder holder, Key<T> key) {
+        return holder.getPersistentDataContainer().get(key.namespace, key.type);
     }
 
-
-    /**
-     * Make NamespacedKey
-     * @param key
-     * @return
-     */
-    private NamespacedKey makeKey(String key) {
-        return new NamespacedKey(SMPTweaks.getPlugin(), key);
+    public static <T> void set(PersistentDataHolder holder, Key<T> key, T value) {
+        holder.getPersistentDataContainer().set(key.namespace, key.type, value);
     }
 
+    public static class Key<T> {
+        public static final Key<Integer> SERVER_LEVEL;
 
-    /**
-     * Check if integer with key exists
-     * @param key
-     * @return
-     */
-    public boolean hasInt(String key) {
-        return container.has(makeKey(key), PersistentDataType.INTEGER);
+        static {
+            SERVER_LEVEL = new Key("server_level", PersistentDataType.INTEGER);
+        }
+
+        private static final Plugin PLUGIN = SMPTweaks.getPlugin();
+
+        private final NamespacedKey namespace;
+        private final PersistentDataType<T, T> type;
+
+        private Key(String namespace, PersistentDataType<T, T> type) {
+            this.namespace = new NamespacedKey(PLUGIN, namespace);
+            this.type = type;
+        }
+
+        public NamespacedKey getKey() {
+            return namespace;
+        }
+
+        public PersistentDataType<T, T> getType() {
+            return type;
+        }
     }
-
-
-    /**
-     * Set integer with key
-     * @param key
-     * @param value
-     */
-    public void setInt(String key, int value) {
-        container.set(makeKey(key), PersistentDataType.INTEGER, value);
-    }
-
-
-    /**
-     * Get integer with key
-     * @param key
-     * @return
-     */
-    public int getInt(String key) {
-        return container.get(makeKey(key), PersistentDataType.INTEGER);
-    }
-
 }
