@@ -1,0 +1,160 @@
+#
+# General plugin settings
+#
+verbose: true
+#
+# MYSQL Settings, will use SQLite if 'enabled' is false
+#
+mysql:
+  enabled: true
+  host: '127.0.0.1'
+  username: 'user'
+  password: 'pass'
+  database: 'smptweaks_players'
+#
+# Whether SMPTweaks should hook into PlaceholderAPI
+#
+papi_placeholders:
+  enabled: true
+#
+# Adjust mob spawning
+#
+mob_spawn_rates:
+  - id: 'Creeper'
+    multiplier: 0.5
+  - id: 'Skeleton'
+    multiplier: 0.8
+#
+# Whether players should drop items and experience on death
+# Note: keepInventory needs to be on in order to use this feature
+#
+drop_xp_on_death:
+  enabled: true
+  base: 5
+  percent: 30
+  max: 500
+remove_level_on_death:
+  enabled: true
+  base: 4
+  percent: 20
+  max: 15
+drop_inventory_on_death:
+  enabled: true
+  percent: 60
+  randomize: true
+  drop_non_stackable_items: false
+drop_equipment_on_death:
+  enabled: false
+#
+# Smaller tweaks
+#
+shorten_nights_by: 2000 # number of ticks to skip
+clear_weather_at_dawn: true
+#
+# Whether the SMPTweaks player server level system is used
+#
+server_levels:
+  enabled: true
+  count_mending_xp: true
+  thresholds: [
+      0,
+      100,
+      240,
+      420,
+      640,
+      900,
+      1200,
+      1540,
+      1920,
+      2340,
+      2800,
+      3300,
+      3840,
+      4420,
+      5040,
+      5700,
+      6400,
+      7140,
+      7920,
+      8740,
+      9600,
+      10500,
+      11489,
+      12568,
+      13738,
+      14999,
+      16353,
+      17800,
+      19342,
+      20980,
+      22714,
+      24545,
+      26474,
+      28503,
+      30632,
+      32862,
+      35195,
+      37631,
+      40171,
+      42817,
+      45569,
+      48429,
+      51397,
+      54475,
+      57664,
+      60964,
+      64378,
+      67906,
+      71549,
+      75308,
+      79186,
+      83181,
+      87497,
+      92148,
+      97152,
+      102527,
+      108290,
+      114461,
+      121060,
+      128110,
+      135632,
+      143650,
+      152189,
+      161275,
+      170936,
+      181199,
+      192095,
+      203657,
+      215916,
+      228909,
+      242671,
+      257241,
+      272659,
+      288969,
+      306214,
+      324441,
+      343700,
+      364041,
+      385520,
+      408193,
+      432119,
+      457361,
+      487812,
+      524514,
+      568715,
+      621917,
+      685919,
+      762881,
+      855397,
+      966575,
+      1100148,
+      1260597,
+      1453295,
+      1684692,
+      1962530,
+      2296094,
+      2696532,
+      3177217,
+      3754199,
+      5000000
+  ]
