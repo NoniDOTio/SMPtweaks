@@ -48,6 +48,7 @@ drop_equipment_on_death:
 #
 # Smaller tweaks
 #
+disable_night_skip: true
 shorten_nights_by: 2000 # number of ticks to skip
 clear_weather_at_dawn: true
 #
