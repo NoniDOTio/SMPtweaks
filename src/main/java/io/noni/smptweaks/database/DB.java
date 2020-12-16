@@ -5,18 +5,14 @@ import io.noni.smptweaks.SMPTweaks;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class DB {
-    HikariDataSource hikari;
+    private static HikariDataSource hikari;
+    private static FileConfiguration config = SMPTweaks.getPlugin().getConfig();
 
-    public DB() {
-        this.initializeHikari();
-    }
-
-    public void initializeHikari() {
-        FileConfiguration config = SMPTweaks.getPlugin().getConfig();
-        HikariDataSource hikari = new HikariDataSource();
+    static  {
+        hikari = new HikariDataSource();
         hikari.setMaximumPoolSize(10);
 
-        if(config.getBoolean("mysql.enabled") == true) {
+        if(config.getBoolean("mysql.enabled")) {
             String host = config.getString("mysql.host");
             String database = config.getString("mysql.database");
             String username = config.getString("mysql.username");
@@ -27,7 +23,9 @@ public class DB {
         }
     }
 
-    public HikariDataSource getHikari() {
+    private DB() {}
+
+    public static HikariDataSource getHikari() {
         return hikari;
     }
 }
