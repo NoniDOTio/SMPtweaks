@@ -4,9 +4,8 @@ import io.noni.smptweaks.SMPTweaks;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.Plugin;
 
-class PDCUtils {
+public class PDCUtils {
 
     private PDCUtils() {
         throw new AssertionError("This utility class cannot be instantiated");
@@ -21,19 +20,23 @@ class PDCUtils {
     }
 
     public static class Key<T> {
-        public static final Key<Integer> SERVER_LEVEL;
+        public static final Key<Integer> LEVEL;
+        public static final Key<Integer> TOTAL_XP;
+        public static final Key<Integer> XP_DISPLAY_MODE;
+        public static final Key<Integer> SPECIAL_DROP_AVAILABLE;
 
         static {
-            SERVER_LEVEL = new Key("server_level", PersistentDataType.INTEGER);
+            LEVEL = new Key("level", PersistentDataType.INTEGER);
+            TOTAL_XP = new Key("total_xp", PersistentDataType.INTEGER);
+            XP_DISPLAY_MODE = new Key("xp_display_mode", PersistentDataType.INTEGER);
+            SPECIAL_DROP_AVAILABLE = new Key("special_drop_available", PersistentDataType.INTEGER);
         }
-
-        private static final Plugin PLUGIN = SMPTweaks.getPlugin();
 
         private final NamespacedKey namespace;
         private final PersistentDataType<T, T> type;
 
         private Key(String namespace, PersistentDataType<T, T> type) {
-            this.namespace = new NamespacedKey(PLUGIN, namespace);
+            this.namespace = new NamespacedKey(SMPTweaks.getPlugin(), namespace);
             this.type = type;
         }
 
