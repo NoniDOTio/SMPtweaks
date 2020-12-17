@@ -36,7 +36,7 @@ public class ChatUtils {
      * @param player
      * @param message
      */
-    public static void negativeNotify(Player player, String message) {
+    public static void negative(Player player, String message) {
         player.sendMessage(ChatColor.RED + message);
     }
 
@@ -45,9 +45,9 @@ public class ChatUtils {
      * @param player
      * @param messages
      */
-    public static void negativeNotify(Player player, String[] messages) {
+    public static void negative(Player player, String[] messages) {
         for (String message : messages) {
-            negativeNotify(player, message);
+            negative(player, message);
         }
     }
 
@@ -57,7 +57,7 @@ public class ChatUtils {
      * @param message
      */
     public static void system(Player player, String message) {
-        player.sendMessage(ChatColor.YELLOW + message);
+        player.sendMessage(ChatColor.AQUA + message);
     }
 
     /**
