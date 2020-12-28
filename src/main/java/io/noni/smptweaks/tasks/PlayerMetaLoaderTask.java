@@ -1,8 +1,8 @@
 package io.noni.smptweaks.tasks;
 
 import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.LoggingUtils;
-import io.noni.smptweaks.utils.PDCUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,10 +31,14 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
             ResultSet resultSet = select.executeQuery();
             resultSet.first();
 
-            PDCUtils.set(player, PDCUtils.Key.LEVEL, resultSet.getInt("level"));
-            PDCUtils.set(player, PDCUtils.Key.TOTAL_XP, resultSet.getInt("total_xp"));
-            PDCUtils.set(player, PDCUtils.Key.XP_DISPLAY_MODE, resultSet.getInt("xp_display_mode"));
-            PDCUtils.set(player, PDCUtils.Key.SPECIAL_DROP_AVAILABLE, 1);
+            PlayerMeta playerMeta = new PlayerMeta(
+                player,
+                resultSet.getInt("level"),
+                resultSet.getInt("total_xp"),
+                resultSet.getInt("xp_display_mode"),
+                1
+            );
+            playerMeta.pushToPDC();
 
             LoggingUtils.info("Loaded PlayerMeta for " + player.getName());
         } catch (SQLException sqlException) {
