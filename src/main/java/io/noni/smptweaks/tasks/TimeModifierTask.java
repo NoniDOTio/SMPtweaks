@@ -1,11 +1,10 @@
 package io.noni.smptweaks.tasks;
 
 import io.noni.smptweaks.SMPTweaks;
-import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-public class NightShortenerTask implements Runnable {
+public class TimeModifierTask implements Runnable {
 
     @Override
     public void run() {
@@ -15,9 +14,9 @@ public class NightShortenerTask implements Runnable {
         }
 
         World world = Bukkit.getWorlds().get(0);
-        if(world.getTime() > 16000L && world.getTime() < 16100L) {
-            world.setTime(16000L + ticksToForward);
-            LoggingUtils.info("Skipped " + ticksToForward + " ticks!");
+        long time = world.getTime();
+        if(time > 14000L && time < 14000L + ticksToForward * 2) {
+            world.setTime(time + 2L);
         }
     }
 }
