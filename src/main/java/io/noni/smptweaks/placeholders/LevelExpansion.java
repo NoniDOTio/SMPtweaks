@@ -1,5 +1,6 @@
 package io.noni.smptweaks.placeholders;
 
+import io.noni.smptweaks.models.PDCKey;
 import io.noni.smptweaks.utils.NumberUtils;
 import io.noni.smptweaks.utils.PDCUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
@@ -31,9 +32,9 @@ public class LevelExpansion extends PlaceholderExpansion {
 
         switch (identifier.toLowerCase()) {
             case "level":
-                return "" + PDCUtils.get(player, PDCUtils.Key.LEVEL);
+                return "" + PDCUtils.get(player, PDCKey.LEVEL);
             case "total_xp":
-                return NumberUtils.format(PDCUtils.get(player, PDCUtils.Key.TOTAL_XP));
+                return NumberUtils.format(PDCUtils.get(player, PDCKey.TOTAL_XP));
             default:
                 return null;
         }
