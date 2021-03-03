@@ -57,7 +57,7 @@ public class ChatUtils {
      * @param message
      */
     public static void system(Player player, String message) {
-        player.sendMessage(ChatColor.AQUA + message);
+        player.sendMessage(ChatColor.GOLD + message);
     }
 
     /**
