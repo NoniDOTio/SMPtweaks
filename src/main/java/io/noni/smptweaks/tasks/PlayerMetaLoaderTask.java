@@ -15,6 +15,6 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
     @Override
     public void run() {
         LoggingUtils.info("Loading PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());
-        SMPTweaks.getDatabaseManager().getPlayerMeta(player).pushToPDC();
+        SMPTweaks.getDB().getPlayerMeta(player).pushToPDC();
     }
 }
