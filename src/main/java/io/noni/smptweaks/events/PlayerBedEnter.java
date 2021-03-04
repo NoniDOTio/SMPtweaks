@@ -1,17 +1,20 @@
 package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.SMPTweaks;
-import io.noni.smptweaks.utils.ChatUtils;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class PlayerBedEnter implements Listener {
 
     @EventHandler
     void onBedEnter(PlayerBedEnterEvent e) {
-        if(SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
-            ChatUtils.negativeNotify(e.getPlayer(),"Du fühlst dich erholt, aber die Nacht ist noch lang...");
+        if (e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK) && SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
+            Player player = e.getPlayer();
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 480, 1));
         }
     }
 }
