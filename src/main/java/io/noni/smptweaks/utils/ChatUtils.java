@@ -52,22 +52,42 @@ public class ChatUtils {
     }
 
     /**
-     * Message a player a system message
+     * Message a player a command response
      * @param player
      * @param message
      */
-    public static void system(Player player, String message) {
+    public static void commandResponse(Player player, String message) {
         player.sendMessage(ChatColor.GOLD + message);
     }
 
     /**
-     * Message a player an array of system messages
+     * Message a player an array of command responses
      * @param player
      * @param messages
      */
-    public static void system(Player player, String[] messages) {
+    public static void commandResponse(Player player, String[] messages) {
         for (String message : messages) {
-            system(player, message);
+            commandResponse(player, message);
+        }
+    }
+
+    /**
+     * Message a player a system notification
+     * @param player
+     * @param message
+     */
+    public static void systemNotify(Player player, String message) {
+        player.sendMessage(ChatColor.GREEN + message);
+    }
+
+    /**
+     * Message a player an array of system notifications
+     * @param player
+     * @param messages
+     */
+    public static void systemNotify(Player player, String[] messages) {
+        for (String message : messages) {
+            systemNotify(player, message);
         }
     }
 
