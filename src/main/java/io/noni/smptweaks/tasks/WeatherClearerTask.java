@@ -9,7 +9,7 @@ public class WeatherClearerTask implements Runnable {
 
     @Override
     public void run() {
-        if(!SMPTweaks.getPlugin().getConfig().getBoolean("clear_weather_at_dawn")) {
+        if(!SMPTweaks.getCfg().getBoolean("clear_weather_at_dawn")) {
             return;
         }
 

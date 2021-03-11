@@ -8,7 +8,7 @@ public class TimeModifierTask implements Runnable {
 
     @Override
     public void run() {
-        long ticksToForward = SMPTweaks.getPlugin().getConfig().getInt("shorten_nights_by");
+        long ticksToForward = SMPTweaks.getCfg().getInt("shorten_nights_by");
         if(ticksToForward < 100) {
             return;
         }
