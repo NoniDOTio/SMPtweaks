@@ -66,7 +66,7 @@ public class DatabaseManager {
             );
             return preparedStatement.execute();
         } catch (SQLException throwables) {
-            LoggingUtils.warn("The database is not set up correctly.");
+            LoggingUtils.error("The database is not set up correctly.");
             return false;
         }
     }
@@ -78,7 +78,7 @@ public class DatabaseManager {
         try(Connection con = this.hikariDataSource.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement("" +
                     "CREATE TABLE IF NOT EXISTS `smptweaks_player` (" +
-                    "`uuid` VARCHAR(255) NOT NULL PRIMARY KEY," +
+                    "`uuid` VARCHAR(255) UNIQUE NULL PRIMARY KEY," +
                     "`name` VARCHAR(255) NOT NULL," +
                     "`level` SMALLINT DEFAULT 1 NOT NULL," +
                     "`total_xp` INTEGER DEFAULT 0 NOT NULL," +
@@ -97,7 +97,7 @@ public class DatabaseManager {
     /**
      * Get PlayerMeta from DB
      * @param player
-     * @return
+     * @return playerMeta
      */
     public PlayerMeta getPlayerMeta(Player player) {
         try (Connection con = this.hikariDataSource.getConnection()) {
