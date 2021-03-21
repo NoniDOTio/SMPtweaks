@@ -1,5 +1,6 @@
 package io.noni.smptweaks;
 
+import io.noni.smptweaks.commands.LevelCommand;
 import io.noni.smptweaks.commands.WhereisCommand;
 import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
@@ -31,7 +32,6 @@ public final class SMPTweaks extends JavaPlugin {
      */
     @Override
     public void onEnable() {
-
         // Variable for checking startup duration
         long startingTime = System.currentTimeMillis();
 
@@ -46,55 +46,66 @@ public final class SMPTweaks extends JavaPlugin {
         // Static reference to Hikari
         databaseManager = new DatabaseManager();
 
-        // Event Listeners
+        // Register Event Listeners
         Stream.of(
-                config.getBoolean("disable_night_skip")
-                        ? new TimeSkip() : null,
+            config.getBoolean("disable_night_skip")
+                    ? new TimeSkip() : null,
 
-                config.getBoolean("disable_night_skip")
-                        ? new PlayerBedEnter() : null,
+            config.getBoolean("disable_night_skip")
+                    ? new PlayerBedEnter() : null,
 
-                config.getBoolean("disable_night_skip")
-                        ? new PlayerBedLeave() : null,
+            config.getBoolean("disable_night_skip")
+                    ? new PlayerBedLeave() : null,
 
-                config.getBoolean("drop_xp_on_death.enabled") ||
-                config.getBoolean("remove_level_on_death.enabled") ||
-                config.getBoolean("drop_inventory_on_death.enabled") ||
-                config.getBoolean("drop_equipment_on_death.enabled")
-                        ? new PlayerDeath() : null,
+            config.getBoolean("drop_xp_on_death.enabled") ||
+            config.getBoolean("remove_level_on_death.enabled") ||
+            config.getBoolean("drop_inventory_on_death.enabled") ||
+            config.getBoolean("drop_equipment_on_death.enabled")
+                    ? new PlayerDeath() : null,
 
-                config.getBoolean("server_levels.enabled") ||
-                config.getDouble("xp_multiplier") != 1
-                        ? new PlayerExpChange() : null,
+            config.getBoolean("server_levels.enabled") ||
+            config.getDouble("xp_multiplier") != 1
+                    ? new PlayerExpChange() : null,
 
-                config.getBoolean("server_levels.enabled")
-                        ? new PlayerJoin() : null,
+            config.getBoolean("server_levels.enabled")
+                    ? new PlayerJoin() : null,
 
-                config.getBoolean("server_levels.enabled")
-                        ? new PlayerLeave() : null,
+            config.getBoolean("server_levels.enabled")
+                    ? new PlayerLeave() : null,
 
-                config.getBoolean("server_levels.enabled") ||
-                config.getDouble("xp_multiplier") != 1 ||
-                config.getDouble("mending_repair_amount_multiplier") != 1
-                        ? new PlayerItemMend() : null
+            config.getBoolean("server_levels.enabled") ||
+            config.getDouble("xp_multiplier") != 1 ||
+            config.getDouble("mending_repair_amount_multiplier") != 1
+                    ? new PlayerItemMend() : null
         ).forEach(this::registerEvent);
 
-        // Recipes
+        // Register Recipes
         Stream.of(
-                getCfg().getBoolean("craftable_elytra")? RecipeManager.elytra() : null
+            config.getBoolean("craftable_elytra")
+                    ? RecipeManager.elytra() : null
         ).forEach(this::registerRecipe);
 
-        // PlaceholderExpansions
+        // Register PlaceholderExpansions
         Stream.of(
-                new LevelExpansion()
+            config.getBoolean("server_levels.enabled")
+                    ? new LevelExpansion() : null
         ).forEach(this::registerPlaceholder);
 
-        // Commands
-        getCommand("whereis").setExecutor(new WhereisCommand());
+        // Register Commands
+        if(config.getBoolean("enable_commands.whereis")) {
+            getCommand("whereis").setExecutor(new WhereisCommand());
+        }
+        if(config.getBoolean("enable_commands.level") && config.getBoolean("server_levels.enabled")) {
+            getCommand("level").setExecutor(new LevelCommand());
+        }
 
-        // Schedule stuff
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeModifierTask(), 0L, 2L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
+        // Schedule tasks
+        if(config.getInt("shorten_nights_by") != 0 || config.getInt("extend_days_by") != 0) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeModifierTask(), 0L, 2L);
+        }
+        if(config.getBoolean("clear_weather_at_dawn")) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
+        }
 
         // Done :)
         LoggingUtils.info("Up and running! Startup took " + (System.currentTimeMillis() - startingTime) + "ms");
