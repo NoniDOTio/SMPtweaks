@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffectType;
 public class PlayerBedEnter implements Listener {
 
     @EventHandler
-    void onBedEnter(PlayerBedEnterEvent e) {
+    void onPlayerBedEnter(PlayerBedEnterEvent e) {
         if (e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK) && SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
             Player player = e.getPlayer();
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 480, 1));
