@@ -57,10 +57,9 @@ public final class SMPTweaks extends JavaPlugin {
             config.getBoolean("disable_night_skip")
                     ? new PlayerBedLeave() : null,
 
-            config.getBoolean("drop_xp_on_death.enabled") ||
-            config.getBoolean("remove_level_on_death.enabled") ||
-            config.getBoolean("drop_inventory_on_death.enabled") ||
-            config.getBoolean("drop_equipment_on_death.enabled")
+            config.getBoolean("remove_xp_on_death.enabled") ||
+            config.getBoolean("remove_inventory_on_death.enabled") ||
+            config.getBoolean("remove_equipment_on_death.enabled")
                     ? new PlayerDeath() : null,
 
             config.getBoolean("server_levels.enabled") ||
