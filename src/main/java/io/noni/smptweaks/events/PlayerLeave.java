@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitTask;
 
 public class PlayerLeave implements Listener {
 
@@ -15,6 +14,6 @@ public class PlayerLeave implements Listener {
         Player player = e.getPlayer();
 
         // Update SMPTweaks player in DB
-        BukkitTask playerMetaStorerTask = new PlayerMetaStorerTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
+        new PlayerMetaStorerTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
     }
 }
