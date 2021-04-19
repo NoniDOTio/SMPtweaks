@@ -8,6 +8,8 @@ import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +31,21 @@ public class DatabaseManager {
             this.hikariDataSource.setJdbcUrl("jdbc:mysql://" + host + "/" + database);
             this.hikariDataSource.setUsername(username);
             this.hikariDataSource.setPassword(password);
+        } else {
+            File dbFile = this.getSQLite();
+            if(dbFile != null) {
+                this.hikariDataSource.setJdbcUrl("jdbc:sqlite:" + dbFile.getAbsolutePath());
+            }
+        }
+
+        if(!canConnect()) {
+            LoggingUtils.error("Unable to connect to database.");
+            return;
+        }
+
+        if(!isSetUpCorrectly()) {
+            LoggingUtils.warn("The database is not set up correctly.");
+            setUp();
         }
     }
 
@@ -37,6 +54,23 @@ public class DatabaseManager {
      */
     public HikariDataSource getHikariDataSource() {
         return hikariDataSource;
+    }
+
+    /**
+     * Create SQLite file
+     */
+    private File getSQLite() {
+        File databaseFile = new File(SMPTweaks.getPlugin().getDataFolder(), "smptweaks.db");
+        if(!databaseFile.exists()) {
+            try {
+                databaseFile.createNewFile();
+            } catch (IOException e) {
+                LoggingUtils.error("Could not create SQLite database file.");
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return databaseFile;
     }
 
     /**
@@ -109,7 +143,7 @@ public class DatabaseManager {
             );
             preparedStatement.setString(1, player.getUniqueId().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
-            if(resultSet.first()) {
+            if(resultSet.next()) {
                 return new PlayerMeta(
                         player,
                         resultSet.getInt("level"),
@@ -126,25 +160,57 @@ public class DatabaseManager {
     }
 
     /**
-     * Store PlayerMeta in DB
-     * @param playerMeta
+     * Check if player is already in DB
      */
-    public void savePlayerMeta(PlayerMeta playerMeta) {
-        try(Connection con = this.hikariDataSource.getConnection()) {
+    private boolean playerInDB(Player player) {
+        try (Connection con = this.hikariDataSource.getConnection()) {
             PreparedStatement preparedStatement = con.prepareStatement("" +
-                    "INSERT INTO `smptweaks_player` (`name`, `uuid`, `level`, `total_xp`, `xp_display_mode`)" +
-                    "VALUES(?, ?, ?, ?, ?)" +
-                    "ON DUPLICATE KEY UPDATE" +
-                    "`name` = VALUES(`name`)," +
-                    "`level` = VALUES(`level`)," +
-                    "`total_xp` = VALUES(`total_xp`)," +
-                    "`xp_display_mode` = VALUES(`xp_display_mode`)"
+                    "SELECT `name` " +
+                    "FROM `smptweaks_player` " +
+                    "WHERE `uuid` = ? " +
+                    "LIMIT 1"
             );
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.isBeforeFirst();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Store PlayerMeta in DB
+     * @param player
+     */
+    public void savePlayerMeta(Player player) {
+        PlayerMeta playerMeta = new PlayerMeta(player);
+
+        try(Connection con = this.hikariDataSource.getConnection()) {
+            PreparedStatement preparedStatement;
+
+            if (!playerInDB(player)) {
+                preparedStatement = con.prepareStatement("" +
+                        "INSERT INTO `smptweaks_player` (`name`, `level`, `total_xp`, `xp_display_mode`, `uuid`) " +
+                        "VALUES(?, ?, ?, ?, ?)"
+                );
+            } else {
+                preparedStatement = con.prepareStatement("" +
+                        "UPDATE `smptweaks_player` " +
+                        "SET " +
+                        "`name` = ?, " +
+                        "`level` = ?, " +
+                        "`total_xp` = ?, " +
+                        "`xp_display_mode` = ? " +
+                        "WHERE `uuid` = ?"
+
+                );
+            }
             preparedStatement.setString(1, playerMeta.getPlayer().getName());
-            preparedStatement.setString(2, playerMeta.getPlayer().getUniqueId().toString());
-            preparedStatement.setInt(3, playerMeta.getLevel());
-            preparedStatement.setInt(4, playerMeta.getTotalXp());
-            preparedStatement.setInt(5, playerMeta.getXpDisplayMode());
+            preparedStatement.setInt(2, playerMeta.getLevel());
+            preparedStatement.setInt(3, playerMeta.getTotalXp());
+            preparedStatement.setInt(4, playerMeta.getXpDisplayMode());
+            preparedStatement.setString(5, playerMeta.getPlayer().getUniqueId().toString());
             preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
