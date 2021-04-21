@@ -37,6 +37,8 @@ public class ExperienceUtils {
      * @param amount
      */
     public static void setTotalExperience(Player player, int amount) {
+        amount = Math.max(0, amount);
+
         int level = 0;
         int xp = 0;
         float a = 0;
