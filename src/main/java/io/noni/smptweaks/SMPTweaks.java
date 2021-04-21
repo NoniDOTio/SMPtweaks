@@ -59,7 +59,8 @@ public final class SMPTweaks extends JavaPlugin {
 
             config.getBoolean("remove_xp_on_death.enabled") ||
             config.getBoolean("remove_inventory_on_death.enabled") ||
-            config.getBoolean("remove_equipment_on_death.enabled")
+            config.getBoolean("remove_equipment_on_death.enabled") ||
+            config.getBoolean("decrease_item_durability_on_death.enabled")
                     ? new PlayerDeath() : null,
 
             config.getBoolean("server_levels.enabled") ||
@@ -86,7 +87,8 @@ public final class SMPTweaks extends JavaPlugin {
 
         // Register PlaceholderExpansions
         Stream.of(
-            config.getBoolean("server_levels.enabled")
+            config.getBoolean("server_levels.enabled") &&
+            config.getBoolean("papi_placeholders.enabled")
                     ? new LevelExpansion() : null
         ).forEach(this::registerPlaceholder);
 
@@ -131,7 +133,7 @@ public final class SMPTweaks extends JavaPlugin {
      * @param expansion
      */
     private void registerPlaceholder(PlaceholderExpansion expansion) {
-        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null && expansion != null) {
             expansion.register();
         }
     }
