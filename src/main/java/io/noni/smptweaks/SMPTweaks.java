@@ -64,20 +64,20 @@ public final class SMPTweaks extends JavaPlugin {
             config.getBoolean("decrease_item_durability_on_death.enabled")
                     ? new PlayerDeath() : null,
 
-            config.getBoolean("server_levels.enabled") ||
             config.getDouble("xp_multiplier") != 1
                     ? new PlayerExpChange() : null,
+
+            config.getDouble("mending_repair_amount_multiplier") != 1
+                    ? new PlayerItemMend() : null,
+
+            config.getBoolean("server_levels.enabled")
+                    ? new PlayerExpPickup() : null,
 
             config.getBoolean("server_levels.enabled")
                     ? new PlayerJoin() : null,
 
             config.getBoolean("server_levels.enabled")
-                    ? new PlayerLeave() : null,
-
-            config.getBoolean("server_levels.enabled") ||
-            config.getDouble("xp_multiplier") != 1 ||
-            config.getDouble("mending_repair_amount_multiplier") != 1
-                    ? new PlayerItemMend() : null
+                    ? new PlayerLeave() : null
         ).forEach(this::registerEvent);
 
         // Register Recipes
