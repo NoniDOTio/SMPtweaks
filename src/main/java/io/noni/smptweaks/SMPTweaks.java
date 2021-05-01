@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
 
@@ -116,23 +117,27 @@ public final class SMPTweaks extends JavaPlugin {
      * Register events
      * @param listener
      */
-    private void registerEvent(Listener listener) {
-        getServer().getPluginManager().registerEvents(listener, this);
+    private void registerEvent(@Nullable Listener listener) {
+        if(listener != null) {
+            getServer().getPluginManager().registerEvents(listener, this);
+        }
     }
 
     /**
      * Register recipes
      * @param recipe
      */
-    private void registerRecipe(Recipe recipe) {
-        Bukkit.addRecipe(recipe);
+    private void registerRecipe(@Nullable Recipe recipe) {
+        if(recipe != null) {
+            Bukkit.addRecipe(recipe);
+        }
     }
 
     /**
      * Register placeholders
      * @param expansion
      */
-    private void registerPlaceholder(PlaceholderExpansion expansion) {
+    private void registerPlaceholder(@Nullable PlaceholderExpansion expansion) {
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null && expansion != null) {
             expansion.register();
         }
