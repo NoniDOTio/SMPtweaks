@@ -44,6 +44,8 @@ remove_equipment_on_death:
 decrease_item_durability_on_death:
   enabled: false
   multiplier: 0.8
+respawn_health: 20
+respawn_food_level: 20
 #
 # Day-night cycle & weather tweaks
 #

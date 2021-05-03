@@ -64,6 +64,10 @@ public final class SMPTweaks extends JavaPlugin {
             config.getBoolean("decrease_item_durability_on_death.enabled")
                     ? new PlayerDeath() : null,
 
+            config.getInt("respawn_health") != 20 ||
+            config.getInt("respawn_food_level") != 20
+                    ? new PlayerRespawn() : null,
+
             config.getDouble("xp_multiplier") != 1
                     ? new PlayerExpChange() : null,
 
