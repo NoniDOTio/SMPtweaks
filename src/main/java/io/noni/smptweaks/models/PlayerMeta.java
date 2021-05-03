@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 public class PlayerMeta {
     Player player;
 
-    int level;
-    int totalXp;
-    int xpDisplayMode;
-    boolean specialDropAvailable;
+    Integer level;
+    Integer totalXp;
+    Integer xpDisplayMode;
+    Boolean specialDropAvailable;
 
     public PlayerMeta(Player player) {
         this.player = player;
@@ -32,6 +32,20 @@ public class PlayerMeta {
         PDCUtils.set(player, PDCKey.TOTAL_XP, totalXp);
         PDCUtils.set(player, PDCKey.XP_DISPLAY_MODE, xpDisplayMode);
         PDCUtils.set(player, PDCKey.SPECIAL_DROP_AVAILABLE, specialDropAvailable ? 1 : 0);
+    }
+
+    public boolean isInitialized() {
+        return  PDCUtils.has(player, PDCKey.LEVEL) &&
+                PDCUtils.has(player, PDCKey.TOTAL_XP) &&
+                PDCUtils.has(player, PDCKey.XP_DISPLAY_MODE) &&
+                PDCUtils.has(player, PDCKey.SPECIAL_DROP_AVAILABLE);
+    }
+
+    public void initialize() {
+        this.level = 1;
+        this.totalXp = 0;
+        this.xpDisplayMode = 0;
+        this.specialDropAvailable = false;
     }
 
     public Player getPlayer() {
