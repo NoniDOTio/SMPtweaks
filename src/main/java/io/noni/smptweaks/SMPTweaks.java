@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.stream.Stream;
@@ -154,7 +153,7 @@ public final class SMPTweaks extends JavaPlugin {
     public void onDisable() {
         LoggingUtils.info("Disabling SMPTweaks...");
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-            BukkitTask playerMetaStorerTask = new PlayerMetaStorerTask(player).runTask(this);
+            new PlayerMetaStorerTask(player).run();
         }
     }
 
