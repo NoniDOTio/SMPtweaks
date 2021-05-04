@@ -1,8 +1,13 @@
 package io.noni.smptweaks.utils;
 
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class ExperienceUtils {
+
+    private ExperienceUtils() {
+        throw new AssertionError("This utility class cannot be instantiated");
+    }
 
     /**
      * Get total experience of level
@@ -17,7 +22,7 @@ public class ExperienceUtils {
         } else if (level > 15 && level <= 30) {
             xp = (int) Math.round((2.5 * Math.pow(level, 2) - 40.5 * level + 360));
         } else if (level > 30) {
-            xp = (int) Math.round(((4.5 * Math.pow(level, 2) - 162.5 * level + 2220)));
+            xp = (int) Math.round((4.5 * Math.pow(level, 2) - 162.5 * level + 2220));
         }
         return xp;
     }
@@ -27,7 +32,7 @@ public class ExperienceUtils {
      * @param player
      * @return
      */
-    public static int getTotalExperience(Player player) {
+    public static int getTotalExperience(@NotNull Player player) {
         return Math.round(player.getExp() * player.getExpToLevel()) + getTotalExperience(player.getLevel());
     }
 
@@ -36,7 +41,7 @@ public class ExperienceUtils {
      * @param player
      * @param amount
      */
-    public static void setTotalExperience(Player player, int amount) {
+    public static void setTotalExperience(@NotNull Player player, int amount) {
         amount = Math.max(0, amount);
 
         int level = 0;
@@ -52,7 +57,7 @@ public class ExperienceUtils {
             a = 2.5f;
             b = -40.5f;
             c += 360;
-        } else if (amount > getTotalExperience(30)) {
+        } else {
             a = 4.5f;
             b = -162.5f;
             c += 2220;
