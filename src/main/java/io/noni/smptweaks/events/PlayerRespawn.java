@@ -14,7 +14,7 @@ public class PlayerRespawn implements Listener {
     @EventHandler
     void onPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
-        new PlayerHealthModifierTask(player).runTaskLater(SMPTweaks.getPlugin(), 1);
-        new PlayerFoodLevelModifierTask(player).runTaskLater(SMPTweaks.getPlugin(), 1);
+        new PlayerHealthModifierTask(player).runTask(SMPTweaks.getPlugin());
+        new PlayerFoodLevelModifierTask(player).runTask(SMPTweaks.getPlugin());
     }
 }
