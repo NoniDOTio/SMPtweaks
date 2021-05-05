@@ -17,6 +17,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerExpChangeEvent;
 import org.bukkit.event.player.PlayerItemMendEvent;
+import org.jetbrains.annotations.NotNull;
 
 public class PlayerExpPickup implements Listener {
 
@@ -43,7 +44,7 @@ public class PlayerExpPickup implements Listener {
      * @param player
      * @param amount
      */
-    private void handleExpPickup(Player player, int amount, boolean mendEvent) {
+    private void handleExpPickup(@NotNull Player player, int amount, boolean mendEvent) {
         // Calculate total xp
         int oldTotalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
         int newTotalXp = oldTotalXp + amount;
