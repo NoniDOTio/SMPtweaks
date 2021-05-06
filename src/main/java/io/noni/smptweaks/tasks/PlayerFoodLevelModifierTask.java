@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerFoodLevelModifierTask extends BukkitRunnable {
-    private Player player;
+    private final Player player;
 
     public PlayerFoodLevelModifierTask(Player player) {
         this.player = player;

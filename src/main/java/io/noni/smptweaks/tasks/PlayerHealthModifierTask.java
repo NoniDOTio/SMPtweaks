@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerHealthModifierTask extends BukkitRunnable {
-    private Player player;
+    private final Player player;
 
     public PlayerHealthModifierTask(Player player) {
         this.player = player;

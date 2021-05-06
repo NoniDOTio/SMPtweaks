@@ -3,7 +3,6 @@ package io.noni.smptweaks.database;
 import com.zaxxer.hikari.HikariDataSource;
 import io.noni.smptweaks.SMPTweaks;
 import io.noni.smptweaks.models.PlayerMeta;
-import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -155,7 +154,6 @@ public class DatabaseManager {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        ChatUtils.negative(player, "Deine Metadaten konnten nicht geladen werden. Dein Fortschritt wird eventuell nicht gespeichert. Bitte trenne die Verbindung mit dem Server und versuche es erneut.");
         return null;
     }
 

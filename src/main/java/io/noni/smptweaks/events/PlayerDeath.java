@@ -64,7 +64,7 @@ public class PlayerDeath implements Listener {
                 double xpDropMultiplier = SMPTweaks.getCfg().getDouble("remove_xp_on_death.drop_amount_multiplier");
                 spawnOrbs(
                         (int) Math.floor(xpToRemove * xpDropMultiplier),
-                        Math.max(50, (int) xpToRemove / 10),
+                        Math.max(50, xpToRemove / 10),
                         player.getWorld(),
                         player.getLocation()
                 );
@@ -90,7 +90,7 @@ public class PlayerDeath implements Listener {
 
                     if(minAffectedStackSize < itemStack.getMaxStackSize()) {
                         double portionToRemove = itemStackSize * inventoryPortionPerSlot;
-                        int amountToRemove = inventoryRandomize ? (int) Math.ceil(randomize(portionToRemove, 0.6)) : (int) portionToRemove;
+                        int amountToRemove = inventoryRandomize ? randomize(portionToRemove, 0.6) : (int) portionToRemove;
                         int amountToKeep = itemStackSize - amountToRemove;
                         int amountToDrop = (int) Math.round(amountToRemove * inventoryDropMultiplier);
 
@@ -185,7 +185,7 @@ public class PlayerDeath implements Listener {
         }
 
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if(itemMeta instanceof Damageable == false) {
+        if(!(itemMeta instanceof Damageable)) {
             return itemStack;
         }
 

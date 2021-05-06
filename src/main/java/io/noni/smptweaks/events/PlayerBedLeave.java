@@ -12,7 +12,7 @@ public class PlayerBedLeave implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedLeaveEvent e) {
-        if (SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip") == false) {
+        if (!SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
             return;
         }
 
