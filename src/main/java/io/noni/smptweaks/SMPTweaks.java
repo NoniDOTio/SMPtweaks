@@ -10,6 +10,7 @@ import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
 import io.noni.smptweaks.tasks.TimeModifierTask;
 import io.noni.smptweaks.tasks.WeatherClearerTask;
 import io.noni.smptweaks.utils.LoggingUtils;
+import io.noni.smptweaks.utils.TranslationUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,13 +20,14 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 public final class SMPTweaks extends JavaPlugin {
-
     private static SMPTweaks plugin;
     private static DatabaseManager databaseManager;
     private static FileConfiguration config;
+    private static Map<String, String> translations;
 
     /**
      * Plugin startup logic
@@ -38,13 +40,19 @@ public final class SMPTweaks extends JavaPlugin {
         // Static reference to plugin
         plugin = this;
 
-        // Static reference to config
+        // Copy default config files
         getConfig().options().copyDefaults();
         saveDefaultConfig();
+
+        // Static reference to config
         config = getConfig();
 
         // Static reference to Hikari
         databaseManager = new DatabaseManager();
+
+        // Load translations
+        String languageCode = config.getString("language");
+        translations = TranslationUtils.loadTranslations(languageCode);
 
         // Register Event Listeners
         Stream.of(
@@ -158,7 +166,7 @@ public final class SMPTweaks extends JavaPlugin {
     }
 
     /**
-     * Grab reference to plugin
+     * Get reference to this plugin
      * @return Plugin
      */
     public static SMPTweaks getPlugin() {
@@ -166,7 +174,7 @@ public final class SMPTweaks extends JavaPlugin {
     }
 
     /**
-     * Grab reference to DB
+     * Get reference to DB
      * @return DatabaseManager
      */
     public static DatabaseManager getDB() {
@@ -179,5 +187,13 @@ public final class SMPTweaks extends JavaPlugin {
      */
     public static FileConfiguration getCfg() {
         return config;
+    }
+
+    /**
+     * Get hashmap of translations
+     * @return Translations
+     */
+    public static Map<String, String> getTranslations() {
+        return translations;
     }
 }
