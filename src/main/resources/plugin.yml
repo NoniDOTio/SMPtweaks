@@ -5,3 +5,4 @@ api-version: 1.16
 authors: [ noniDOTio ]
 description: Adds various improvements to make survival minecraft more enjoyable in multiplayer
 website: noni.io
+softdepend: [ PlaceholderAPI ]
