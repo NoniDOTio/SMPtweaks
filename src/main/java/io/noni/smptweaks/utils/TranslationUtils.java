@@ -1,6 +1,8 @@
 package io.noni.smptweaks.utils;
 
 import io.noni.smptweaks.SMPTweaks;
+import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +15,7 @@ public class TranslationUtils {
         throw new AssertionError("This utility class cannot be instantiated");
     }
 
-    public static Map<String, String> loadTranslations(String languageCode) {
+    public static Map<String, String> loadTranslations(@NotNull String languageCode) {
         InputStream baseStream = SMPTweaks.getPlugin().getResource("lang/" + "en_US".toLowerCase() + ".yml");
         InputStream translationsStream = SMPTweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
 
@@ -54,20 +56,31 @@ public class TranslationUtils {
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * Get translated string for key
+     * @param key Translation key
+     * @return Formatted and translated string
      */
-    public static String get(String key) {
-        return SMPTweaks.getTranslations().get(key);
+    public static String get(@NotNull String key) {
+        String result = SMPTweaks.getTranslations().get(key);
+        if (result == null) return "";
+        return ChatColor.translateAlternateColorCodes('&', result);
     }
 
     /**
-     *
-     * @param key
-     * @return
+     * Get translated string for key and replace variables
+     * @param key Translation key
+     * @return Formatted and translated string
      */
-    public static String get(String key, String[] variables) {
-        return SMPTweaks.getTranslations().get(key);
+    public static String get(@NotNull String key, @NotNull String[] variables) {
+        String result = SMPTweaks.getTranslations().get(key);
+        if (result == null) return "";
+
+        int i = 1;
+        for(String variable : variables) {
+            result = result.replace("{$" + i + "}", variable);
+            i++;
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', result);
     }
 }
