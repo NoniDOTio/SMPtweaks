@@ -2,10 +2,7 @@ package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.models.Level;
 import io.noni.smptweaks.models.PDCKey;
-import io.noni.smptweaks.utils.ActionBarUtils;
-import io.noni.smptweaks.utils.ChatUtils;
-import io.noni.smptweaks.utils.NumberUtils;
-import io.noni.smptweaks.utils.PDCUtils;
+import io.noni.smptweaks.utils.*;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
@@ -59,15 +56,27 @@ public class PlayerExpPickup implements Listener {
 
             // Build message components
             TextComponent congratulationMessage = new TextComponent();
-            TextComponent beginPart = new TextComponent(player.getName() + " hat soeben ");
-            TextComponent levelPart = new TextComponent(ChatColor.GREEN + "[Level " + level.getLevel() + "]");
+            TextComponent beginPart = new TextComponent(
+                    TranslationUtils.get("broadcast-levelup", new String[]{
+                            player.getName()
+                    }) + " "
+            );
+            TextComponent levelPart = new TextComponent(
+                    ChatColor.GREEN + "[" +
+                    TranslationUtils.get("broadcast-levelup-hoverable-text", new String[]{
+                            "" + level.getLevel()
+                    }) +
+                    "]" + ChatColor.RESET
+            );
             levelPart.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("" +
-                    ChatColor.GOLD + "Level: " +
-                    ChatColor.WHITE + NumberUtils.format(level.getSingleXpRequiredForLevel()) +
-                    ChatColor.GOLD + " Insgesamt: " +
-                    ChatColor.WHITE + NumberUtils.format(level.getTotalXpRequiredForLevel())
+                    TranslationUtils.get("broadcast-levelup-hover-text", new String[]{
+                            NumberUtils.format(level.getSingleXpRequiredForLevel()),
+                            NumberUtils.format(level.getTotalXpRequiredForLevel())
+                    })
             )));
-            TextComponent endPart = new TextComponent(" erreicht!");
+            TextComponent endPart = new TextComponent(
+                    " " + TranslationUtils.get("broadcast-levelup-end")
+            );
 
             // Assemble components
             congratulationMessage.addExtra(beginPart);
@@ -88,16 +97,16 @@ public class PlayerExpPickup implements Listener {
         switch (xpDisplayMode % 10) {
             case 1:
                 notificationMessage = mendEvent ?
-                        "mit " + amount + "XP repariert" :
-                        "" + amount + "XP erhalten";
+                        TranslationUtils.get("mending-repair", new String[]{ "" + amount }) :
+                        TranslationUtils.get("xp-gained", new String[]{ "" + amount });
                 break;
             case 2:
                 notificationMessage = "" + percent + "%";
                 break;
             case 9:
                 notificationMessage = mendEvent ?
-                        "mit " + amount + "XP repariert (" + percent + "%)" :
-                        "" + amount + "XP erhalten (" + percent + "%)";
+                        TranslationUtils.get("mending-repair", new String[]{ "" + amount }) + " (" + percent + "%)" :
+                        TranslationUtils.get("xp-gained", new String[]{ "" + amount }) + " (" + percent + "%)";
                 break;
             default:
                 return;

@@ -1,1 +1,7 @@
-broadcast-levelup: '{$1} hat soeben {$2} erreicht!'
+broadcast-levelup: '{$1} hat soeben'
+broadcast-levelup-hoverable-text: 'Level {$1}'
+broadcast-levelup-end: 'erreicht!'
+broadcast-levelup-hover-text: '&6XP für dieses Level:&r {$1} &6XP insgesamt:&r {$2}'
+daily-gift-available: 'Deine tägliche Login-Belohnung ist verfügbar! Tippe /daily um Sie abzuholen'
+mending-repair: 'mit {$1}XP repariert'
+xp-gained: '{$1}XP erhalten'

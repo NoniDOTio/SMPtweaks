@@ -8,7 +8,7 @@ import org.bukkit.event.player.PlayerExpChangeEvent;
 
 public class PlayerExpChange implements Listener {
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerExpChange(PlayerExpChangeEvent e) {
         // Apply xp multiplier
         double xpMultiplier = SMPTweaks.getCfg().getDouble("xp_multiplier");
