@@ -1,6 +1,7 @@
 package io.noni.smptweaks;
 
 import io.noni.smptweaks.commands.LevelCommand;
+import io.noni.smptweaks.commands.LevelTab;
 import io.noni.smptweaks.commands.WhereisCommand;
 import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
@@ -110,6 +111,7 @@ public final class SMPTweaks extends JavaPlugin {
         }
         if(config.getBoolean("enable_commands.level") && config.getBoolean("server_levels.enabled")) {
             getCommand("level").setExecutor(new LevelCommand());
+            getCommand("level").setTabCompleter(new LevelTab());
         }
 
         // Schedule tasks
