@@ -6,6 +6,7 @@ import io.noni.smptweaks.utils.ExperienceUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ExperienceOrb;
@@ -16,6 +17,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 
 public class PlayerDeath implements Listener {
@@ -85,7 +88,23 @@ public class PlayerDeath implements Listener {
             double inventoryDropMultiplier = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.drop_amount_multiplier");
 
             for (ItemStack itemStack : player.getInventory().getContents()) {
-                if (itemStack != null && Math.random() < inventoryChancePerSlot) {
+                if (itemStack == null) {
+                    continue;
+                }
+
+                List<Material> materialsToSkip = SMPTweaks.getConfigCache().getNeverDropMaterials();
+                if (materialsToSkip.contains(itemStack.getType())) {
+                    continue;
+                }
+
+                List<Material> materialsToAlwaysDrop = SMPTweaks.getConfigCache().getAlwaysDropMaterials();
+                if (inventoryDropOnGround && materialsToAlwaysDrop.contains(itemStack.getType())) {
+                    player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+                    player.getInventory().remove(itemStack);
+                    continue;
+                }
+
+                if (Math.random() < inventoryChancePerSlot) {
                     int itemStackSize = itemStack.getAmount();
 
                     if(minAffectedStackSize < itemStack.getMaxStackSize()) {

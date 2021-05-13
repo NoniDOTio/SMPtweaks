@@ -36,7 +36,12 @@ remove_inventory_on_death:
   randomize: true
   include_non_stackable_items: false
   drop_on_ground: true
-  drop_amount_multiplier: 1.0
+  drop_amount_multiplier: 0.5
+  always_drop:
+    - DIRT
+    - COBBLESTONE
+  never_drop:
+    - DRAGON_EGG
 remove_equipment_on_death:
   enabled: false
   chance_per_slot: 0.3

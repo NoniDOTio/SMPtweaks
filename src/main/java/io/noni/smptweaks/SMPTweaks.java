@@ -5,6 +5,7 @@ import io.noni.smptweaks.commands.LevelTab;
 import io.noni.smptweaks.commands.WhereisCommand;
 import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
+import io.noni.smptweaks.models.ConfigCache;
 import io.noni.smptweaks.placeholders.LevelExpansion;
 import io.noni.smptweaks.recipes.RecipeManager;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
@@ -28,6 +29,7 @@ public final class SMPTweaks extends JavaPlugin {
     private static SMPTweaks plugin;
     private static DatabaseManager databaseManager;
     private static FileConfiguration config;
+    private static ConfigCache configCache;
     private static Map<String, String> translations;
 
     /**
@@ -47,6 +49,7 @@ public final class SMPTweaks extends JavaPlugin {
 
         // Static reference to config
         config = getConfig();
+        configCache = new ConfigCache();
 
         // Static reference to Hikari
         databaseManager = new DatabaseManager();
@@ -189,6 +192,10 @@ public final class SMPTweaks extends JavaPlugin {
      */
     public static FileConfiguration getCfg() {
         return config;
+    }
+
+    public static ConfigCache getConfigCache() {
+        return configCache;
     }
 
     /**
