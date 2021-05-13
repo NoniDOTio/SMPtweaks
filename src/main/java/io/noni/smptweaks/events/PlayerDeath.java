@@ -74,9 +74,9 @@ public class PlayerDeath implements Listener {
             }
         }
 
-        /**
-         * Remove inventory items from player and drop on ground
-         */
+        //
+        // Remove inventory items from player and drop on ground
+        //
         if(SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.enabled")) {
             double inventoryChancePerSlot = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.chance_per_slot");
             double inventoryPortionPerSlot = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.portion_per_slot");
@@ -92,11 +92,13 @@ public class PlayerDeath implements Listener {
                     continue;
                 }
 
+                // Do not drop item if it's listed
                 List<Material> materialsToSkip = SMPTweaks.getConfigCache().getNeverDropMaterials();
                 if (materialsToSkip.contains(itemStack.getType())) {
                     continue;
                 }
 
+                // Always drop item if it's listed
                 List<Material> materialsToAlwaysDrop = SMPTweaks.getConfigCache().getAlwaysDropMaterials();
                 if (inventoryDropOnGround && materialsToAlwaysDrop.contains(itemStack.getType())) {
                     player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
@@ -104,6 +106,7 @@ public class PlayerDeath implements Listener {
                     continue;
                 }
 
+                // Drop item logic
                 if (Math.random() < inventoryChancePerSlot) {
                     int itemStackSize = itemStack.getAmount();
 
@@ -129,9 +132,9 @@ public class PlayerDeath implements Listener {
             }
         }
 
-        /**
-         * Remove equipment from player and drop on ground
-         */
+        //
+        // Remove equipment from player and drop on ground
+        //
         if(SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.enabled")) {
             double equipmentChancePerSlot = SMPTweaks.getCfg().getDouble("remove_equipment_on_death.chance_per_slot");
             boolean equipmentDropOnGround = SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.drop_on_ground");

@@ -56,9 +56,11 @@ public final class SMPTweaks extends JavaPlugin {
 
         // Load translations
         String languageCode = config.getString("language");
-        translations = TranslationUtils.loadTranslations(languageCode);
+        translations = TranslationUtils.loadTranslations(config.getString("language"));
 
+        //
         // Register Event Listeners
+        //
         Stream.of(
             config.getBoolean("disable_night_skip")
                     ? new TimeSkip() : null,
@@ -95,20 +97,26 @@ public final class SMPTweaks extends JavaPlugin {
                     ? new PlayerLeave() : null
         ).forEach(this::registerEvent);
 
+        //
         // Register Recipes
+        //
         Stream.of(
             config.getBoolean("craftable_elytra")
                     ? RecipeManager.elytra() : null
         ).forEach(this::registerRecipe);
 
+        //
         // Register PlaceholderExpansions
+        //
         Stream.of(
             config.getBoolean("server_levels.enabled") &&
             config.getBoolean("papi_placeholders.enabled")
                     ? new LevelExpansion() : null
         ).forEach(this::registerPlaceholder);
 
+        //
         // Register Commands
+        //
         if(config.getBoolean("enable_commands.whereis")) {
             getCommand("whereis").setExecutor(new WhereisCommand());
         }
@@ -117,7 +125,9 @@ public final class SMPTweaks extends JavaPlugin {
             getCommand("level").setTabCompleter(new LevelTab());
         }
 
+        //
         // Schedule tasks
+        //
         if(config.getInt("shorten_nights_by") != 0 || config.getInt("extend_days_by") != 0) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeModifierTask(), 0L, 2L);
         }
@@ -125,7 +135,9 @@ public final class SMPTweaks extends JavaPlugin {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
         }
 
+        //
         // Done :)
+        //
         LoggingUtils.info("Up and running! Startup took " + (System.currentTimeMillis() - startingTime) + "ms");
     }
 
@@ -187,13 +199,17 @@ public final class SMPTweaks extends JavaPlugin {
     }
 
     /**
-     * Grab reference to config
+     * Get reference to config
      * @return FileConfiguration
      */
     public static FileConfiguration getCfg() {
         return config;
     }
 
+    /**
+     * Get reference to cached config
+     * @return ConfigCache
+     */
     public static ConfigCache getConfigCache() {
         return configCache;
     }

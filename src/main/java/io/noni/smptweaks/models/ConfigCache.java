@@ -16,6 +16,7 @@ public class ConfigCache {
         alwaysDropStrings = SMPTweaks.getCfg().getStringList("remove_inventory_on_death.always_drop");
 
         for(String alwaysDropString : alwaysDropStrings) {
+            alwaysDropString = alwaysDropString.toUpperCase();
             Material materialToAdd = Material.getMaterial(alwaysDropString);
             if(materialToAdd != null) {
                 alwaysDropMaterials.add(materialToAdd);
@@ -28,6 +29,7 @@ public class ConfigCache {
         neverDropStrings = SMPTweaks.getCfg().getStringList("remove_inventory_on_death.never_drop");
 
         for(String neverDropString : neverDropStrings) {
+            neverDropString = neverDropString.toUpperCase();
             Material materialToAdd = Material.getMaterial(neverDropString);
             if(materialToAdd != null) {
                 neverDropMaterials.add(materialToAdd);
