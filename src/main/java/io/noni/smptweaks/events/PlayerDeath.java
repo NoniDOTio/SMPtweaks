@@ -4,6 +4,7 @@ import io.noni.smptweaks.SMPTweaks;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.ExperienceUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
+import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -177,10 +178,10 @@ public class PlayerDeath implements Listener {
             }
         }
 
-        /**
-         * Send chat message to dead player
-         */
-        ChatUtils.negative(player, "Du hast einen Teil deiner Gegenstände und Erfahrung verloren :(");
+        //
+        // Send chat message to dead player
+        //
+        ChatUtils.negative(player, TranslationUtils.get("playerdeath-lost-xp-and-items"));
     }
 
     /**
