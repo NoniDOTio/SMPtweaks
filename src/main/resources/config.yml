@@ -28,7 +28,9 @@ remove_xp_on_death:
   randomize: true
   max: 1000
   drop_on_ground: true
-  drop_amount_multiplier: 0.5
+  drop_amount_multiplier: 1.0
+  disable_for_pvp_deaths: false
+  disable_for_non_pvp_deaths: false
 remove_inventory_on_death:
   enabled: false
   chance_per_slot: 1.0
@@ -42,13 +44,19 @@ remove_inventory_on_death:
     - COBBLESTONE
   never_drop:
     - DRAGON_EGG
+  disable_for_pvp_deaths: false
+  disable_for_non_pvp_deaths: false
 remove_equipment_on_death:
   enabled: false
   chance_per_slot: 0.3
   drop_on_ground: true
+  disable_for_pvp_deaths: false
+  disable_for_non_pvp_deaths: false
 decrease_item_durability_on_death:
   enabled: false
   multiplier: 0.8
+  disable_for_pvp_deaths: false
+  disable_for_non_pvp_deaths: false
 respawn_health: 20
 respawn_food_level: 20
 #
@@ -70,6 +78,25 @@ craftable_elytra: false
 # Performance Tweaks
 #
 reduce_tps_when_server_is_empty: false
+#
+# Custom recipes
+#
+custom-recipes:
+  - material: ELYTRA
+    shape:
+      - MDM
+      - M M
+      - M M
+    ingredients:
+      - material: DRAGON_EGG
+        key: D
+      - material: PHANTOM_MEMBRANE
+        key: M
+  - material: LEATHER
+    count: 1
+    ingredients:
+      - material: ROTTEN_FLESH
+        count: 64
 #
 # Select which commands you want to enable
 #
