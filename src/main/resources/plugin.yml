@@ -6,3 +6,14 @@ authors: [ noniDOTio ]
 description: Adds various improvements to make survival minecraft more enjoyable in multiplayer
 website: noni.io
 softdepend: [ PlaceholderAPI ]
+commands:
+  whereis:
+    description: Show a players current location.
+    usage: /whereis <player>
+  level:
+    description: Shows a players level oder changes the way progress is displayed.
+    usage: /level -or- /level lookup <player> -or- /level progress <show|hide> <all|xp|percentages|none> <chat|actionbar>
+    aliases: [ lv ]
+  daily:
+    description: Collect login reward.
+    usage:  /daily
