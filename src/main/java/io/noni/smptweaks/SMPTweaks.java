@@ -90,6 +90,9 @@ public final class SMPTweaks extends JavaPlugin {
             config.getBoolean("server_levels.enabled")
                     ? new PlayerExpPickup() : null,
 
+            config.getBoolean("buff_vegetarian_food")
+                    ? new PlayerItemConsume() : null,
+
             config.getBoolean("server_levels.enabled")
                     ? new PlayerJoin() : null,
 
