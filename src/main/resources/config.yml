@@ -73,11 +73,6 @@ clear_weather_at_dawn: true # Force sunshine in the morning, results in less bad
 xp_multiplier: 1.0
 mending_repair_amount_multiplier: 1.0
 buff_vegetarian_food: false
-craftable_elytra: false
-#
-# Performance Tweaks
-#
-reduce_tps_when_server_is_empty: false
 #
 # Custom recipes
 #
@@ -103,6 +98,26 @@ custom-recipes:
 enable_commands:
   level: false
   whereis: false
+#
+#
+#
+rewards:
+  enabled: false
+  scale_amount_with_level: true
+  xp: 50
+  contents:
+    - material: BREAD
+      min_amount: 1
+      max_amount: 3
+      max_level: 10
+      weight: 10
+    - material: IRON_INGOT
+      max_amount: 6
+      min_level: 5
+      max_level: 20
+      weight: 5
+    - material: DIAMOND
+      min_level: 15
 #
 # Whether the SMPTweaks player server level system is used
 #
