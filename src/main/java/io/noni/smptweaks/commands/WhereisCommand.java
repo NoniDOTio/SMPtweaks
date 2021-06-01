@@ -55,11 +55,20 @@ public class WhereisCommand implements CommandExecutor {
     private String beautifyWorldName(String worldName) {
         String beautifiedWorldName;
         if(worldName.contains("nether")) {
-            beautifiedWorldName = ChatColor.DARK_RED + TranslationUtils.get("whereis-in-nether") + ChatColor.GOLD;
+            String completeText = TranslationUtils.get("whereis-in-nether");
+            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            String remainingText = completeText.replace(partToColor, "");
+            beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.DARK_RED + partToColor + ChatColor.GOLD;
         } else if(worldName.contains("end")) {
-            beautifiedWorldName = ChatColor.DARK_PURPLE + TranslationUtils.get("whereis-in-end") + ChatColor.GOLD;
+            String completeText = TranslationUtils.get("whereis-in-end");
+            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            String remainingText = completeText.replace(partToColor, "");
+            beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.DARK_PURPLE + partToColor + ChatColor.GOLD;
         } else {
-            beautifiedWorldName = ChatColor.GREEN + TranslationUtils.get("whereis-in-overworld") + ChatColor.GOLD;
+            String completeText = TranslationUtils.get("whereis-in-overworld");
+            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            String remainingText = completeText.replace(partToColor, "");
+            beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.GREEN + partToColor + ChatColor.GOLD;
         }
         return beautifiedWorldName;
     }
