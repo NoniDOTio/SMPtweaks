@@ -90,8 +90,7 @@ public class PlayerExpPickup implements Listener {
         // Send progress message to player
         String notificationMessage;
         int xpDisplayMode = PDCUtils.get(player, PDCKey.XP_DISPLAY_MODE);
-        double progress = (double) level.getCurrentXp() / (level.getUntilXp() + level.getCurrentXp());
-        int percent = (int) (progress * 100);
+        int percent = (int) level.getProgessPercentage();
 
         // Check second digit (message content)
         switch (xpDisplayMode % 10) {

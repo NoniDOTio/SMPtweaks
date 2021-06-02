@@ -67,4 +67,8 @@ public class PlayerMeta {
     public boolean isSpecialDropAvailable() {
         return specialDropAvailable;
     }
+
+    public void setXpDisplayMode(Integer xpDisplayMode) {
+        this.xpDisplayMode = xpDisplayMode;
+    }
 }

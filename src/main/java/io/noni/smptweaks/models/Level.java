@@ -69,6 +69,11 @@ public class Level {
         return untilXp;
     }
 
+    public double getProgessPercentage() {
+        double progress = (double) this.currentXp / (this.untilXp + this.currentXp);
+        return progress * 100;
+    }
+
     /**
      * Get how much xp is needed for the level
      */

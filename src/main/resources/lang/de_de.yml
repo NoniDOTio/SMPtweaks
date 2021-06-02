@@ -4,6 +4,7 @@ broadcast-levelup-end: 'erreicht!'
 broadcast-levelup-hover-text: '&6Für dieses Level:&r {$1} XP &7·&r &6Insgesamt:&r {$2} XP'
 daily-gift-available: 'Deine tägliche Login-Belohnung ist verfügbar! Tippe /daily um Sie abzuholen'
 generic-online-player-not-found: 'Dieser Spieler existiert nicht oder ist nicht online'
+level-lookup-no-player-specified: 'Bitte gebe den Spieler an, welchen du betrachten möchtest'
 mending-repair: 'mit {$1}XP repariert'
 playerdeath-lost-xp-and-items: 'Du hast einen Teil deiner Gegenstände und Erfahrung verloren'
 whereis-message: '{$1} ist {$2} bei {$3}' # Steve ist in der Oberwelt bei 127 64 -37
