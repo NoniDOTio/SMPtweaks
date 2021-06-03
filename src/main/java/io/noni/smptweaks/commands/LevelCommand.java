@@ -67,6 +67,9 @@ public class LevelCommand implements CommandExecutor {
                 case "actionbar":
                     xpDisplayMode += 2;
                     break;
+                default:
+                    xpDisplayMode += 0;
+                    break;
             }
 
             switch (args[2]) {
@@ -78,6 +81,9 @@ public class LevelCommand implements CommandExecutor {
                     break;
                 case "all":
                     xpDisplayMode += 9;
+                    break;
+                default:
+                    xpDisplayMode += 0;
                     break;
             }
             PlayerMeta playerMeta = new PlayerMeta(player);
