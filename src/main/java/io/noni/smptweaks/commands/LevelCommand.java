@@ -32,7 +32,7 @@ public class LevelCommand implements CommandExecutor {
         } else if (args.length == 2 && args[0].equalsIgnoreCase("lookup")) {
             Player playerToLookUp = Bukkit.getPlayer(args[1]);
             if(playerToLookUp == null) {
-                ChatUtils.commandResponse(player, TranslationUtils.get("generic-online-player-not-found"));
+                ChatUtils.commandResponse(player, TranslationUtils.get("error-online-player-not-found"));
                 return true;
             }
             printProgress(player, playerToLookUp);
@@ -47,13 +47,13 @@ public class LevelCommand implements CommandExecutor {
             PlayerMeta playerMeta = new PlayerMeta(player);
             playerMeta.setXpDisplayMode(0);
             playerMeta.pushToPDC();
-            ChatUtils.commandResponse(player, TranslationUtils.get("generic-preferences-saved"));
+            ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
 
         } else if (args.length == 2 && args[1].equalsIgnoreCase("show")) {
             PlayerMeta playerMeta = new PlayerMeta(player);
             playerMeta.setXpDisplayMode(19);
             playerMeta.pushToPDC();
-            ChatUtils.commandResponse(player, TranslationUtils.get("generic-preferences-saved"));
+            ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
 
         } else if (args.length == 3 && args[1].equalsIgnoreCase("show")) {
             ChatUtils.commandResponse(player, TranslationUtils.get("level-progress-no-display-method-specified"));
@@ -89,7 +89,7 @@ public class LevelCommand implements CommandExecutor {
             PlayerMeta playerMeta = new PlayerMeta(player);
             playerMeta.setXpDisplayMode(Integer.parseInt(xpDisplayMode));
             playerMeta.pushToPDC();
-            ChatUtils.commandResponse(player, TranslationUtils.get("generic-preferences-saved"));
+            ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
 
         }
 

@@ -4,6 +4,7 @@ import io.noni.smptweaks.SMPTweaks;
 import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
+import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,7 +23,7 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
         if(playerMeta != null) {
             playerMeta.pushToPDC();
         } else {
-            ChatUtils.negative(player, "Deine Metadaten konnten nicht geladen werden. Dein Fortschritt wird eventuell nicht gespeichert. Bitte trenne die Verbindung mit dem Server und versuche es erneut.");
+            ChatUtils.negative(player, TranslationUtils.get("error-loading-player-meta"));
         }
     }
 }
