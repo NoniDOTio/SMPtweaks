@@ -2,8 +2,8 @@ package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.SMPTweaks;
 import io.noni.smptweaks.models.PlayerMeta;
-import io.noni.smptweaks.tasks.DailyGiftReminderTask;
 import io.noni.smptweaks.tasks.PlayerMetaLoaderTask;
+import io.noni.smptweaks.tasks.RewardReminderTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,6 +23,6 @@ public class PlayerJoin implements Listener {
         }
 
         new PlayerMetaLoaderTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
-        new DailyGiftReminderTask(player).runTaskLaterAsynchronously(SMPTweaks.getPlugin(), 240L);
+        new RewardReminderTask(player).runTaskLaterAsynchronously(SMPTweaks.getPlugin(), 240L);
     }
 }

@@ -1,5 +1,6 @@
 package io.noni.smptweaks;
 
+import io.noni.smptweaks.commands.CollectCommand;
 import io.noni.smptweaks.commands.LevelCommand;
 import io.noni.smptweaks.commands.LevelTab;
 import io.noni.smptweaks.commands.WhereisCommand;
@@ -122,6 +123,9 @@ public final class SMPTweaks extends JavaPlugin {
         //
         if(config.getBoolean("enable_commands.whereis")) {
             getCommand("whereis").setExecutor(new WhereisCommand());
+        }
+        if(config.getBoolean("rewards.enabled")) {
+            getCommand("collect").setExecutor(new CollectCommand());
         }
         if(config.getBoolean("enable_commands.level") && config.getBoolean("server_levels.enabled")) {
             getCommand("level").setExecutor(new LevelCommand());

@@ -103,6 +103,7 @@ enable_commands:
 #
 rewards:
   enabled: false
+  cooldown: 82800
   scale_amount_with_level: true
   xp: 50
   contents:

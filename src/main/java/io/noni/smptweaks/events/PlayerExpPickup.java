@@ -57,25 +57,25 @@ public class PlayerExpPickup implements Listener {
             // Build message components
             TextComponent congratulationMessage = new TextComponent();
             TextComponent beginPart = new TextComponent(
-                    TranslationUtils.get("broadcast-levelup", new String[]{
+                    TranslationUtils.get("levelup-broadcast", new String[]{
                             player.getName()
                     }) + " "
             );
             TextComponent levelPart = new TextComponent(
                     ChatColor.GREEN + "[" +
-                    TranslationUtils.get("broadcast-levelup-hoverable-text", new String[]{
+                    TranslationUtils.get("levelup-broadcast-hoverable-text", new String[]{
                             "" + level.getLevel()
                     }) +
                     "]" + ChatColor.RESET
             );
             levelPart.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("" +
-                    TranslationUtils.get("broadcast-levelup-hover-text", new String[]{
+                    TranslationUtils.get("levelup-broadcast-hover-text", new String[]{
                             NumberUtils.format(level.getSingleXpRequiredForLevel()),
                             NumberUtils.format(level.getTotalXpRequiredForLevel())
                     })
             )));
             TextComponent endPart = new TextComponent(
-                    " " + TranslationUtils.get("broadcast-levelup-end")
+                    " " + TranslationUtils.get("levelup-broadcast-end")
             );
 
             // Assemble components
@@ -84,7 +84,7 @@ public class PlayerExpPickup implements Listener {
             congratulationMessage.addExtra(endPart);
 
             // Send it!
-            ChatUtils.chatRaw(player, congratulationMessage);
+            ChatUtils.broadcastRaw(congratulationMessage);
         }
 
         // Send progress message to player

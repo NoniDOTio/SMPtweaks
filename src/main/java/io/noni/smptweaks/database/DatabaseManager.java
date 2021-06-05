@@ -13,6 +13,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DatabaseManager {
     private final HikariDataSource hikariDataSource;
@@ -73,7 +76,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Check if connection to DB is possible
+     * Check if connection to database is possible
      * @return
      */
     public boolean canConnect() {
@@ -105,7 +108,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Create table
+     * Create table for plugin
      */
     public void setUp() {
         try(Connection con = this.hikariDataSource.getConnection()) {
@@ -128,7 +131,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Get PlayerMeta from DB
+     * Get PlayerMeta from database
      * @param player
      * @return playerMeta
      */
@@ -158,7 +161,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Check if player is already in DB
+     * Check if player is in database
      */
     private boolean playerInDB(Player player) {
         try (Connection con = this.hikariDataSource.getConnection()) {
@@ -178,7 +181,7 @@ public class DatabaseManager {
     }
 
     /**
-     * Store PlayerMeta in DB
+     * Store PlayerMeta in database
      * @param player
      */
     public void savePlayerMeta(Player player) {
@@ -209,6 +212,53 @@ public class DatabaseManager {
             preparedStatement.setInt(3, playerMeta.getTotalXp());
             preparedStatement.setInt(4, playerMeta.getXpDisplayMode());
             preparedStatement.setString(5, playerMeta.getPlayer().getUniqueId().toString());
+            preparedStatement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    /**
+     * Get last reward claimed datetime from database
+     */
+    public Date getLastRewardClaimedDate(Player player) {
+        try (Connection con = this.hikariDataSource.getConnection()) {
+            PreparedStatement preparedStatement = con.prepareStatement("" +
+                    "SELECT `last_reward_claimed` " +
+                    "FROM `smptweaks_player` " +
+                    "WHERE `uuid` = ? " +
+                    "LIMIT 1"
+            );
+            preparedStatement.setString(1, player.getUniqueId().toString());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                String datetimeString = resultSet.getString("last_reward_claimed");
+                return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(datetimeString);
+            }
+        } catch (SQLException | ParseException throwables) {
+            throwables.printStackTrace();
+        }
+        return new Date();
+    }
+
+    /**
+     * Update last reward claimed datetime in database
+     */
+    public void updateLastRewardClaimedDate(Player player) {
+        try(Connection con = this.hikariDataSource.getConnection()) {
+            PreparedStatement preparedStatement;
+            preparedStatement = con.prepareStatement("" +
+                    "UPDATE `smptweaks_player` " +
+                    "SET " +
+                    "`last_reward_claimed` = ? " +
+                    "WHERE `uuid` = ?"
+
+            );
+            Date datetime = new Date();
+            String myslqDatetime = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(datetime);
+            preparedStatement.setString(1, myslqDatetime);
+            preparedStatement.setString(2, player.getUniqueId().toString());
             preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

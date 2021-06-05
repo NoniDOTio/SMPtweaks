@@ -14,6 +14,7 @@ commands:
     description: Shows a players level oder changes the way progress is displayed.
     usage: /level -or- /level lookup <player> -or- /level progress <show|hide> <all|xp|percentages|none> <chat|actionbar>
     aliases: [ lv ]
-  daily:
+  collect:
     description: Collect login reward.
-    usage:  /daily
+    aliases: [ daily ]
+    usage:  /collect
