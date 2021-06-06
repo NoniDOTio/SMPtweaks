@@ -22,11 +22,12 @@ public class RedeemableReward {
     public RedeemableReward(Player player) {
         this.level = new PlayerMeta(player).getLevel();
         List<Reward> availableRewards = new ArrayList<>();
+        boolean serverLevelsEnabled = SMPTweaks.getCfg().getBoolean("server_levels.enabled");
 
         // Calculate total weight of all rewards
         double totalWeight = 0.0;
         for(Reward reward : SMPTweaks.getConfigCache().getRewardsList()) {
-            if(level >= reward.getMinLevel() && level <= reward.getMaxLevel()) {
+            if(!serverLevelsEnabled || (level >= reward.getMinLevel() && level <= reward.getMaxLevel())) {
                 availableRewards.add(reward);
                 totalWeight += reward.getWeight();
             }
