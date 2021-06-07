@@ -1,6 +1,6 @@
 package io.noni.smptweaks.models;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -21,7 +21,7 @@ public class PDCKey<T> {
     public final PersistentDataType<T, T> type;
 
     private PDCKey(String namespace, PersistentDataType<T, T> type) {
-        this.namespace = new NamespacedKey(SMPTweaks.getPlugin(), namespace);
+        this.namespace = new NamespacedKey(SMPtweaks.getPlugin(), namespace);
         this.type = type;
     }
 

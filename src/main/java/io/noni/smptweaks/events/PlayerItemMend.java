@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -11,7 +11,7 @@ public class PlayerItemMend implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerItemMend(PlayerItemMendEvent e) {
         // Apply repair amount multiplier
-        double repairAmoundMultiplier = SMPTweaks.getCfg().getDouble("mending_repair_amount_multiplier");
+        double repairAmoundMultiplier = SMPtweaks.getCfg().getDouble("mending_repair_amount_multiplier");
         int repairAmount = (int) Math.round(e.getRepairAmount() * repairAmoundMultiplier);
         e.setRepairAmount(repairAmount);
     }

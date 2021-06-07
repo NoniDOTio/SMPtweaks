@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -9,7 +9,7 @@ public class WeatherClearerTask implements Runnable {
 
     @Override
     public void run() {
-        if(!SMPTweaks.getCfg().getBoolean("clear_weather_at_dawn")) {
+        if(!SMPtweaks.getCfg().getBoolean("clear_weather_at_dawn")) {
             return;
         }
 

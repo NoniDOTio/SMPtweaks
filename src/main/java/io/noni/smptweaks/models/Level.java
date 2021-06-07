@@ -1,6 +1,6 @@
 package io.noni.smptweaks.models;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.PDCUtils;
 import org.bukkit.entity.Player;
 
@@ -13,7 +13,7 @@ public class Level {
     int untilXp;
     int threshold;
 
-    List<Integer> thresholds = SMPTweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
+    List<Integer> thresholds = SMPtweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
 
     public Level(int totalXp) {
         int i;

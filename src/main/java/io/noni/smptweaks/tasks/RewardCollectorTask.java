@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.models.RedeemableReward;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
@@ -23,8 +23,8 @@ public class RewardCollectorTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Date lastRewardClaimedDatetime = SMPTweaks.getDB().getLastRewardClaimedDate(player);
-        int cooldownBetweenRewards = SMPTweaks.getCfg().getInt("rewards.cooldown");
+        Date lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
+        int cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
         int secondsSince = (int) (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
         int secondsToWait = cooldownBetweenRewards - secondsSince;
 
@@ -48,7 +48,7 @@ public class RewardCollectorTask extends BukkitRunnable {
         player.getInventory().addItem(reward.getItem());
 
         // Give xp reward
-        int xpToAdd = SMPTweaks.getCfg().getInt("rewards.xp");
+        int xpToAdd = SMPtweaks.getCfg().getInt("rewards.xp");
         if(xpToAdd > 0) {
             player.setTotalExperience(player.getTotalExperience() + xpToAdd);
         }
@@ -83,6 +83,6 @@ public class RewardCollectorTask extends BukkitRunnable {
         ChatUtils.notify(player, TranslationUtils.get("item-received", new String[] {
                 reward.getItem().getAmount() + "x " + reward.getReward().getDisplayName()
         }));
-        SMPTweaks.getDB().updateLastRewardClaimedDate(player);
+        SMPtweaks.getDB().updateLastRewardClaimedDate(player);
     }
 }

@@ -13,7 +13,7 @@ mysql:
   password: ''
   database: 'smptweaks_player'
 #
-# Whether SMPTweaks should hook into PlaceholderAPI
+# Whether SMPtweaks should hook into PlaceholderAPI
 #
 papi_placeholders:
   enabled: false
@@ -66,6 +66,8 @@ disable_night_skip: true # prevent player sleeping
 health_regen_while_in_bed: true # give regeneration to players lying in bed
 shorten_nights_by: 2000 # number of ticks to skip each night
 extend_days_by: 2000 # number of ticks to make each day longer
+day_duration: 12000 #
+night_duration: 8400
 clear_weather_at_dawn: true # Force sunshine in the morning, results in less bad weather overall
 #
 # Other tweaks
@@ -120,7 +122,7 @@ rewards:
     - material: DIAMOND
       min_level: 15
 #
-# Whether the SMPTweaks player server level system is used
+# Whether the SMPtweaks player server level system is used
 #
 server_levels:
   enabled: true

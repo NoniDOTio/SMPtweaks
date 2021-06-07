@@ -1,7 +1,7 @@
 package io.noni.smptweaks.database;
 
 import com.zaxxer.hikari.HikariDataSource;
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class DatabaseManager {
     private final HikariDataSource hikariDataSource;
-    private static final FileConfiguration config = SMPTweaks.getPlugin().getConfig();
+    private static final FileConfiguration config = SMPtweaks.getPlugin().getConfig();
 
     public DatabaseManager() {
         this.hikariDataSource = new HikariDataSource();
@@ -62,7 +62,7 @@ public class DatabaseManager {
      * Create SQLite file
      */
     private File getSQLite() {
-        File databaseFile = new File(SMPTweaks.getPlugin().getDataFolder(), "smptweaks.db");
+        File databaseFile = new File(SMPtweaks.getPlugin().getDataFolder(), "smptweaks.db");
         if(!databaseFile.exists()) {
             try {
                 databaseFile.createNewFile();

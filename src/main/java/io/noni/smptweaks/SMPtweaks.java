@@ -26,8 +26,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public final class SMPTweaks extends JavaPlugin {
-    private static SMPTweaks plugin;
+public final class SMPtweaks extends JavaPlugin {
+    private static SMPtweaks plugin;
     private static DatabaseManager databaseManager;
     private static FileConfiguration config;
     private static ConfigCache configCache;
@@ -183,7 +183,7 @@ public final class SMPTweaks extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        LoggingUtils.info("Disabling SMPTweaks...");
+        LoggingUtils.info("Disabling SMPtweaks...");
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
             new PlayerMetaStorerTask(player).run();
         }
@@ -193,7 +193,7 @@ public final class SMPTweaks extends JavaPlugin {
      * Get reference to this plugin
      * @return Plugin
      */
-    public static SMPTweaks getPlugin() {
+    public static SMPtweaks getPlugin() {
         return plugin;
     }
 

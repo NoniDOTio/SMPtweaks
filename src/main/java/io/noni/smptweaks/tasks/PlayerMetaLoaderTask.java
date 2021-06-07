@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
@@ -18,7 +18,7 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
     @Override
     public void run() {
         LoggingUtils.info("Loading PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());
-        PlayerMeta playerMeta = SMPTweaks.getDB().getPlayerMeta(player);
+        PlayerMeta playerMeta = SMPtweaks.getDB().getPlayerMeta(player);
 
         if(playerMeta != null) {
             playerMeta.pushToPDC();

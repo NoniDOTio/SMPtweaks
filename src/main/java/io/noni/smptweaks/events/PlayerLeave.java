@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +13,7 @@ public class PlayerLeave implements Listener {
     void onPlayerLeave(PlayerQuitEvent e) {
         Player player = e.getPlayer();
 
-        // Update SMPTweaks player in DB
-        new PlayerMetaStorerTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
+        // Update SMPtweaks player in DB
+        new PlayerMetaStorerTask(player).runTaskAsynchronously(SMPtweaks.getPlugin());
     }
 }

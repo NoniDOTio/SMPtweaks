@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.ExperienceUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
@@ -33,11 +33,11 @@ public class PlayerDeath implements Listener {
         // Alter durability of items
         //
         if(
-            SMPTweaks.getCfg().getBoolean("decrease_item_durability_on_death.enabled") &&
-            ( isPvpDeath && !SMPTweaks.getCfg().getBoolean("decrease_item_durability_on_death.disable_for_pvp_deaths") ) ||
-            ( !isPvpDeath && !SMPTweaks.getCfg().getBoolean("decrease_item_durability_on_death.disable_for_non_pvp_deaths") )
+            SMPtweaks.getCfg().getBoolean("decrease_item_durability_on_death.enabled") &&
+            ( isPvpDeath && !SMPtweaks.getCfg().getBoolean("decrease_item_durability_on_death.disable_for_pvp_deaths") ) ||
+            ( !isPvpDeath && !SMPtweaks.getCfg().getBoolean("decrease_item_durability_on_death.disable_for_non_pvp_deaths") )
         ) {
-            double durabilityMultiplier = SMPTweaks.getCfg().getDouble("decrease_item_durability_on_death.multiplier");
+            double durabilityMultiplier = SMPtweaks.getCfg().getDouble("decrease_item_durability_on_death.multiplier");
             for (ItemStack itemStack : player.getInventory().getContents()) {
                 multiplyItemDurability(itemStack, durabilityMultiplier);
             }
@@ -55,26 +55,26 @@ public class PlayerDeath implements Listener {
         // Remove XP from player and drop on ground
         //
         if(
-            SMPTweaks.getCfg().getBoolean("remove_xp_on_death.enabled") &&
-            ( isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_xp_on_death.disable_for_pvp_deaths") ) ||
-            ( !isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_xp_on_death.disable_for_non_pvp_deaths") )
+            SMPtweaks.getCfg().getBoolean("remove_xp_on_death.enabled") &&
+            ( isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_xp_on_death.disable_for_pvp_deaths") ) ||
+            ( !isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_xp_on_death.disable_for_non_pvp_deaths") )
         ) {
             int currentXp = ExperienceUtils.getTotalExperience(player);
 
             // Calculate how much to drop
-            int baseXpToRemove = SMPTweaks.getCfg().getInt("remove_xp_on_death.base");
-            int portionXpToRemove = (int) (SMPTweaks.getCfg().getDouble("remove_xp_on_death.portion_of_current") * currentXp);
-            int randomizedXpToRemove = SMPTweaks.getCfg().getBoolean("remove_xp_on_death.randomize") ?
+            int baseXpToRemove = SMPtweaks.getCfg().getInt("remove_xp_on_death.base");
+            int portionXpToRemove = (int) (SMPtweaks.getCfg().getDouble("remove_xp_on_death.portion_of_current") * currentXp);
+            int randomizedXpToRemove = SMPtweaks.getCfg().getBoolean("remove_xp_on_death.randomize") ?
                     randomize(portionXpToRemove, 0.3) : portionXpToRemove;
             int resultXpToRemove = baseXpToRemove + randomizedXpToRemove;
-            int xpToRemove = Math.min(resultXpToRemove, SMPTweaks.getCfg().getInt("remove_xp_on_death.max"));
+            int xpToRemove = Math.min(resultXpToRemove, SMPtweaks.getCfg().getInt("remove_xp_on_death.max"));
 
             // Remove XP from player
             ExperienceUtils.setTotalExperience(player, Math.max(0, currentXp - xpToRemove));
 
             // Spawn XP orbs on the ground
-            if(SMPTweaks.getCfg().getBoolean("remove_xp_on_death.drop_on_ground")) {
-                double xpDropMultiplier = SMPTweaks.getCfg().getDouble("remove_xp_on_death.drop_amount_multiplier");
+            if(SMPtweaks.getCfg().getBoolean("remove_xp_on_death.drop_on_ground")) {
+                double xpDropMultiplier = SMPtweaks.getCfg().getDouble("remove_xp_on_death.drop_amount_multiplier");
                 spawnOrbs(
                         (int) Math.floor(xpToRemove * xpDropMultiplier),
                         Math.max(50, xpToRemove / 10),
@@ -88,16 +88,16 @@ public class PlayerDeath implements Listener {
         // Remove inventory items from player and drop on ground
         //
         if(
-            SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.enabled") &&
-            ( isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.disable_for_pvp_deaths") ) ||
-            ( !isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.disable_for_non_pvp_deaths") )
+            SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.enabled") &&
+            ( isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.disable_for_pvp_deaths") ) ||
+            ( !isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.disable_for_non_pvp_deaths") )
         ) {
-            double inventoryChancePerSlot = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.chance_per_slot");
-            double inventoryPortionPerSlot = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.portion_per_slot");
-            boolean inventoryRandomize = SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.randomize");
-            int minAffectedStackSize = SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.include_non_stackable_items") ? 0 : 1;
-            boolean inventoryDropOnGround = SMPTweaks.getCfg().getBoolean("remove_inventory_on_death.drop_on_ground");
-            double inventoryDropMultiplier = SMPTweaks.getCfg().getDouble("remove_inventory_on_death.drop_amount_multiplier");
+            double inventoryChancePerSlot = SMPtweaks.getCfg().getDouble("remove_inventory_on_death.chance_per_slot");
+            double inventoryPortionPerSlot = SMPtweaks.getCfg().getDouble("remove_inventory_on_death.portion_per_slot");
+            boolean inventoryRandomize = SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.randomize");
+            int minAffectedStackSize = SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.include_non_stackable_items") ? 0 : 1;
+            boolean inventoryDropOnGround = SMPtweaks.getCfg().getBoolean("remove_inventory_on_death.drop_on_ground");
+            double inventoryDropMultiplier = SMPtweaks.getCfg().getDouble("remove_inventory_on_death.drop_amount_multiplier");
 
             for (ItemStack itemStack : player.getInventory().getContents()) {
                 if (itemStack == null) {
@@ -105,13 +105,13 @@ public class PlayerDeath implements Listener {
                 }
 
                 // Do not drop item if it's listed
-                List<Material> materialsToSkip = SMPTweaks.getConfigCache().getNeverDropMaterials();
+                List<Material> materialsToSkip = SMPtweaks.getConfigCache().getNeverDropMaterials();
                 if (materialsToSkip.contains(itemStack.getType())) {
                     continue;
                 }
 
                 // Always drop item if it's listed
-                List<Material> materialsToAlwaysDrop = SMPTweaks.getConfigCache().getAlwaysDropMaterials();
+                List<Material> materialsToAlwaysDrop = SMPtweaks.getConfigCache().getAlwaysDropMaterials();
                 if (inventoryDropOnGround && materialsToAlwaysDrop.contains(itemStack.getType())) {
                     player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
                     player.getInventory().remove(itemStack);
@@ -148,12 +148,12 @@ public class PlayerDeath implements Listener {
         // Remove equipment from player and drop on ground
         //
         if(
-            SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.enabled") &&
-            ( isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.disable_for_pvp_deaths") ) ||
-            ( !isPvpDeath && !SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.disable_for_non_pvp_deaths") )
+            SMPtweaks.getCfg().getBoolean("remove_equipment_on_death.enabled") &&
+            ( isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_equipment_on_death.disable_for_pvp_deaths") ) ||
+            ( !isPvpDeath && !SMPtweaks.getCfg().getBoolean("remove_equipment_on_death.disable_for_non_pvp_deaths") )
         ) {
-            double equipmentChancePerSlot = SMPTweaks.getCfg().getDouble("remove_equipment_on_death.chance_per_slot");
-            boolean equipmentDropOnGround = SMPTweaks.getCfg().getBoolean("remove_equipment_on_death.drop_on_ground");
+            double equipmentChancePerSlot = SMPtweaks.getCfg().getDouble("remove_equipment_on_death.chance_per_slot");
+            boolean equipmentDropOnGround = SMPtweaks.getCfg().getBoolean("remove_equipment_on_death.drop_on_ground");
 
             ItemStack helmet = player.getInventory().getHelmet();
             ItemStack chestplate = player.getInventory().getChestplate();

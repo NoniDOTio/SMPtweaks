@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -13,7 +13,7 @@ public class PlayerFoodLevelModifierTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        int foodLevel = SMPTweaks.getCfg().getInt("respawn_food_level");
+        int foodLevel = SMPtweaks.getCfg().getInt("respawn_food_level");
         player.setFoodLevel(foodLevel);
     }
 }

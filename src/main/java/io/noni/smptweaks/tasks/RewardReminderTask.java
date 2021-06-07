@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.entity.Player;
@@ -17,8 +17,8 @@ public class RewardReminderTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Date lastRewardClaimedDatetime = SMPTweaks.getDB().getLastRewardClaimedDate(player);
-        int cooldownBetweenRewards = SMPTweaks.getCfg().getInt("rewards.cooldown");
+        Date lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
+        int cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
         int secondsSince = (int) (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
         int secondsToWait = cooldownBetweenRewards - secondsSince;
 

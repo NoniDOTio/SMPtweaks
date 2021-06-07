@@ -1,6 +1,6 @@
 package io.noni.smptweaks.models;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Material;
 
@@ -15,7 +15,7 @@ public class ConfigCache {
 
     public ConfigCache() {
         List<String> alwaysDropStrings;
-        alwaysDropStrings = SMPTweaks.getCfg().getStringList("remove_inventory_on_death.always_drop");
+        alwaysDropStrings = SMPtweaks.getCfg().getStringList("remove_inventory_on_death.always_drop");
 
         for(String alwaysDropString : alwaysDropStrings) {
             alwaysDropString = alwaysDropString.toUpperCase();
@@ -28,7 +28,7 @@ public class ConfigCache {
         }
 
         List<String> neverDropStrings;
-        neverDropStrings = SMPTweaks.getCfg().getStringList("remove_inventory_on_death.never_drop");
+        neverDropStrings = SMPtweaks.getCfg().getStringList("remove_inventory_on_death.never_drop");
 
         for(String neverDropString : neverDropStrings) {
             neverDropString = neverDropString.toUpperCase();
@@ -43,7 +43,7 @@ public class ConfigCache {
         //
         // Rewards
         //
-        List rewardList = SMPTweaks.getPlugin().getConfig().getList("rewards.contents");
+        List rewardList = SMPtweaks.getPlugin().getConfig().getList("rewards.contents");
 
         for (Object rewardSingle : rewardList) {
             Map reward = (Map) rewardSingle;

@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.tasks.PlayerFoodLevelModifierTask;
 import io.noni.smptweaks.tasks.PlayerHealthModifierTask;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ public class PlayerRespawn implements Listener {
     @EventHandler
     void onPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
-        new PlayerHealthModifierTask(player).runTask(SMPTweaks.getPlugin());
-        new PlayerFoodLevelModifierTask(player).runTask(SMPTweaks.getPlugin());
+        new PlayerHealthModifierTask(player).runTask(SMPtweaks.getPlugin());
+        new PlayerFoodLevelModifierTask(player).runTask(SMPtweaks.getPlugin());
     }
 }

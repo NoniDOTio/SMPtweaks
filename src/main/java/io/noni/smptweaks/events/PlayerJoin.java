@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.tasks.PlayerMetaLoaderTask;
 import io.noni.smptweaks.tasks.RewardReminderTask;
@@ -22,7 +22,7 @@ public class PlayerJoin implements Listener {
             playerMeta.pushToPDC();
         }
 
-        new PlayerMetaLoaderTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
-        new RewardReminderTask(player).runTaskLaterAsynchronously(SMPTweaks.getPlugin(), 240L);
+        new PlayerMetaLoaderTask(player).runTaskAsynchronously(SMPtweaks.getPlugin());
+        new RewardReminderTask(player).runTaskLaterAsynchronously(SMPtweaks.getPlugin(), 240L);
     }
 }

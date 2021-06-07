@@ -1,6 +1,6 @@
 package io.noni.smptweaks.tasks;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -13,7 +13,7 @@ public class PlayerHealthModifierTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        int health = SMPTweaks.getCfg().getInt("respawn_health");
+        int health = SMPtweaks.getCfg().getInt("respawn_health");
         player.setHealth(health);
     }
 }

@@ -1,6 +1,6 @@
-name: SMPTweaks
+name: SMPtweaks
 version: ${project.version}
-main: io.noni.smptweaks.SMPTweaks
+main: io.noni.smptweaks.SMPtweaks
 api-version: 1.16
 authors: [ noniDOTio ]
 description: Adds various improvements to make survival minecraft more enjoyable in multiplayer

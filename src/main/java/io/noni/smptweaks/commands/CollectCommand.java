@@ -1,6 +1,6 @@
 package io.noni.smptweaks.commands;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.tasks.RewardCollectorTask;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,7 +19,7 @@ public class CollectCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
-        new RewardCollectorTask(player).runTaskAsynchronously(SMPTweaks.getPlugin());
+        new RewardCollectorTask(player).runTaskAsynchronously(SMPtweaks.getPlugin());
         return true;
     }
 }

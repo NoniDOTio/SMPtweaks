@@ -1,6 +1,6 @@
 package io.noni.smptweaks.utils;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,8 +16,8 @@ public class TranslationUtils {
     }
 
     public static Map<String, String> loadTranslations(@NotNull String languageCode) {
-        InputStream baseStream = SMPTweaks.getPlugin().getResource("lang/" + "en_US".toLowerCase() + ".yml");
-        InputStream translationsStream = SMPTweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
+        InputStream baseStream = SMPtweaks.getPlugin().getResource("lang/" + "en_US".toLowerCase() + ".yml");
+        InputStream translationsStream = SMPtweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
 
         // Load base translations
         if(baseStream == null) {
@@ -61,7 +61,7 @@ public class TranslationUtils {
      * @return Formatted and translated string
      */
     public static String get(@NotNull String key) {
-        String result = SMPTweaks.getTranslations().get(key);
+        String result = SMPtweaks.getTranslations().get(key);
         if (result == null) return "";
         return ChatColor.translateAlternateColorCodes('&', result);
     }
@@ -72,7 +72,7 @@ public class TranslationUtils {
      * @return Formatted and translated string
      */
     public static String get(@NotNull String key, @NotNull String[] variables) {
-        String result = SMPTweaks.getTranslations().get(key);
+        String result = SMPtweaks.getTranslations().get(key);
         if (result == null) return "";
 
         int i = 1;

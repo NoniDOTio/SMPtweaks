@@ -1,6 +1,6 @@
 package io.noni.smptweaks.utils;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 
 public class LoggingUtils {
 
@@ -13,8 +13,8 @@ public class LoggingUtils {
      * @param text
      */
     public static void debug(String text) {
-        if(SMPTweaks.getPlugin().getConfig().getBoolean("verbose") == true) {
-            SMPTweaks.getPlugin().getLogger().info(text);
+        if(!SMPtweaks.getCfg().getBoolean("verbose")) {
+            return;
         }
     }
 

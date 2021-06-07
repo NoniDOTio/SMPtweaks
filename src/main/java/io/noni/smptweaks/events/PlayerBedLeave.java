@@ -1,6 +1,6 @@
 package io.noni.smptweaks.events;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.ChatUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +12,7 @@ public class PlayerBedLeave implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedLeaveEvent e) {
-        if (!SMPTweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
+        if (!SMPtweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
             return;
         }
 

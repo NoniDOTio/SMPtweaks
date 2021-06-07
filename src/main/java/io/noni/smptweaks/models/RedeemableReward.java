@@ -1,6 +1,6 @@
 package io.noni.smptweaks.models;
 
-import io.noni.smptweaks.SMPTweaks;
+import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,11 +22,11 @@ public class RedeemableReward {
     public RedeemableReward(Player player) {
         this.level = new PlayerMeta(player).getLevel();
         List<Reward> availableRewards = new ArrayList<>();
-        boolean serverLevelsEnabled = SMPTweaks.getCfg().getBoolean("server_levels.enabled");
+        boolean serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
 
         // Calculate total weight of all rewards
         double totalWeight = 0.0;
-        for(Reward reward : SMPTweaks.getConfigCache().getRewardsList()) {
+        for(Reward reward : SMPtweaks.getConfigCache().getRewardsList()) {
             if(!serverLevelsEnabled || (level >= reward.getMinLevel() && level <= reward.getMaxLevel())) {
                 availableRewards.add(reward);
                 totalWeight += reward.getWeight();
@@ -43,7 +43,7 @@ public class RedeemableReward {
 
         // Calculate amount
         item = new ItemStack(reward.getMaterial());
-        if(SMPTweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
+        if(SMPtweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
             float factor = (float)(reward.getMaxAmount() - reward.getMinAmount()) / ((float)(reward.getMaxLevel() + 1) - reward.getMinLevel());
             float adjustedAmount = factor * (level - reward.getMinLevel()) + reward.getMinAmount();
             int amount = Math.round(adjustedAmount);
@@ -55,7 +55,7 @@ public class RedeemableReward {
         }
 
         // Calculate XP
-        xp = SMPTweaks.getCfg().getInt("rewards.xp");
+        xp = SMPtweaks.getCfg().getInt("rewards.xp");
     }
 
     /**
