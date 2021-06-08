@@ -2,35 +2,25 @@ package io.noni.smptweaks.utils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigUtils {
 
-    /**
-     *
-     * @param file
-     * @return
-     */
-    private static boolean fixPermissions(@NotNull File file) {
-        boolean writeable = true;
-        boolean readable = true;
-        if (!file.canWrite()) {
-            writeable = file.setWritable(true, false);
-        }
-        if (!file.canRead()) {
-            readable = file.setReadable(true, false);
-        }
-        return writeable && readable;
+    private ConfigUtils() {
+        throw new AssertionError("This utility class cannot be instantiated");
     }
 
     /**
-     * Parse one dimensional yaml file
-     * @param inputStream
+     * Parse one dimensional yaml
+     * @param inputStream yaml file
      * @return map with key value string pairs
-     * @throws IOException
+     * @throws IOException if file cannot be read
      */
     public static Map<String, String> parseSimpleConfig(@NotNull InputStream inputStream) throws IOException {
         HashMap<String, String> map = new HashMap<>();
@@ -53,7 +43,7 @@ public class ConfigUtils {
     }
 
     /**
-     *
+     * Remove string quotes as well as leading and trailing whitespace
      * @param value
      * @return
      */
