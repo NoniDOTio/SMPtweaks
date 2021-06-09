@@ -35,8 +35,8 @@ All features can be enabled or disabled individually!
 ---
 
 Wanna help making this plugin better?
-- Read how to contribute a translation here
-- If you enjoy prorgramming, feel free to look through the open issues and see if there's anything you'd ike to PR into the project.
+- Read how to contribute a translation [here](NoniDOTio/SMPtweaks/blob/master/src/main/resources/lang/README.md)
+- If you enjoy programming, feel free to look through the open issues and see if there's anything you'd ike to PR into the project.
 
 ### Links
 
