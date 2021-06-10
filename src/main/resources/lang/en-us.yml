@@ -1,4 +1,3 @@
-error-loading-player-meta: 'Your meta data could not be loaded. Your progress may not save. Please disconnect and join the server again.'
 error-online-player-not-found: 'This player is offline or does not exist'
 generic-hours: 'hours'
 generic-minutes: 'minutes'

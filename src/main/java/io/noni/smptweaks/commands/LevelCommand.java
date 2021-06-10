@@ -3,6 +3,7 @@ package io.noni.smptweaks.commands;
 import io.noni.smptweaks.models.Level;
 import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.ChatUtils;
+import io.noni.smptweaks.utils.NumberUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -120,31 +121,33 @@ public class LevelCommand implements CommandExecutor {
         ChatUtils.commandResponse(
                 player,
                 new String[]{
-                        progressBar,
                         firstLine,
-                        TranslationUtils.get("xp-current") + ": " + ChatColor.WHITE + level.getCurrentXp() + " XP",
-                        TranslationUtils.get("xp-until-next") + ": " + ChatColor.WHITE + level.getUntilXp() + " XP",
-                        TranslationUtils.get("xp-total") + ": " + ChatColor.WHITE + level.getTotalXp() + " XP"
+                        progressBar,
+                        TranslationUtils.get("xp-current") + ": " + ChatColor.WHITE + NumberUtils.format(level.getCurrentXp()) + " XP",
+                        TranslationUtils.get("xp-until-next") + ": " + ChatColor.WHITE + NumberUtils.format(level.getUntilXp()) + " XP",
+                        TranslationUtils.get("xp-total") + ": " + ChatColor.WHITE + NumberUtils.format(level.getTotalXp()) + " XP"
                 }
         );
     }
 
     private String makeProgressBar(Level level) {
         String barChar = "█";
-        String emptyChar = "  ";
+        String emptyChar = "█";
         int columns = 28;
 
         int percentage = (int) level.getProgessPercentage();
         int barsCount = (int) (percentage / 3.5);
         int emptyCount = columns - (int) (percentage / 3.5);
-        String bar = "❯";
+        String bar = "" + ChatColor.WHITE;
 
         for(int i = 0; i < barsCount; i++) {
             bar += barChar;
         }
+
+        bar += ChatColor.DARK_GRAY;
         for(int i = 0; i < emptyCount; i++) {
-            bar += (i % 7 == 0) ? emptyChar + emptyChar : emptyChar;
+            bar += emptyChar;
         }
-        return bar + "❮";
+        return bar + ChatColor.RESET;
     }
 }
