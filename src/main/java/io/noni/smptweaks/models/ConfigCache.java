@@ -3,6 +3,10 @@ package io.noni.smptweaks.models;
 import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +16,14 @@ public class ConfigCache {
     private List<Material> alwaysDropMaterials = new ArrayList<>();
     private List<Material> neverDropMaterials = new ArrayList<>();
     private List<Reward> rewardsList = new ArrayList<>();
+    private List<ShapedRecipe> shapedRecipes = new ArrayList<>();
+    private List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
 
     public ConfigCache() {
+
+        //
+        // Item Dropping
+        //
         List<String> alwaysDropStrings;
         alwaysDropStrings = SMPtweaks.getCfg().getStringList("remove_inventory_on_death.always_drop");
 
@@ -43,7 +53,7 @@ public class ConfigCache {
         //
         // Rewards
         //
-        List rewardList = SMPtweaks.getPlugin().getConfig().getList("rewards.contents");
+        List<?> rewardList = SMPtweaks.getPlugin().getConfig().getList("rewards.contents");
 
         for (Object rewardSingle : rewardList) {
             Map reward = (Map) rewardSingle;
@@ -58,6 +68,78 @@ public class ConfigCache {
             Material material = Material.valueOf(reward.get("material").toString().toUpperCase());
             rewardsList.add(new Reward(material,minLevel, maxLevel, minAmount, maxAmount, weight));
         }
+
+        //
+        // Custom Recipes
+        //
+        List<?> customRecipesList = SMPtweaks.getCfg().getList("custom-recipes.recipes");
+        int i = 1;
+        for (Object customRecipeSingle : customRecipesList) {
+            Map customRecipe = (Map) customRecipeSingle;
+            boolean shapeless = customRecipe.get("shape") == null;
+
+
+            Material material = Material.getMaterial(customRecipe.get("material").toString());
+
+            if(material == null) {
+                LoggingUtils.warn("Invalid recipe result '" + customRecipe.get("material").toString() + "'");
+                continue;
+            }
+            ItemStack itemStack = new ItemStack(material);
+
+            String amountString = customRecipe.get("amount") == null ? "1" : customRecipe.get("amount").toString();
+            int amount = Integer.parseInt(amountString);
+            itemStack.setAmount(Math.min(64, amount));
+
+            NamespacedKey recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
+
+            if(shapeless) {
+                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(recipeKey, itemStack);
+                List ingredients = (List) customRecipe.get("ingredients");
+                for (Object ingredientSingle : ingredients) {
+                    Map ingredient = (Map) ingredientSingle;
+                    Material materialIngredient = Material.getMaterial(ingredient.get("material").toString());
+                    String ingredientCountString = ingredient.get("amount") == null ? "1" : ingredient.get("amount").toString();
+                    int ingredientAmount = Integer.parseInt(ingredientCountString);
+
+                    if(materialIngredient == null) {
+                        LoggingUtils.warn("Invalid ingredient '" + ingredient.get("material").toString() + "' in recipe for " + material);
+                        continue;
+                    }
+
+                    shapelessRecipe.addIngredient(Math.min(9, ingredientAmount), materialIngredient);
+                    shapelessRecipes.add(shapelessRecipe);
+                }
+            } else {
+                ShapedRecipe shapedRecipe = new ShapedRecipe(recipeKey, itemStack);
+
+                ArrayList<?> shape = (ArrayList) customRecipe.get("shape");
+                String firstLine = shape.get(0).toString();
+                String secondLine = shape.get(1).toString();
+                String thirdLine = shape.get(2).toString();
+
+                shapedRecipe.shape(
+                        firstLine,
+                        secondLine,
+                        thirdLine
+                );
+
+                List ingredients = (List) customRecipe.get("ingredients");
+                for (Object ingredientSingle : ingredients) {
+                    Map ingredient = (Map) ingredientSingle;
+                    Material materialIngredient = Material.getMaterial(ingredient.get("material").toString());
+
+                    if(materialIngredient == null) {
+                        LoggingUtils.warn("Invalid ingredient '" + ingredient.get("material").toString() + "' in recipe for " + material);
+                        continue;
+                    }
+
+                    shapedRecipe.setIngredient(ingredient.get("key").toString().trim().charAt(0), materialIngredient);
+                }
+                shapedRecipes.add(shapedRecipe);
+            }
+            i++;
+        }
     }
 
     public List<Material> getAlwaysDropMaterials() {
@@ -70,5 +152,13 @@ public class ConfigCache {
 
     public List<Reward> getRewardsList() {
         return rewardsList;
+    }
+
+    public List<ShapedRecipe> getShapedRecipes() {
+        return shapedRecipes;
+    }
+
+    public List<ShapelessRecipe> getShapelessRecipes() {
+        return shapelessRecipes;
     }
 }

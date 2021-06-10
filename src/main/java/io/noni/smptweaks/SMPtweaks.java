@@ -8,7 +8,6 @@ import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
 import io.noni.smptweaks.models.ConfigCache;
 import io.noni.smptweaks.placeholders.LevelExpansion;
-import io.noni.smptweaks.recipes.RecipeManager;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
 import io.noni.smptweaks.tasks.TimeModifierTask;
 import io.noni.smptweaks.tasks.WeatherClearerTask;
@@ -104,10 +103,10 @@ public final class SMPtweaks extends JavaPlugin {
         //
         // Register Recipes
         //
-        Stream.of(
-            config.getBoolean("craftable_elytra")
-                    ? RecipeManager.elytra() : null
-        ).forEach(this::registerRecipe);
+        if(config.getBoolean("custom-recipes.enabled")) {
+            configCache.getShapedRecipes().forEach(this::registerRecipe);
+            configCache.getShapelessRecipes().forEach(this::registerRecipe);
+        }
 
         //
         // Register PlaceholderExpansions
