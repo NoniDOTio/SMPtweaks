@@ -56,7 +56,7 @@ public final class SMPtweaks extends JavaPlugin {
 
         // Load translations
         String languageCode = config.getString("language");
-        translations = TranslationUtils.loadTranslations(config.getString("language"));
+        translations = TranslationUtils.loadTranslations(languageCode);
 
         //
         // Register Event Listeners

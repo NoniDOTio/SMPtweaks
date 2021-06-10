@@ -16,6 +16,7 @@ public class LoggingUtils {
         if(!SMPtweaks.getCfg().getBoolean("verbose")) {
             return;
         }
+        SMPtweaks.getPlugin().getLogger().info(text);
     }
 
     /**
@@ -31,7 +32,7 @@ public class LoggingUtils {
      * @param text
      */
     public static void warn(String text) {
-        SMPTweaks.getPlugin().getLogger().warning(text);
+        SMPtweaks.getPlugin().getLogger().warning(text);
     }
 
     /**
@@ -39,6 +40,6 @@ public class LoggingUtils {
      * @param text
      */
     public static void error(String text) {
-        SMPTweaks.getPlugin().getLogger().severe(text);
+        SMPtweaks.getPlugin().getLogger().severe(text);
     }
 }
