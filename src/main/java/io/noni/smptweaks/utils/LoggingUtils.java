@@ -24,7 +24,7 @@ public class LoggingUtils {
      * @param text
      */
     public static void info(String text) {
-        SMPTweaks.getPlugin().getLogger().info(text);
+        SMPtweaks.getPlugin().getLogger().info(text);
     }
 
     /**

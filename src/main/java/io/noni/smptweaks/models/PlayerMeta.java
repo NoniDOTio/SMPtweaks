@@ -9,14 +9,14 @@ public class PlayerMeta {
     Integer level;
     Integer totalXp;
     Integer xpDisplayMode;
-    Boolean specialDropAvailable;
+    Integer specialDropAvailable;
 
     public PlayerMeta(Player player) {
         this.player = player;
         this.level = PDCUtils.get(player, PDCKey.LEVEL);
         this.totalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
         this.xpDisplayMode = PDCUtils.get(player, PDCKey.XP_DISPLAY_MODE);
-        this.specialDropAvailable = PDCUtils.get(player, PDCKey.SPECIAL_DROP_AVAILABLE) == 1;
+        this.specialDropAvailable = PDCUtils.get(player, PDCKey.SPECIAL_DROP_AVAILABLE);
     }
 
     public PlayerMeta(Player player, int level, int totalXp, int xpDisplayMode, boolean specialDropAvailable) {
@@ -24,14 +24,14 @@ public class PlayerMeta {
         this.level = level;
         this.totalXp = totalXp;
         this.xpDisplayMode = xpDisplayMode;
-        this.specialDropAvailable = specialDropAvailable;
+        this.specialDropAvailable = specialDropAvailable ? 1 : 0;
     }
 
     public void pushToPDC() {
         PDCUtils.set(player, PDCKey.LEVEL, level);
         PDCUtils.set(player, PDCKey.TOTAL_XP, totalXp);
         PDCUtils.set(player, PDCKey.XP_DISPLAY_MODE, xpDisplayMode);
-        PDCUtils.set(player, PDCKey.SPECIAL_DROP_AVAILABLE, specialDropAvailable ? 1 : 0);
+        PDCUtils.set(player, PDCKey.SPECIAL_DROP_AVAILABLE, specialDropAvailable);
     }
 
     public boolean isInitialized() {
@@ -45,7 +45,7 @@ public class PlayerMeta {
         this.level = 1;
         this.totalXp = 0;
         this.xpDisplayMode = 0;
-        this.specialDropAvailable = false;
+        this.specialDropAvailable = 1;
     }
 
     public Player getPlayer() {
@@ -65,7 +65,7 @@ public class PlayerMeta {
     }
 
     public boolean isSpecialDropAvailable() {
-        return specialDropAvailable;
+        return specialDropAvailable == 1;
     }
 
     public void setXpDisplayMode(Integer xpDisplayMode) {

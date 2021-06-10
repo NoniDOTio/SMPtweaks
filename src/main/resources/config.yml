@@ -83,16 +83,16 @@ custom-recipes:
   recipes:
     - material: ELYTRA
       shape:
-        - MDM
-        - M M
-        - M M
+        - 'MDM'
+        - 'M M'
+        - 'M M'
       ingredients:
         - material: DRAGON_EGG
           key: D
         - material: PHANTOM_MEMBRANE
           key: M
     - material: LEATHER
-      count: 2
+      amount: 2
       ingredients:
         - material: ROTTEN_FLESH
           amount: 9

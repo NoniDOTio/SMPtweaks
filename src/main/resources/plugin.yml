@@ -1,7 +1,7 @@
 name: SMPtweaks
 version: ${project.version}
 main: io.noni.smptweaks.SMPtweaks
-api-version: 1.16
+api-version: 1.15
 authors: [ noniDOTio ]
 description: Adds various improvements to make survival minecraft more enjoyable in multiplayer
 website: noni.io
@@ -11,7 +11,7 @@ commands:
     description: Show a players current location.
     usage: /whereis <player>
   level:
-    description: Shows a players level oder changes the way progress is displayed.
+    description: Shows a players level or changes the way progress is displayed.
     usage: /level -or- /level lookup <player> -or- /level progress <show|hide> <all|xp|percentages|none> <chat|actionbar>
     aliases: [ lv ]
   collect:

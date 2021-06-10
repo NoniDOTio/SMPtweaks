@@ -234,6 +234,7 @@ public class DatabaseManager {
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 String datetimeString = resultSet.getString("last_reward_claimed");
+                if(datetimeString == null) datetimeString = "0000-00-00 00:00:00";
                 return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(datetimeString);
             }
         } catch (SQLException | ParseException throwables) {

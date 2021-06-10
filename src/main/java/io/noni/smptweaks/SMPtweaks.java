@@ -7,13 +7,11 @@ import io.noni.smptweaks.commands.WhereisCommand;
 import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
 import io.noni.smptweaks.models.ConfigCache;
-import io.noni.smptweaks.placeholders.LevelExpansion;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
 import io.noni.smptweaks.tasks.TimeModifierTask;
 import io.noni.smptweaks.tasks.WeatherClearerTask;
 import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -111,11 +109,9 @@ public final class SMPtweaks extends JavaPlugin {
         //
         // Register PlaceholderExpansions
         //
-        Stream.of(
-            config.getBoolean("server_levels.enabled") &&
-            config.getBoolean("papi_placeholders.enabled")
-                    ? new LevelExpansion() : null
-        ).forEach(this::registerPlaceholder);
+        if(config.getBoolean("server_levels.enabled") && config.getBoolean("papi_placeholders.enabled")) {
+            registerPlaceholders();
+        }
 
         //
         // Register Commands
@@ -169,11 +165,10 @@ public final class SMPtweaks extends JavaPlugin {
 
     /**
      * Register placeholders
-     * @param expansion
      */
-    private void registerPlaceholder(@Nullable PlaceholderExpansion expansion) {
-        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null && expansion != null) {
-            expansion.register();
+    private void registerPlaceholders() {
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new io.noni.smptweaks.placeholders.LevelExpansion().register();
         }
     }
 
