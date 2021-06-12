@@ -28,7 +28,7 @@ All features can be enabled or disabled individually!
 
 - SMPTweaks supports **Spigot**, **Paper** and should work on any of their forks such as **Tuinity**, **Purpur**, etc.
 - If you wish to use placeholders, you will have to install the plugin **PlaceholderAPI**
-- Java 8 or higher and Minecraft version 1.13.X, 1.14.X, 1.15.X or 1.16.X
+- Java 16 or higher and Minecraft version 1.17.X
 
 ### Contribute
 

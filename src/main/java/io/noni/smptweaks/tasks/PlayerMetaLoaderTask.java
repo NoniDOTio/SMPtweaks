@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PlayerMetaLoaderTask extends BukkitRunnable {
-    private Player player;
+    private final Player player;
 
     public PlayerMetaLoaderTask(Player player) {
         this.player = player;

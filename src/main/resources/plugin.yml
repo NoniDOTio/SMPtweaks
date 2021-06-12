@@ -1,7 +1,7 @@
 name: SMPtweaks
 version: ${project.version}
 main: io.noni.smptweaks.SMPtweaks
-api-version: 1.15
+api-version: 1.17
 authors: [ noniDOTio ]
 description: Adds various improvements to make survival minecraft more enjoyable in multiplayer
 website: noni.io

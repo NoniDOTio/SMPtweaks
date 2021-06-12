@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Date;
 
 public class RewardReminderTask extends BukkitRunnable {
-    private Player player;
+    private final Player player;
 
     public RewardReminderTask(Player player) {
         this.player = player;
