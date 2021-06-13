@@ -72,27 +72,27 @@ public class ConfigCache {
         //
         // Custom Recipes
         //
-        List<?> customRecipesList = SMPtweaks.getCfg().getList("custom-recipes.recipes");
+        List<?> customRecipesList = SMPtweaks.getCfg().getList("custom_recipes.recipes");
         int i = 1;
         for (Object customRecipeSingle : customRecipesList) {
             Map customRecipe = (Map) customRecipeSingle;
             boolean shapeless = customRecipe.get("shape") == null;
+            NamespacedKey recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
 
-
+            // Material
             Material material = Material.getMaterial(customRecipe.get("material").toString());
-
             if(material == null) {
                 LoggingUtils.warn("Invalid recipe result '" + customRecipe.get("material").toString() + "'");
                 continue;
             }
             ItemStack itemStack = new ItemStack(material);
 
+            // Amount
             String amountString = customRecipe.get("amount") == null ? "1" : customRecipe.get("amount").toString();
             int amount = Integer.parseInt(amountString);
             itemStack.setAmount(Math.min(64, amount));
 
-            NamespacedKey recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
-
+            // Recipe
             if(shapeless) {
                 ShapelessRecipe shapelessRecipe = new ShapelessRecipe(recipeKey, itemStack);
                 List ingredients = (List) customRecipe.get("ingredients");

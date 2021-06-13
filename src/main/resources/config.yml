@@ -28,7 +28,7 @@ remove_xp_on_death:
   randomize: true
   max: 1000
   drop_on_ground: true
-  drop_amount_multiplier: 1.0
+  drop_amount_multiplier: 0.5
   disable_for_pvp_deaths: false
   disable_for_non_pvp_deaths: false
 remove_inventory_on_death:
@@ -62,13 +62,11 @@ respawn_food_level: 20
 #
 # Day-night cycle & weather tweaks
 #
-disable_night_skip: true # prevent player sleeping
-health_regen_while_in_bed: true # give regeneration to players lying in bed
-shorten_nights_by: 2000 # number of ticks to skip each night
-extend_days_by: 2000 # number of ticks to make each day longer
-day_duration: 12000 #
-night_duration: 8400
-clear_weather_at_dawn: true # Force sunshine in the morning, results in less bad weather overall
+disable_night_skip: false # prevent player sleeping
+health_regen_while_in_bed: false # give regeneration effect to players lying in bed
+night_duration_modifier: 0 # number of ticks to skip each night longer or shorter
+day_duration_modifier: 0 # number of ticks to skip each day longer or shorter
+clear_weather_at_dawn: false # Force sunshine in the morning, results in less bad weather overall
 #
 # Other tweaks
 #
@@ -78,7 +76,7 @@ buff_vegetarian_food: false
 #
 # Custom recipes
 #
-custom-recipes:
+custom_recipes:
   enabled: false
   recipes:
     - material: ELYTRA
@@ -92,7 +90,7 @@ custom-recipes:
         - material: PHANTOM_MEMBRANE
           key: M
     - material: LEATHER
-      amount: 2
+      amount: 1
       ingredients:
         - material: ROTTEN_FLESH
           amount: 9
@@ -103,7 +101,7 @@ enable_commands:
   level: false
   whereis: false
 #
-#
+# Login Rewards
 #
 rewards:
   enabled: false

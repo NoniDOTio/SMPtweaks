@@ -130,8 +130,11 @@ public final class SMPtweaks extends JavaPlugin {
         //
         // Schedule tasks
         //
-        if(config.getInt("shorten_nights_by") != 0 || config.getInt("extend_days_by") != 0) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeModifierTask(), 0L, 2L);
+        if(config.getInt("day_duration_modifier") != 0 || config.getInt("night_duration_modifier") != 0) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new TimeModifierTask(
+                    config.getInt("day_duration_modifier"),
+                    config.getInt("night_duration_modifier")
+            ), 0L, 2L);
         }
         if(config.getBoolean("clear_weather_at_dawn")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
@@ -168,7 +171,11 @@ public final class SMPtweaks extends JavaPlugin {
      */
     private void registerPlaceholders() {
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new io.noni.smptweaks.placeholders.LevelExpansion().register();
+            if(new io.noni.smptweaks.placeholders.LevelExpansion().register()) {
+                LoggingUtils.info("Registered PlaceholderAPI expansion");
+            } else {
+                LoggingUtils.warn("Unable to register PlaceholderAPI expansion");
+            }
         }
     }
 
