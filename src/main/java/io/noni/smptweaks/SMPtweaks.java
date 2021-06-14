@@ -56,6 +56,16 @@ public final class SMPtweaks extends JavaPlugin {
         String languageCode = config.getString("language");
         translations = TranslationUtils.loadTranslations(languageCode);
 
+        // Check if Paper API is available
+        boolean isPaperServer;
+        try {
+            Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
+            isPaperServer = true;
+        } catch (ClassNotFoundException e) {
+            LoggingUtils.info("This server doesn't seem to run Paper or one of their forks, falling back to using Spigot events");
+            isPaperServer = false;
+        }
+
         //
         // Register Event Listeners
         //
@@ -93,6 +103,9 @@ public final class SMPtweaks extends JavaPlugin {
 
             config.getBoolean("server_levels.enabled")
                     ? new PlayerJoin() : null,
+
+            config.getBoolean("spawn_rates.enabled")
+                    ? (isPaperServer ? new PaperPreCreatureSpawn() : new CreatureSpawn()) : null,
 
             config.getBoolean("server_levels.enabled")
                     ? new PlayerLeave() : null

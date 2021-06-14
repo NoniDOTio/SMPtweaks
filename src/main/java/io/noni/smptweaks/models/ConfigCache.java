@@ -68,7 +68,11 @@ public class ConfigCache {
             int maxAmount = reward.get("max_amount") == null ? amount : Integer.parseInt(reward.get("max_amount").toString());
             int weight = reward.get("weight") == null ? 1 : Integer.parseInt(reward.get("weight").toString());
 
-            Material material = Material.valueOf(reward.get("material").toString().toUpperCase());
+            Material material = Material.getMaterial(reward.get("material").toString().toUpperCase());
+            if(material == null) {
+                LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
+                continue;
+            }
             rewardsList.add(new Reward(material,minLevel, maxLevel, minAmount, maxAmount, weight));
         }
 
@@ -83,7 +87,7 @@ public class ConfigCache {
             NamespacedKey recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
 
             // Material
-            Material material = Material.getMaterial(customRecipe.get("material").toString());
+            Material material = Material.getMaterial(customRecipe.get("material").toString().toUpperCase());
             if(material == null) {
                 LoggingUtils.warn("Invalid recipe result '" + customRecipe.get("material").toString() + "'");
                 continue;
@@ -154,7 +158,7 @@ public class ConfigCache {
             if(typeObject == null) {
                 continue;
             }
-            String typeString = typeObject.toString();
+            String typeString = typeObject.toString().toUpperCase();
             EntityType type;
             try {
                 type = EntityType.valueOf(typeString);
