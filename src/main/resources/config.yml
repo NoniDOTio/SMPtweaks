@@ -62,7 +62,7 @@ respawn_food_level: 20
 #
 # Day-night cycle & weather tweaks
 #
-disable_night_skip: false # prevent player sleeping
+disable_night_skip: false # sleeping will not skip the night
 health_regen_while_in_bed: false # give regeneration effect to players lying in bed
 night_duration_modifier: 0 # number of ticks to skip each night longer or shorter
 day_duration_modifier: 0 # number of ticks to skip each day longer or shorter
@@ -73,6 +73,19 @@ clear_weather_at_dawn: false # Force sunshine in the morning, results in less ba
 xp_multiplier: 1.0
 mending_repair_amount_multiplier: 1.0
 buff_vegetarian_food: false
+naturally_spawn_shulkers: false
+#
+# Spawn
+#
+spawn_rates:
+  enabled: false
+  mobs:
+    - type: SKELETON
+      multiplier: 0.8
+    - type: CREEPER
+      multiplier: 0.6
+    - type: PHANTOM
+      multiplier: 0
 #
 # Custom recipes
 #

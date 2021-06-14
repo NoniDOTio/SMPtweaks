@@ -4,11 +4,13 @@ import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +20,7 @@ public class ConfigCache {
     private List<Reward> rewardsList = new ArrayList<>();
     private List<ShapedRecipe> shapedRecipes = new ArrayList<>();
     private List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
+    private EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
 
@@ -140,6 +143,46 @@ public class ConfigCache {
             }
             i++;
         }
+
+        //
+        // Spawn Rates
+        //
+        List<?> spawnRatesList = SMPtweaks.getCfg().getList("spawn_rates.mobs");
+        for (Object spawnRateSingle : spawnRatesList) {
+            Map spawnRate = (Map) spawnRateSingle;
+            Object typeObject = spawnRate.get("type");
+            if(typeObject == null) {
+                continue;
+            }
+            String typeString = typeObject.toString();
+            EntityType type;
+            try {
+                type = EntityType.valueOf(typeString);
+            } catch (IllegalArgumentException e) {
+                LoggingUtils.warn("Invalid spawn rate entity type '" + typeString + "'");
+                continue;
+            }
+
+            String multiplierString = spawnRate.get("multiplier").toString();
+            Float multiplier;
+            try {
+                multiplier = Float.parseFloat(multiplierString);
+            } catch (NullPointerException | NumberFormatException e) {
+                LoggingUtils.warn("Invalid spawn rate multiplier for '" + typeString + "'");
+                continue;
+            }
+
+            if(multiplier > 1) {
+                multiplier = 1F;
+                LoggingUtils.warn("Ignoring spawn rate multiplier '" + multiplierString + "' for '" + typeString + "' because it is higher than allowed (1.0)");
+            }
+
+            if(multiplier < 0) {
+                multiplier = 0F;
+                LoggingUtils.warn("Changing spawn rate multiplier '" + multiplierString + "' for '" + typeString + "' to 0 because it is lower than allowed");
+            }
+            entitySpawnRates.put(type, multiplier);
+        }
     }
 
     public List<Material> getAlwaysDropMaterials() {
@@ -160,5 +203,9 @@ public class ConfigCache {
 
     public List<ShapelessRecipe> getShapelessRecipes() {
         return shapelessRecipes;
+    }
+
+    public Map<EntityType, Float> getEntitySpawnRates() {
+        return entitySpawnRates;
     }
 }
