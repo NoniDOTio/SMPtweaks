@@ -12,8 +12,12 @@ public class PlayerBedEnter implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedEnterEvent e) {
-        if (e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK) && SMPtweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
-            Player player = e.getPlayer();
+        Player player = e.getPlayer();
+
+        if (!e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK)) {
+            return;
+        }
+        if (SMPtweaks.getCfg().getBoolean("health_regen_while_in_bed")) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 480, 1));
         }
     }

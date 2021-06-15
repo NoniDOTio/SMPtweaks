@@ -2,6 +2,7 @@ package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.ChatUtils;
+import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,12 +13,13 @@ public class PlayerBedLeave implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedLeaveEvent e) {
-        if (!SMPtweaks.getPlugin().getConfig().getBoolean("disable_night_skip")) {
-            return;
-        }
-
         Player player = e.getPlayer();
-        ChatUtils.notify(player, "Du fühlst dich erholt, aber die Nacht ist noch lang...");
-        player.removePotionEffect(PotionEffectType.REGENERATION);
+
+        if (SMPtweaks.getCfg().getBoolean("disable_night_skip")) {
+            ChatUtils.notify(player, TranslationUtils.get("bed-leave-no-time-skip"));
+        }
+        if (SMPtweaks.getCfg().getBoolean("health_regen_while_in_bed")) {
+            player.removePotionEffect(PotionEffectType.REGENERATION);
+        }
     }
 }
