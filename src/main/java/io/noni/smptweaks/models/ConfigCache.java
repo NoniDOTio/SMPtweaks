@@ -8,6 +8,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -93,6 +94,36 @@ public class ConfigCache {
                 continue;
             }
             ItemStack itemStack = new ItemStack(material);
+
+            // Display Name
+            Object configDisplayName = customRecipe.get("display_name");
+            if(configDisplayName != null) {
+                String displayName = configDisplayName.toString();
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                if(itemMeta != null && displayName != null && !displayName.equals("")) {
+                    itemMeta.setDisplayName(displayName);
+                    itemStack.setItemMeta(itemMeta);
+                } else {
+                    LoggingUtils.warn("Invalid display name in recipe for " + material);
+                }
+            }
+
+            // Item Lore
+            List configLore = (List) customRecipe.get("lore");
+            if(configLore != null) {
+                List<String> lore = new ArrayList<>();
+                for(Object configLine : configLore) {
+                    String line = configLine == null ? "" : configLine.toString();
+                    lore.add(line);
+                }
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                if(itemMeta != null && !lore.isEmpty()) {
+                    itemMeta.setLore(lore);
+                    itemStack.setItemMeta(itemMeta);
+                } else {
+                    LoggingUtils.warn("Invalid lore in recipe for " + material);
+                }
+            }
 
             // Amount
             String amountString = customRecipe.get("amount") == null ? "1" : customRecipe.get("amount").toString();

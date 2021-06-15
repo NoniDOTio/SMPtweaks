@@ -22,9 +22,10 @@ public class WhereisCommand implements CommandExecutor {
             }
 
             final Player targetPlayer = Bukkit.getPlayer(args[0]);
+            final Player player = (Player) sender;
 
             if(targetPlayer == null) {
-                ChatUtils.negative((Player) sender, TranslationUtils.get("generic-online-player-not-found"));
+                ChatUtils.negative(player, TranslationUtils.get("error-online-player-not-found"));
                 return true;
             }
 
@@ -36,7 +37,7 @@ public class WhereisCommand implements CommandExecutor {
             String y = "" + ChatColor.WHITE + targetPlayerLocation.getBlockY() + ChatColor.RESET;
             String z = "" + ChatColor.WHITE + targetPlayerLocation.getBlockZ() + ChatColor.RESET;
 
-            ChatUtils.commandResponse((Player) sender, TranslationUtils.get("whereis-message", new String[]{
+            ChatUtils.commandResponse(player, TranslationUtils.get("whereis-message", new String[]{
                     targetPlayer.getName(),
                     worldString,
                     x + " " + y + " " + z
