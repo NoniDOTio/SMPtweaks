@@ -73,7 +73,7 @@ clear_weather_at_dawn: false # Force sunshine in the morning, results in less ba
 xp_multiplier: 1.0
 mending_repair_amount_multiplier: 1.0
 buff_vegetarian_food: false
-naturally_spawn_shulkers: false
+shulkers_spawn_naturally: false
 #
 # Spawn
 #

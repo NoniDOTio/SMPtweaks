@@ -62,7 +62,7 @@ public final class SMPtweaks extends JavaPlugin {
             Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
             isPaperServer = true;
         } catch (ClassNotFoundException e) {
-            LoggingUtils.info("This server doesn't seem to run Paper or one of their forks, falling back to using Spigot events");
+            LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
             isPaperServer = false;
         }
 
@@ -104,7 +104,8 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("server_levels.enabled")
                     ? new PlayerJoin() : null,
 
-            config.getBoolean("spawn_rates.enabled")
+            config.getBoolean("spawn_rates.enabled") ||
+            config.getBoolean("shulkers_spawn_naturally")
                     ? (isPaperServer ? new PaperPreCreatureSpawn() : new CreatureSpawn()) : null,
 
             config.getBoolean("server_levels.enabled")
@@ -114,7 +115,7 @@ public final class SMPtweaks extends JavaPlugin {
         //
         // Register Recipes
         //
-        if(config.getBoolean("custom-recipes.enabled")) {
+        if(config.getBoolean("custom_recipes.enabled")) {
             configCache.getShapedRecipes().forEach(this::registerRecipe);
             configCache.getShapelessRecipes().forEach(this::registerRecipe);
         }
