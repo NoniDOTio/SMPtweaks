@@ -41,6 +41,17 @@ public final class SMPtweaks extends JavaPlugin {
         // Static reference to plugin
         plugin = this;
 
+        // Check if optional Paper classes are available
+        boolean isPaperServer;
+        try {
+            Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
+            isPaperServer = true;
+            LoggingUtils.info("Paper events will be used in order to improve performance");
+        } catch (ClassNotFoundException e) {
+            isPaperServer = false;
+            LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
+        }
+
         // Copy default config files
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -55,16 +66,6 @@ public final class SMPtweaks extends JavaPlugin {
         // Load translations
         String languageCode = config.getString("language");
         translations = TranslationUtils.loadTranslations(languageCode);
-
-        // Check if Paper API is available
-        boolean isPaperServer;
-        try {
-            Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
-            isPaperServer = true;
-        } catch (ClassNotFoundException e) {
-            LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
-            isPaperServer = false;
-        }
 
         //
         // Register Event Listeners

@@ -28,14 +28,14 @@ public class CreatureSpawn implements Listener {
         // Shulker spawn logic
         if(SMPtweaks.getCfg().getBoolean("shulkers_spawn_naturally")) {
             Location loc = e.getLocation();
-            if(Math.random() > 0.15 || loc.getBlock().getBiome() != Biome.END_HIGHLANDS) {
+            if(Math.random() > 0.2 || loc.getBlock().getBiome() != Biome.END_HIGHLANDS) {
                 return;
             }
             if(loc.subtract(0, 1, 0).getBlock().getType() != Material.PURPUR_BLOCK) {
                 return;
             }
             for(Entity nearbyEntity : e.getEntity().getNearbyEntities(8, 8, 8)) {
-                if(nearbyEntity instanceof Shulker) return;
+                if(nearbyEntity.getType() == EntityType.SHULKER) return;
             }
             if(loc.getWorld() != null) {
                 e.setCancelled(true);
