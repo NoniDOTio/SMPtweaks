@@ -17,7 +17,7 @@ public class Level {
 
     public Level(int totalXp) {
         int i;
-        for(i = 0; i <= thresholds.size(); i++) {
+        for(i = 0; i < thresholds.size(); i++) {
             if(totalXp < thresholds.get(i)) {
                 break;
             }
@@ -26,13 +26,17 @@ public class Level {
         this.threshold = thresholds.get(i - 1);
         this.totalXp = totalXp;
         this.currentXp = totalXp - this.threshold;
-        this.untilXp = thresholds.get(i) - totalXp;
+        try {
+            this.untilXp = thresholds.get(i) - totalXp;
+        } catch (IndexOutOfBoundsException e) {
+            this.untilXp = 0;
+        }
     }
 
     public Level(Player player) {
         int totalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
         int i;
-        for(i = 0; i <= thresholds.size(); i++) {
+        for(i = 0; i < thresholds.size(); i++) {
             if(totalXp < thresholds.get(i)) {
                 break;
             }
@@ -41,7 +45,11 @@ public class Level {
         this.threshold = thresholds.get(i - 1);
         this.totalXp = totalXp;
         this.currentXp = totalXp - this.threshold;
-        this.untilXp = thresholds.get(i) - totalXp;
+        try {
+            this.untilXp = thresholds.get(i) - totalXp;
+        } catch (IndexOutOfBoundsException e) {
+            this.untilXp = 0;
+        }
     }
 
     public boolean hasLevelledUp(int lastAmountAdded) {

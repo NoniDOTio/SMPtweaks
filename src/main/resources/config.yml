@@ -64,8 +64,8 @@ respawn_food_level: 20
 #
 disable_night_skip: false # sleeping will not skip the night
 health_regen_while_in_bed: false # give regeneration effect to players lying in bed
-night_duration_modifier: 0 # number of ticks to make nights longer or shorter
 day_duration_modifier: 0 # number of ticks to make days longer or shorter
+night_duration_modifier: 0 # number of ticks to make nights longer or shorter
 clear_weather_at_dawn: false # Force sunshine in the morning, results in less bad weather overall
 #
 # Other tweaks
@@ -239,6 +239,5 @@ server_levels:
       2296000,
       2696500,
       3277200,
-      4000000,
-      5000000
+      4000000
   ]
