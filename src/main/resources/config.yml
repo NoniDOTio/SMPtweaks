@@ -75,7 +75,7 @@ mending_repair_amount_multiplier: 1.0
 buff_vegetarian_food: false
 shulkers_spawn_naturally: false
 #
-# Spawn
+# Modify spawn rates
 #
 spawn_rates:
   enabled: false
@@ -120,6 +120,7 @@ rewards:
   enabled: false
   cooldown: 82800
   scale_amount_with_level: true
+  broadcast_collection: true
   xp: 50
   contents:
     - material: BREAD
@@ -135,11 +136,12 @@ rewards:
     - material: DIAMOND
       min_level: 15
 #
-# Whether the SMPtweaks player server level system is used
+# Whether the SMPtweaks server level system is used
 #
 server_levels:
-  enabled: true
+  enabled: false
   count_mending_xp: true
+  broadcast_levelup: true
   thresholds: [
       0,
       100,

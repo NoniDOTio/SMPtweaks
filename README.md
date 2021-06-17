@@ -7,21 +7,6 @@ This plugin provides various tweaks that enhance multiplayer experience and adds
 
 SMPTweaks is fully modular, largely async and built in a lightweight way with high player counts in mind.
 
-### Features
-
----
-
-- Server level system
-- Custom death logic (Configure how much XP and what kind of items are dropped when a player dies)
-- Adjustable mob spawn rates
-- Prevent sleeping and modify length of night and day
-- Custom global drops
-- Fully Customizable Daily Login Rewards
-- MySQL support
-- ...and much more!
-
-All features can be enabled or disabled individually!
-
 ### Requirements
 
 ---
@@ -35,7 +20,7 @@ All features can be enabled or disabled individually!
 ---
 
 Wanna help making this plugin better?
-- Read how to contribute a translation [here](src/main/resources/lang/README.md)
+- Read how to contribute a translation [here](https://github.com/NoniDOTio/SMPtweaks/tree/master/src/main/resources/lang)
 - If you enjoy programming, feel free to look through the open issues and see if there's anything you'd ike to PR into the project.
 
 ### Links
@@ -43,5 +28,5 @@ Wanna help making this plugin better?
 ---
 
 - SpigotMC
-- Jenkins
+- [Configuration](https://noni.io/smptweaks-config)
 - Donate

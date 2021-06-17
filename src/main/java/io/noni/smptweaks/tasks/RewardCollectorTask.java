@@ -54,30 +54,32 @@ public class RewardCollectorTask extends BukkitRunnable {
         }
 
         // Broadcast that player has claimed their reward
-        TextComponent broadcastMessage = new TextComponent();
-        TextComponent beginPart = new TextComponent(
-                TranslationUtils.get("reward-broadcast", new String[]{
-                        player.getName()
-                }) + " "
-        );
-        TextComponent levelPart = new TextComponent(
-                ChatColor.GREEN + "[" + TranslationUtils.get("reward-broadcast-hoverable-text") + "]" + ChatColor.RESET
-        );
-        levelPart.setHoverEvent(new HoverEvent(
-                HoverEvent.Action.SHOW_TEXT, new Text(
-                    TranslationUtils.get("reward-broadcast-hover-text")
-        )));
-        TextComponent endPart = new TextComponent(
-                " " + TranslationUtils.get("reward-broadcast-end")
-        );
+        if(SMPtweaks.getCfg().getBoolean("rewards.broadcast_collection")) {
+            TextComponent broadcastMessage = new TextComponent();
+            TextComponent beginPart = new TextComponent(
+                    TranslationUtils.get("reward-broadcast", new String[]{
+                            player.getName()
+                    }) + " "
+            );
+            TextComponent levelPart = new TextComponent(
+                    ChatColor.GREEN + "[" + TranslationUtils.get("reward-broadcast-hoverable-text") + "]" + ChatColor.RESET
+            );
+            levelPart.setHoverEvent(new HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT, new Text(
+                        TranslationUtils.get("reward-broadcast-hover-text")
+            )));
+            TextComponent endPart = new TextComponent(
+                    " " + TranslationUtils.get("reward-broadcast-end")
+            );
 
-        // Assemble components
-        broadcastMessage.addExtra(beginPart);
-        broadcastMessage.addExtra(levelPart);
-        broadcastMessage.addExtra(endPart);
+            // Assemble components
+            broadcastMessage.addExtra(beginPart);
+            broadcastMessage.addExtra(levelPart);
+            broadcastMessage.addExtra(endPart);
 
-        // Send it!
-        ChatUtils.broadcastRaw(broadcastMessage);
+            // Send it!
+            ChatUtils.broadcastRaw(broadcastMessage);
+        }
 
         // Tell player what they received
         ChatUtils.notify(player, TranslationUtils.get("item-received", new String[] {
