@@ -74,7 +74,7 @@ public class ConfigCache {
                 LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
                 continue;
             }
-            rewardsList.add(new Reward(material,minLevel, maxLevel, minAmount, maxAmount, weight));
+            rewardsList.add(new Reward(material, minLevel, maxLevel, minAmount, maxAmount, weight));
         }
 
         //
@@ -194,7 +194,7 @@ public class ConfigCache {
             try {
                 type = EntityType.valueOf(typeString);
             } catch (IllegalArgumentException e) {
-                LoggingUtils.warn("Invalid spawn rate entity type '" + typeString + "'");
+                LoggingUtils.warn("Invalid entity type '" + typeString + "' in mob spawn rates");
                 continue;
             }
 

@@ -28,9 +28,9 @@ public class Reward {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
-        if(meta.hasLocalizedName()) {
+        if(meta !=null && meta.hasLocalizedName()) {
             return meta.getLocalizedName();
-        } else if(meta.hasDisplayName()) {
+        } else if(meta !=null && meta.hasDisplayName()) {
             return meta.getDisplayName();
         } else {
             return item.getType().name().replace("_", " ").toLowerCase();

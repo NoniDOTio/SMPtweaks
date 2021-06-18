@@ -15,21 +15,20 @@ public class RedeemableReward {
     int xp;
     int level;
 
-
     /**
-     * DailyGift constructor
+     * RedeemableReward constructor
      */
     public RedeemableReward(Player player) {
+        boolean serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
         this.level = new PlayerMeta(player).getLevel();
         List<Reward> availableRewards = new ArrayList<>();
-        boolean serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
 
         // Calculate total weight of all rewards
         double totalWeight = 0.0;
-        for(Reward reward : SMPtweaks.getConfigCache().getRewardsList()) {
-            if(!serverLevelsEnabled || (level >= reward.getMinLevel() && level <= reward.getMaxLevel())) {
-                availableRewards.add(reward);
-                totalWeight += reward.getWeight();
+        for(Reward singleReward : SMPtweaks.getConfigCache().getRewardsList()) {
+            if(!serverLevelsEnabled || (level >= singleReward.getMinLevel() && level <= singleReward.getMaxLevel())) {
+                availableRewards.add(singleReward);
+                totalWeight += singleReward.getWeight();
             }
         }
 
@@ -41,9 +40,11 @@ public class RedeemableReward {
         }
         reward = availableRewards.get(index);
 
-        // Calculate amount
+        // Assemble the ItemStack
         item = new ItemStack(reward.getMaterial());
-        if(SMPtweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
+
+        // Calculate amount
+        if(serverLevelsEnabled && SMPtweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
             float factor = (float)(reward.getMaxAmount() - reward.getMinAmount()) / ((float)(reward.getMaxLevel() + 1) - reward.getMinLevel());
             float adjustedAmount = factor * (level - reward.getMinLevel()) + reward.getMinAmount();
             int amount = Math.round(adjustedAmount);
