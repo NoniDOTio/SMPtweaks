@@ -20,7 +20,7 @@ reward-broadcast: '{$1} has collected their'
 reward-broadcast-hoverable-text: 'Login Reward'
 reward-broadcast-end: ''
 reward-broadcast-hover-text: 'Type /collect to claim your login reward'
-reward-not-available-yet: 'You need to wait {$1} {$2} until you can collect another login reward'
+reward-not-available-yet: 'You need to wait {$1} until you can collect another login reward'
 whereis-message: '{$1} is {$2} at {$3}' # Steve is in the Nether at 127 64 -37
 whereis-in-overworld: 'in the Overworld'
 whereis-in-nether: 'in the Nether'
