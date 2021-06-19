@@ -13,7 +13,7 @@ public class PlayerFoodLevelModifierTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        int foodLevel = SMPtweaks.getCfg().getInt("respawn_food_level");
+        var foodLevel = SMPtweaks.getCfg().getInt("respawn_food_level");
         player.setFoodLevel(foodLevel);
     }
 }

@@ -17,8 +17,8 @@ public class RewardReminderTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Date lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
-        int cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
+        var lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
+        var cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
         int secondsSince = (int) (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
         int secondsToWait = cooldownBetweenRewards - secondsSince;
 

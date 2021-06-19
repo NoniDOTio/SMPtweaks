@@ -30,13 +30,10 @@ public class LevelExpansion extends PlaceholderExpansion {
             return "";
         }
 
-        switch (identifier.toLowerCase()) {
-            case "level":
-                return "" + PDCUtils.get(player, PDCKey.LEVEL);
-            case "total_xp":
-                return NumberUtils.format(PDCUtils.get(player, PDCKey.TOTAL_XP));
-            default:
-                return null;
-        }
+        return switch (identifier.toLowerCase()) {
+            case "level" -> PDCUtils.get(player, PDCKey.LEVEL).toString();
+            case "total_xp" -> NumberUtils.format(PDCUtils.get(player, PDCKey.TOTAL_XP));
+            default -> null;
+        };
     }
 }

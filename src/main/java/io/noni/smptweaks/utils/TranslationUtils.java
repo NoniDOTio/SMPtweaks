@@ -3,6 +3,7 @@ package io.noni.smptweaks.utils;
 import io.noni.smptweaks.SMPtweaks;
 import org.bukkit.ChatColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +16,9 @@ public class TranslationUtils {
         throw new AssertionError("This utility class cannot be instantiated");
     }
 
-    public static Map<String, String> loadTranslations(@NotNull String languageCode) {
-        InputStream baseStream = SMPtweaks.getPlugin().getResource("lang/" + "en_US".toLowerCase() + ".yml");
+    public static Map<String, String> loadTranslations(@Nullable String languageCode) {
+        if(languageCode == null) languageCode = "en-US";
+        InputStream baseStream = SMPtweaks.getPlugin().getResource("lang/" + "en-US".toLowerCase() + ".yml");
         InputStream translationsStream = SMPtweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
 
         // Load base translations
@@ -36,7 +38,7 @@ public class TranslationUtils {
 
         // Load preferred translations
         if(translationsStream == null) {
-            LoggingUtils.warn("Unable to load preferred translations, defaulting to en_US (English)");
+            LoggingUtils.warn("Unable to load preferred translations, defaulting to en-US (English)");
             return fallbackMap;
         }
 
@@ -44,7 +46,7 @@ public class TranslationUtils {
         try {
             translatedMap = ConfigUtils.parseSimpleConfig(translationsStream);
         } catch (IOException e) {
-            LoggingUtils.warn("An error occured while parsing preferred translations, defaulting to en_US (English)");
+            LoggingUtils.warn("An error occured while parsing preferred translations, defaulting to en-US (English)");
             e.printStackTrace();
             return fallbackMap;
         }
@@ -75,7 +77,7 @@ public class TranslationUtils {
         String result = SMPtweaks.getTranslations().get(key);
         if (result == null) return "";
 
-        int i = 1;
+        var i = 1;
         for(String variable : variables) {
             result = result.replace("{$" + i + "}", variable);
             i++;

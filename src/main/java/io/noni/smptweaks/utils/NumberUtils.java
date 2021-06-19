@@ -14,7 +14,7 @@ public class NumberUtils {
      * @return formatted number
      */
     public static String format(int number) {
-        DecimalFormat df = new DecimalFormat("#,###");
+        var df = new DecimalFormat("#,###");
         df.setGroupingUsed(true);
         df.setGroupingSize(3);
         return df.format(number);

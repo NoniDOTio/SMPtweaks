@@ -22,7 +22,7 @@ public class LevelCommand implements CommandExecutor {
             return false;
         }
 
-        Player player = (Player) sender;
+        var player = (Player) sender;
 
         if (args.length == 0) {
             printProgress(player, player);
@@ -31,7 +31,7 @@ public class LevelCommand implements CommandExecutor {
             ChatUtils.commandResponse(player, TranslationUtils.get("level-lookup-no-player-specified"));
 
         } else if (args.length == 2 && args[0].equalsIgnoreCase("lookup")) {
-            Player playerToLookUp = Bukkit.getPlayer(args[1]);
+            var playerToLookUp = Bukkit.getPlayer(args[1]);
             if(playerToLookUp == null) {
                 ChatUtils.commandResponse(player, TranslationUtils.get("error-online-player-not-found"));
                 return true;
@@ -45,13 +45,13 @@ public class LevelCommand implements CommandExecutor {
                 (args.length == 2 && args[1].equalsIgnoreCase("hide")) ||
                 (args.length == 3 && args[1].equalsIgnoreCase("show") && args[2].equalsIgnoreCase("none"))
         ) {
-            PlayerMeta playerMeta = new PlayerMeta(player);
+            var playerMeta = new PlayerMeta(player);
             playerMeta.setXpDisplayMode(0);
             playerMeta.pushToPDC();
             ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
 
         } else if (args.length == 2 && args[1].equalsIgnoreCase("show")) {
-            PlayerMeta playerMeta = new PlayerMeta(player);
+            var playerMeta = new PlayerMeta(player);
             playerMeta.setXpDisplayMode(19);
             playerMeta.pushToPDC();
             ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
@@ -60,35 +60,21 @@ public class LevelCommand implements CommandExecutor {
             ChatUtils.commandResponse(player, TranslationUtils.get("level-progress-no-display-method-specified"));
 
         } else if (args.length == 4 && args[1].equalsIgnoreCase("show")) {
-            String xpDisplayMode = "";
+            var xpDisplayModeBuilder = new StringBuilder();
             switch (args[3]) {
-                case "chat":
-                    xpDisplayMode += 1;
-                    break;
-                case "actionbar":
-                    xpDisplayMode += 2;
-                    break;
-                default:
-                    xpDisplayMode += 0;
-                    break;
+                case "chat" -> xpDisplayModeBuilder.append(1);
+                case "actionbar" -> xpDisplayModeBuilder.append(2);
+                default -> xpDisplayModeBuilder.append(0);
             }
 
             switch (args[2]) {
-                case "xp":
-                    xpDisplayMode += 1;
-                    break;
-                case "percentages":
-                    xpDisplayMode += 2;
-                    break;
-                case "all":
-                    xpDisplayMode += 9;
-                    break;
-                default:
-                    xpDisplayMode += 0;
-                    break;
+                case "xp" -> xpDisplayModeBuilder.append(1);
+                case "percentages" -> xpDisplayModeBuilder.append(2);
+                case "all" -> xpDisplayModeBuilder.append(9);
+                default -> xpDisplayModeBuilder.append(0);
             }
-            PlayerMeta playerMeta = new PlayerMeta(player);
-            playerMeta.setXpDisplayMode(Integer.parseInt(xpDisplayMode));
+            var playerMeta = new PlayerMeta(player);
+            playerMeta.setXpDisplayMode(Integer.parseInt(xpDisplayModeBuilder.toString()));
             playerMeta.pushToPDC();
             ChatUtils.commandResponse(player, TranslationUtils.get("preferences-saved"));
 
@@ -99,7 +85,7 @@ public class LevelCommand implements CommandExecutor {
 
     private void printProgress(Player player, Player playerToLookUp) {
         int totalXp = new PlayerMeta(playerToLookUp).getTotalXp();
-        Level level = new Level(totalXp);
+        var level = new Level(totalXp);
         String progressBar = makeProgressBar(level);
 
         String firstLine;
@@ -131,23 +117,18 @@ public class LevelCommand implements CommandExecutor {
     }
 
     private String makeProgressBar(Level level) {
-        String barChar = "█";
-        String emptyChar = "█";
-        int columns = 28;
+        var barChar = "█";
+        var emptyChar = "█";
+        var columns = 28;
 
         int percentage = (int) level.getProgessPercentage();
         int barsCount = (int) (percentage / 3.5);
         int emptyCount = columns - (int) (percentage / 3.5);
-        String bar = "" + ChatColor.WHITE;
 
-        for(int i = 0; i < barsCount; i++) {
-            bar += barChar;
-        }
-
-        bar += ChatColor.DARK_GRAY;
-        for(int i = 0; i < emptyCount; i++) {
-            bar += emptyChar;
-        }
-        return bar + ChatColor.RESET;
+        return ChatColor.WHITE +
+            barChar.repeat(Math.max(0, barsCount)) +
+            ChatColor.DARK_GRAY +
+            emptyChar.repeat(Math.max(0, emptyCount)) +
+            ChatColor.RESET;
     }
 }

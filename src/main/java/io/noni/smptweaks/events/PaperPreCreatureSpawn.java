@@ -20,7 +20,7 @@ public class PaperPreCreatureSpawn implements Listener {
             return;
         }
 
-        EntityType entityType = e.getType();
+        var entityType = e.getType();
         Float multiplier = SMPtweaks.getConfigCache().getEntitySpawnRates().get(entityType);
         if(multiplier != null && Math.random() > multiplier) {
             e.setShouldAbortSpawn(true);

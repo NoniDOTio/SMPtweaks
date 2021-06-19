@@ -23,8 +23,8 @@ public class RewardCollectorTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Date lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
-        int cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
+        var lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
+        var cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
         int secondsSince = (int) (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
         int secondsToWait = cooldownBetweenRewards - secondsSince;
 
@@ -44,31 +44,31 @@ public class RewardCollectorTask extends BukkitRunnable {
         }
 
         // Give item reward
-        RedeemableReward reward = new RedeemableReward(player);
+        var reward = new RedeemableReward(player);
         player.getInventory().addItem(reward.getItem());
 
         // Give xp reward
-        int xpToAdd = SMPtweaks.getCfg().getInt("rewards.xp");
+        var xpToAdd = SMPtweaks.getCfg().getInt("rewards.xp");
         if(xpToAdd > 0) {
             player.setTotalExperience(player.getTotalExperience() + xpToAdd);
         }
 
         // Broadcast that player has claimed their reward
         if(SMPtweaks.getCfg().getBoolean("rewards.broadcast_collection")) {
-            TextComponent broadcastMessage = new TextComponent();
-            TextComponent beginPart = new TextComponent(
+            var broadcastMessage = new TextComponent();
+            var beginPart = new TextComponent(
                     TranslationUtils.get("reward-broadcast", new String[]{
                             player.getName()
                     }) + " "
             );
-            TextComponent levelPart = new TextComponent(
+            var levelPart = new TextComponent(
                     ChatColor.GREEN + "[" + TranslationUtils.get("reward-broadcast-hoverable-text") + "]" + ChatColor.RESET
             );
             levelPart.setHoverEvent(new HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, new Text(
                         TranslationUtils.get("reward-broadcast-hover-text")
             )));
-            TextComponent endPart = new TextComponent(
+            var endPart = new TextComponent(
                     " " + TranslationUtils.get("reward-broadcast-end")
             );
 

@@ -48,7 +48,7 @@ public class PlayerExpPickup implements Listener {
         int newTotalXp = oldTotalXp + amount;
 
         // Update player PDC with new xp and level values
-        Level level = new Level(newTotalXp);
+        var level = new Level(newTotalXp);
         level.pushToPDC(player);
 
         if(level.hasLevelledUp(amount)) {
@@ -56,13 +56,13 @@ public class PlayerExpPickup implements Listener {
 
             // Broadcast levelup message
             if(SMPtweaks.getCfg().getBoolean("server_levels.broadcast_levelup")) {
-                TextComponent congratulationMessage = new TextComponent();
-                TextComponent beginPart = new TextComponent(
+                var congratulationMessage = new TextComponent();
+                var beginPart = new TextComponent(
                         TranslationUtils.get("levelup-broadcast", new String[]{
                                 player.getName()
                         }) + " "
                 );
-                TextComponent levelPart = new TextComponent(
+                var levelPart = new TextComponent(
                         ChatColor.GREEN + "[" +
                         TranslationUtils.get("levelup-broadcast-hoverable-text", new String[]{
                                 "" + level.getLevel()
@@ -75,7 +75,7 @@ public class PlayerExpPickup implements Listener {
                                 NumberUtils.format(level.getTotalXpRequiredForLevel())
                         })
                 )));
-                TextComponent endPart = new TextComponent(
+                var endPart = new TextComponent(
                         " " + TranslationUtils.get("levelup-broadcast-end")
                 );
 

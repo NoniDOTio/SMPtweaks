@@ -1,7 +1,6 @@
 package io.noni.smptweaks.tasks;
 
 import io.noni.smptweaks.SMPtweaks;
-import io.noni.smptweaks.models.PlayerMeta;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,7 +14,7 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        PlayerMeta playerMeta = SMPtweaks.getDB().getPlayerMeta(player);
+        var playerMeta = SMPtweaks.getDB().getPlayerMeta(player);
 
         if(playerMeta != null) {
             LoggingUtils.info("Loading PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());

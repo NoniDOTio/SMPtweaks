@@ -9,9 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,15 +24,15 @@ public class DatabaseManager {
         this.hikariDataSource.setMaximumPoolSize(10);
 
         if(config.getBoolean("mysql.enabled")) {
-            String host = config.getString("mysql.host");
-            String database = config.getString("mysql.database");
-            String username = config.getString("mysql.username");
-            String password = config.getString("mysql.password");
+            var host = config.getString("mysql.host");
+            var database = config.getString("mysql.database");
+            var username = config.getString("mysql.username");
+            var password = config.getString("mysql.password");
             this.hikariDataSource.setJdbcUrl("jdbc:mysql://" + host + "/" + database);
             this.hikariDataSource.setUsername(username);
             this.hikariDataSource.setPassword(password);
         } else {
-            File dbFile = this.getSQLite();
+            var dbFile = this.getSQLite();
             if(dbFile != null) {
                 this.hikariDataSource.setJdbcUrl("jdbc:sqlite:" + dbFile.getAbsolutePath());
             }
@@ -62,10 +60,10 @@ public class DatabaseManager {
      * Create SQLite file
      */
     private File getSQLite() {
-        File databaseFile = new File(SMPtweaks.getPlugin().getDataFolder(), "smptweaks.db");
+        var databaseFile = new File(SMPtweaks.getPlugin().getDataFolder(), "smptweaks.db");
         if(!databaseFile.exists()) {
             try {
-                databaseFile.createNewFile();
+                if(!databaseFile.createNewFile()) return null;
             } catch (IOException e) {
                 LoggingUtils.error("Could not create SQLite database file.");
                 e.printStackTrace();
@@ -77,10 +75,9 @@ public class DatabaseManager {
 
     /**
      * Check if connection to database is possible
-     * @return
      */
     public boolean canConnect() {
-        try(Connection con = this.hikariDataSource.getConnection()) {
+        try(var ignored = this.hikariDataSource.getConnection()) {
             return true;
         } catch (SQLException throwables) {
             LoggingUtils.error("Unable to connect to database.");
@@ -91,11 +88,10 @@ public class DatabaseManager {
 
     /**
      * Check if table exists
-     * @return
      */
     public boolean isSetUpCorrectly() {
-        try(Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("" +
+        try(var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "SELECT 1 " +
                     "FROM `smptweaks_player` " +
                     "LIMIT 1"
@@ -111,8 +107,8 @@ public class DatabaseManager {
      * Create table for plugin
      */
     public void setUp() {
-        try(Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("" +
+        try(var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "CREATE TABLE IF NOT EXISTS `smptweaks_player` (" +
                     "`uuid` VARCHAR(255) UNIQUE NULL PRIMARY KEY," +
                     "`name` VARCHAR(255) NOT NULL," +
@@ -136,15 +132,15 @@ public class DatabaseManager {
      * @return playerMeta
      */
     public PlayerMeta getPlayerMeta(Player player) {
-        try (Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("" +
+        try (var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "SELECT `level`, `total_xp`, `xp_display_mode`, `last_special_item_drop` " +
                     "FROM `smptweaks_player` " +
                     "WHERE `uuid` = ? " +
                     "LIMIT 1"
             );
             preparedStatement.setString(1, player.getUniqueId().toString());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            var resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 return new PlayerMeta(
                         player,
@@ -164,15 +160,15 @@ public class DatabaseManager {
      * Check if player is in database
      */
     private boolean playerInDB(Player player) {
-        try (Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("" +
+        try (var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "SELECT `name` " +
                     "FROM `smptweaks_player` " +
                     "WHERE `uuid` = ? " +
                     "LIMIT 1"
             );
             preparedStatement.setString(1, player.getUniqueId().toString());
-            ResultSet resultSet = preparedStatement.executeQuery();
+            var resultSet = preparedStatement.executeQuery();
             return resultSet.isBeforeFirst();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -185,9 +181,9 @@ public class DatabaseManager {
      * @param player
      */
     public void savePlayerMeta(Player player) {
-        PlayerMeta playerMeta = new PlayerMeta(player);
+        var playerMeta = new PlayerMeta(player);
 
-        try(Connection con = this.hikariDataSource.getConnection()) {
+        try(var con = this.hikariDataSource.getConnection()) {
             PreparedStatement preparedStatement;
 
             if (!playerInDB(player)) {
@@ -222,8 +218,8 @@ public class DatabaseManager {
      * Get last reward claimed datetime from database
      */
     public Date getLastRewardClaimedDate(Player player) {
-        try (Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement = con.prepareStatement("" +
+        try (var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "SELECT `last_reward_claimed` " +
                     "FROM `smptweaks_player` " +
                     "WHERE `uuid` = ? " +
@@ -231,9 +227,9 @@ public class DatabaseManager {
             );
             preparedStatement.setString(1, player.getUniqueId().toString());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            var resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
-                String datetimeString = resultSet.getString("last_reward_claimed");
+                var datetimeString = resultSet.getString("last_reward_claimed");
                 if(datetimeString == null) datetimeString = "0000-00-00 00:00:00";
                 return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(datetimeString);
             }
@@ -247,16 +243,15 @@ public class DatabaseManager {
      * Update last reward claimed datetime in database
      */
     public void updateLastRewardClaimedDate(Player player) {
-        try(Connection con = this.hikariDataSource.getConnection()) {
-            PreparedStatement preparedStatement;
-            preparedStatement = con.prepareStatement("" +
+        try(var con = this.hikariDataSource.getConnection()) {
+            var preparedStatement = con.prepareStatement("" +
                     "UPDATE `smptweaks_player` " +
                     "SET " +
                     "`last_reward_claimed` = ? " +
                     "WHERE `uuid` = ?"
 
             );
-            Date datetime = new Date();
+            var datetime = new Date();
             String myslqDatetime = (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(datetime);
             preparedStatement.setString(1, myslqDatetime);
             preparedStatement.setString(2, player.getUniqueId().toString());

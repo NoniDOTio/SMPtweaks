@@ -34,7 +34,7 @@ public class Level {
     }
 
     public Level(Player player) {
-        int totalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
+        this.totalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
         int i;
         for(i = 0; i < thresholds.size(); i++) {
             if(totalXp < thresholds.get(i)) {
@@ -43,7 +43,6 @@ public class Level {
         }
         this.level = i;
         this.threshold = thresholds.get(i - 1);
-        this.totalXp = totalXp;
         this.currentXp = totalXp - this.threshold;
         try {
             this.untilXp = thresholds.get(i) - totalXp;

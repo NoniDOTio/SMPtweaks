@@ -13,7 +13,7 @@ public class PlayerHealthModifierTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        int health = SMPtweaks.getCfg().getInt("respawn_health");
+        var health = SMPtweaks.getCfg().getInt("respawn_health");
         player.setHealth(health);
     }
 }

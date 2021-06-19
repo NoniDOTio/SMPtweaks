@@ -1,7 +1,6 @@
 package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.SMPtweaks;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
@@ -19,7 +18,7 @@ public class CreatureSpawn implements Listener {
             return;
         }
 
-        EntityType entityType = e.getEntity().getType();
+        var entityType = e.getEntity().getType();
         Float multiplier = SMPtweaks.getConfigCache().getEntitySpawnRates().get(entityType);
         if(multiplier != null && Math.random() > multiplier) {
             e.setCancelled(true);
@@ -27,7 +26,7 @@ public class CreatureSpawn implements Listener {
 
         // Shulker spawn logic
         if(SMPtweaks.getCfg().getBoolean("shulkers_spawn_naturally")) {
-            Location loc = e.getLocation();
+            var loc = e.getLocation();
             if(Math.random() > 0.2 || loc.getBlock().getBiome() != Biome.END_HIGHLANDS) {
                 return;
             }

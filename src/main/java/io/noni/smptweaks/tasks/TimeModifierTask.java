@@ -17,10 +17,10 @@ public class TimeModifierTask implements Runnable {
     @Override
     public void run() {
         long time = world.getTime();
-        long dayStartTime = 500L;
-        long dayEndTime = 11500L;
-        long nightStartTime = 13050L;
-        long nightEndTime = 22550L;
+        var dayStartTime = 500L;
+        var dayEndTime = 11500L;
+        var nightStartTime = 13050L;
+        var nightEndTime = 22550L;
 
         if(time >= dayStartTime && time <= dayEndTime) {
             tickModifier(time, dayStartTime, dayEndTime, dayDurationModifier);

@@ -64,7 +64,7 @@ public final class SMPtweaks extends JavaPlugin {
         databaseManager = new DatabaseManager();
 
         // Load translations
-        String languageCode = config.getString("language");
+        var languageCode = config.getString("language");
         translations = TranslationUtils.loadTranslations(languageCode);
 
         //

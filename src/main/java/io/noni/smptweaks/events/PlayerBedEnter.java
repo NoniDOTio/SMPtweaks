@@ -1,7 +1,6 @@
 package io.noni.smptweaks.events;
 
 import io.noni.smptweaks.SMPtweaks;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -12,7 +11,7 @@ public class PlayerBedEnter implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedEnterEvent e) {
-        Player player = e.getPlayer();
+        var player = e.getPlayer();
 
         if (!e.getBedEnterResult().equals(PlayerBedEnterEvent.BedEnterResult.OK)) {
             return;

@@ -8,7 +8,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -33,7 +32,7 @@ public class ConfigCache {
 
         for(String alwaysDropString : alwaysDropStrings) {
             alwaysDropString = alwaysDropString.toUpperCase();
-            Material materialToAdd = Material.getMaterial(alwaysDropString);
+            var materialToAdd = Material.getMaterial(alwaysDropString);
             if(materialToAdd != null) {
                 alwaysDropMaterials.add(materialToAdd);
             } else {
@@ -46,7 +45,7 @@ public class ConfigCache {
 
         for(String neverDropString : neverDropStrings) {
             neverDropString = neverDropString.toUpperCase();
-            Material materialToAdd = Material.getMaterial(neverDropString);
+            var materialToAdd = Material.getMaterial(neverDropString);
             if(materialToAdd != null) {
                 neverDropMaterials.add(materialToAdd);
             } else {
@@ -69,7 +68,7 @@ public class ConfigCache {
             int maxAmount = reward.get("max_amount") == null ? amount : Integer.parseInt(reward.get("max_amount").toString());
             int weight = reward.get("weight") == null ? 1 : Integer.parseInt(reward.get("weight").toString());
 
-            Material material = Material.getMaterial(reward.get("material").toString().toUpperCase());
+            var material = Material.getMaterial(reward.get("material").toString().toUpperCase());
             if(material == null) {
                 LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
                 continue;
@@ -81,25 +80,25 @@ public class ConfigCache {
         // Custom Recipes
         //
         List<?> customRecipesList = SMPtweaks.getCfg().getList("custom_recipes.recipes");
-        int i = 1;
+        var i = 1;
         for (Object customRecipeSingle : customRecipesList) {
-            Map customRecipe = (Map) customRecipeSingle;
+            var customRecipe = (Map) customRecipeSingle;
             boolean shapeless = customRecipe.get("shape") == null;
-            NamespacedKey recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
+            var recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
 
             // Material
-            Material material = Material.getMaterial(customRecipe.get("material").toString().toUpperCase());
+            var material = Material.getMaterial(customRecipe.get("material").toString().toUpperCase());
             if(material == null) {
                 LoggingUtils.warn("Invalid recipe result '" + customRecipe.get("material").toString() + "'");
                 continue;
             }
-            ItemStack itemStack = new ItemStack(material);
+            var itemStack = new ItemStack(material);
 
             // Display Name
             Object configDisplayName = customRecipe.get("display_name");
             if(configDisplayName != null) {
-                String displayName = configDisplayName.toString();
-                ItemMeta itemMeta = itemStack.getItemMeta();
+                var displayName = configDisplayName.toString();
+                var itemMeta = itemStack.getItemMeta();
                 if(itemMeta != null && displayName != null && !displayName.equals("")) {
                     itemMeta.setDisplayName(displayName);
                     itemStack.setItemMeta(itemMeta);
@@ -116,7 +115,7 @@ public class ConfigCache {
                     String line = configLine == null ? "" : configLine.toString();
                     lore.add(line);
                 }
-                ItemMeta itemMeta = itemStack.getItemMeta();
+                var itemMeta = itemStack.getItemMeta();
                 if(itemMeta != null && !lore.isEmpty()) {
                     itemMeta.setLore(lore);
                     itemStack.setItemMeta(itemMeta);
@@ -127,18 +126,18 @@ public class ConfigCache {
 
             // Amount
             String amountString = customRecipe.get("amount") == null ? "1" : customRecipe.get("amount").toString();
-            int amount = Integer.parseInt(amountString);
+            var amount = Integer.parseInt(amountString);
             itemStack.setAmount(Math.min(64, amount));
 
             // Recipe
             if(shapeless) {
-                ShapelessRecipe shapelessRecipe = new ShapelessRecipe(recipeKey, itemStack);
+                var shapelessRecipe = new ShapelessRecipe(recipeKey, itemStack);
                 List ingredients = (List) customRecipe.get("ingredients");
                 for (Object ingredientSingle : ingredients) {
                     Map ingredient = (Map) ingredientSingle;
-                    Material materialIngredient = Material.getMaterial(ingredient.get("material").toString());
-                    String ingredientCountString = ingredient.get("amount") == null ? "1" : ingredient.get("amount").toString();
-                    int ingredientAmount = Integer.parseInt(ingredientCountString);
+                    var materialIngredient = Material.getMaterial(ingredient.get("material").toString());
+                    var ingredientCountString = ingredient.get("amount") == null ? "1" : ingredient.get("amount").toString();
+                    var ingredientAmount = Integer.parseInt(ingredientCountString);
 
                     if(materialIngredient == null) {
                         LoggingUtils.warn("Invalid ingredient '" + ingredient.get("material").toString() + "' in recipe for " + material);
@@ -149,12 +148,12 @@ public class ConfigCache {
                     shapelessRecipes.add(shapelessRecipe);
                 }
             } else {
-                ShapedRecipe shapedRecipe = new ShapedRecipe(recipeKey, itemStack);
+                var shapedRecipe = new ShapedRecipe(recipeKey, itemStack);
 
                 ArrayList<?> shape = (ArrayList) customRecipe.get("shape");
-                String firstLine = shape.get(0).toString();
-                String secondLine = shape.get(1).toString();
-                String thirdLine = shape.get(2).toString();
+                var firstLine = shape.get(0).toString();
+                var secondLine = shape.get(1).toString();
+                var thirdLine = shape.get(2).toString();
 
                 shapedRecipe.shape(
                         firstLine,
@@ -164,8 +163,8 @@ public class ConfigCache {
 
                 List ingredients = (List) customRecipe.get("ingredients");
                 for (Object ingredientSingle : ingredients) {
-                    Map ingredient = (Map) ingredientSingle;
-                    Material materialIngredient = Material.getMaterial(ingredient.get("material").toString());
+                    var ingredient = (Map) ingredientSingle;
+                    var materialIngredient = Material.getMaterial(ingredient.get("material").toString());
 
                     if(materialIngredient == null) {
                         LoggingUtils.warn("Invalid ingredient '" + ingredient.get("material").toString() + "' in recipe for " + material);
@@ -184,12 +183,12 @@ public class ConfigCache {
         //
         List<?> spawnRatesList = SMPtweaks.getCfg().getList("spawn_rates.mobs");
         for (Object spawnRateSingle : spawnRatesList) {
-            Map spawnRate = (Map) spawnRateSingle;
-            Object typeObject = spawnRate.get("type");
+            var spawnRate = (Map) spawnRateSingle;
+            var typeObject = spawnRate.get("type");
             if(typeObject == null) {
                 continue;
             }
-            String typeString = typeObject.toString().toUpperCase();
+            var typeString = typeObject.toString().toUpperCase();
             EntityType type;
             try {
                 type = EntityType.valueOf(typeString);
@@ -198,8 +197,8 @@ public class ConfigCache {
                 continue;
             }
 
-            String multiplierString = spawnRate.get("multiplier").toString();
-            Float multiplier;
+            var multiplierString = spawnRate.get("multiplier").toString();
+            float multiplier;
             try {
                 multiplier = Float.parseFloat(multiplierString);
             } catch (NullPointerException | NumberFormatException e) {

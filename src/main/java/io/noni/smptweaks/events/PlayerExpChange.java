@@ -11,8 +11,8 @@ public class PlayerExpChange implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerExpChange(PlayerExpChangeEvent e) {
         // Apply xp multiplier
-        double xpMultiplier = SMPtweaks.getCfg().getDouble("xp_multiplier");
-        int amount = (int) Math.max(1, Math.round(e.getAmount() * xpMultiplier));
+        var xpMultiplier = SMPtweaks.getCfg().getDouble("xp_multiplier");
+        var amount = (int) Math.max(1, Math.round(e.getAmount() * xpMultiplier));
         e.setAmount(amount);
     }
 }

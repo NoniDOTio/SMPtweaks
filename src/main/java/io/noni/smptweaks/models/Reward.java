@@ -2,7 +2,6 @@ package io.noni.smptweaks.models;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class Reward {
     String displayName;
@@ -25,15 +24,15 @@ public class Reward {
     }
 
     private String makeDisplayName(Material material) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
+        var itemStack = new ItemStack(material);
+        var itemMeta = itemStack.getItemMeta();
 
-        if(meta !=null && meta.hasLocalizedName()) {
-            return meta.getLocalizedName();
-        } else if(meta !=null && meta.hasDisplayName()) {
-            return meta.getDisplayName();
+        if(itemMeta !=null && itemMeta.hasLocalizedName()) {
+            return itemMeta.getLocalizedName();
+        } else if(itemMeta !=null && itemMeta.hasDisplayName()) {
+            return itemMeta.getDisplayName();
         } else {
-            return item.getType().name().replace("_", " ").toLowerCase();
+            return itemStack.getType().name().replace("_", " ").toLowerCase();
         }
     }
 

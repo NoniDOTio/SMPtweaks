@@ -15,7 +15,7 @@ public class ExperienceUtils {
      * @return
      */
     public static int getTotalExperience(int level) {
-        int xp = 0;
+        var xp = 0;
 
         if (level >= 0 && level <= 15) {
             xp = (int) Math.round(Math.pow(level, 2) + 6 * level);
@@ -44,10 +44,10 @@ public class ExperienceUtils {
     public static void setTotalExperience(@NotNull Player player, int amount) {
         amount = Math.max(0, amount);
 
-        int level = 0;
-        int xp = 0;
-        float a = 0;
-        float b = 0;
+        var level = 0;
+        var xp = 0;
+        float a;
+        float b;
         float c = -amount;
 
         if (amount > getTotalExperience(0) && amount <= getTotalExperience(15)) {

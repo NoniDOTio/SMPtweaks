@@ -4,7 +4,6 @@ import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,21 +20,21 @@ public class WhereisCommand implements CommandExecutor {
                 return false;
             }
 
-            final Player targetPlayer = Bukkit.getPlayer(args[0]);
-            final Player player = (Player) sender;
+            final var targetPlayer = Bukkit.getPlayer(args[0]);
+            final var player = (Player) sender;
 
             if(targetPlayer == null) {
                 ChatUtils.negative(player, TranslationUtils.get("error-online-player-not-found"));
                 return true;
             }
 
-            Location targetPlayerLocation = targetPlayer.getLocation();
-            String worldName = targetPlayerLocation.getWorld().getName();
-            String worldString = beautifyWorldName(worldName);
+            var targetPlayerLocation = targetPlayer.getLocation();
+            var worldName = targetPlayerLocation.getWorld().getName();
+            var worldString = beautifyWorldName(worldName);
 
-            String x = "" + ChatColor.WHITE + targetPlayerLocation.getBlockX() + ChatColor.RESET;
-            String y = "" + ChatColor.WHITE + targetPlayerLocation.getBlockY() + ChatColor.RESET;
-            String z = "" + ChatColor.WHITE + targetPlayerLocation.getBlockZ() + ChatColor.RESET;
+            var x = "" + ChatColor.WHITE + targetPlayerLocation.getBlockX() + ChatColor.RESET;
+            var y = "" + ChatColor.WHITE + targetPlayerLocation.getBlockY() + ChatColor.RESET;
+            var z = "" + ChatColor.WHITE + targetPlayerLocation.getBlockZ() + ChatColor.RESET;
 
             ChatUtils.commandResponse(player, TranslationUtils.get("whereis-message", new String[]{
                     targetPlayer.getName(),
@@ -56,19 +55,19 @@ public class WhereisCommand implements CommandExecutor {
     private String beautifyWorldName(String worldName) {
         String beautifiedWorldName;
         if(worldName.contains("nether")) {
-            String completeText = TranslationUtils.get("whereis-in-nether");
-            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
-            String remainingText = completeText.replace(partToColor, "");
+            var completeText = TranslationUtils.get("whereis-in-nether");
+            var partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            var remainingText = completeText.replace(partToColor, "");
             beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.DARK_RED + partToColor + ChatColor.GOLD;
         } else if(worldName.contains("end")) {
-            String completeText = TranslationUtils.get("whereis-in-end");
-            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
-            String remainingText = completeText.replace(partToColor, "");
+            var completeText = TranslationUtils.get("whereis-in-end");
+            var partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            var remainingText = completeText.replace(partToColor, "");
             beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.DARK_PURPLE + partToColor + ChatColor.GOLD;
         } else {
-            String completeText = TranslationUtils.get("whereis-in-overworld");
-            String partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
-            String remainingText = completeText.replace(partToColor, "");
+            var completeText = TranslationUtils.get("whereis-in-overworld");
+            var partToColor = completeText.substring(completeText.lastIndexOf(" ") + 1);
+            var remainingText = completeText.replace(partToColor, "");
             beautifiedWorldName = ChatColor.GOLD + remainingText + ChatColor.GREEN + partToColor + ChatColor.GOLD;
         }
         return beautifiedWorldName;

@@ -14,13 +14,10 @@ public class PlayerItemConsume implements Listener {
             case PUMPKIN_PIE:
                 saturationBuff = 8.0F;
                 break;
-            case BEETROOT_SOUP:
-            case MUSHROOM_STEW:
+            case BEETROOT_SOUP, MUSHROOM_STEW:
                 saturationBuff = 4.8F;
                 break;
-            case BAKED_POTATO:
-            case BREAD:
-            case COOKIE:
+            case BAKED_POTATO, BREAD, COOKIE:
                 saturationBuff = 1.2F;
                 break;
             default:

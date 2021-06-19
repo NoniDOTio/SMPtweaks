@@ -19,12 +19,12 @@ public class RedeemableReward {
      * RedeemableReward constructor
      */
     public RedeemableReward(Player player) {
-        boolean serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
+        var serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
         this.level = new PlayerMeta(player).getLevel();
         List<Reward> availableRewards = new ArrayList<>();
 
         // Calculate total weight of all rewards
-        double totalWeight = 0.0;
+        var totalWeight = 0.0;
         for(Reward singleReward : SMPtweaks.getConfigCache().getRewardsList()) {
             if(!serverLevelsEnabled || (level >= singleReward.getMinLevel() && level <= singleReward.getMaxLevel())) {
                 availableRewards.add(singleReward);
@@ -33,7 +33,7 @@ public class RedeemableReward {
         }
 
         // Choose random item
-        int index = 0;
+        var index = 0;
         for (double rand = Math.random() * totalWeight; index < availableRewards.size() - 1; ++index) {
             rand -= availableRewards.get(index).getWeight();
             if (rand <= 0.0) break;
@@ -50,7 +50,7 @@ public class RedeemableReward {
             int amount = Math.round(adjustedAmount);
             item.setAmount(amount);
         } else {
-            Random rand = new Random();
+            var rand = new Random();
             int amount = rand.nextInt((reward.getMaxAmount() + 1) - reward.getMinAmount()) + reward.getMinAmount();
             item.setAmount(amount);
         }

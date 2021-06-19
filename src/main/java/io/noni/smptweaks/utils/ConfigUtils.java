@@ -24,7 +24,7 @@ public class ConfigUtils {
      */
     public static Map<String, String> parseSimpleConfig(@NotNull InputStream inputStream) throws IOException {
         HashMap<String, String> map = new HashMap<>();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        var reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         while(reader.ready()) {
             String line = reader.readLine();
             if(line == null ) continue;

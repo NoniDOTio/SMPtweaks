@@ -3,7 +3,6 @@ package io.noni.smptweaks.events;
 import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
@@ -13,7 +12,7 @@ public class PlayerBedLeave implements Listener {
 
     @EventHandler
     void onPlayerBedEnter(PlayerBedLeaveEvent e) {
-        Player player = e.getPlayer();
+        var player = e.getPlayer();
 
         if (SMPtweaks.getCfg().getBoolean("disable_night_skip")) {
             ChatUtils.notify(player, TranslationUtils.get("bed-leave-no-time-skip"));

@@ -14,11 +14,10 @@ public class CollectCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if(!command.getName().equalsIgnoreCase("collect") || !(sender instanceof Player)) {
+        if(!command.getName().equalsIgnoreCase("collect") || !(sender instanceof Player player)) {
             return false;
         }
 
-        Player player = (Player) sender;
         new RewardCollectorTask(player).runTaskAsynchronously(SMPtweaks.getPlugin());
         return true;
     }

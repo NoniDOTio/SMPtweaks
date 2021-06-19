@@ -11,8 +11,8 @@ public class PlayerItemMend implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerItemMend(PlayerItemMendEvent e) {
         // Apply repair amount multiplier
-        double repairAmoundMultiplier = SMPtweaks.getCfg().getDouble("mending_repair_amount_multiplier");
-        int repairAmount = (int) Math.round(e.getRepairAmount() * repairAmoundMultiplier);
+        var repairAmoundMultiplier = SMPtweaks.getCfg().getDouble("mending_repair_amount_multiplier");
+        var repairAmount = (int) Math.round(e.getRepairAmount() * repairAmoundMultiplier);
         e.setRepairAmount(repairAmount);
     }
 }
