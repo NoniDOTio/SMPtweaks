@@ -12,6 +12,7 @@ import io.noni.smptweaks.tasks.TimeModifierTask;
 import io.noni.smptweaks.tasks.WeatherClearerTask;
 import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -154,6 +155,11 @@ public final class SMPtweaks extends JavaPlugin {
         if(config.getBoolean("clear_weather_at_dawn")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
         }
+
+        //
+        // Include bStats
+        //
+        new Metrics(this, 11736);
 
         //
         // Done :)
