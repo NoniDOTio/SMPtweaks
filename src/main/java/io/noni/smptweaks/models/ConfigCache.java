@@ -31,12 +31,11 @@ public class ConfigCache {
         alwaysDropStrings = SMPtweaks.getCfg().getStringList("remove_inventory_on_death.always_drop");
 
         for(String alwaysDropString : alwaysDropStrings) {
-            alwaysDropString = alwaysDropString.toUpperCase();
-            var materialToAdd = Material.getMaterial(alwaysDropString);
+            var materialToAdd = Material.getMaterial(alwaysDropString.toUpperCase());
             if(materialToAdd != null) {
                 alwaysDropMaterials.add(materialToAdd);
             } else {
-                LoggingUtils.warn(alwaysDropString + " could not be found");
+                LoggingUtils.warn("Invalid material '" + alwaysDropString + "' in always drop list");
             }
         }
 
@@ -44,12 +43,11 @@ public class ConfigCache {
         neverDropStrings = SMPtweaks.getCfg().getStringList("remove_inventory_on_death.never_drop");
 
         for(String neverDropString : neverDropStrings) {
-            neverDropString = neverDropString.toUpperCase();
-            var materialToAdd = Material.getMaterial(neverDropString);
+            var materialToAdd = Material.getMaterial(neverDropString.toUpperCase());
             if(materialToAdd != null) {
                 neverDropMaterials.add(materialToAdd);
             } else {
-                LoggingUtils.warn(neverDropString + " could not be found");
+                LoggingUtils.warn("Invalid material '" + neverDropString + "' in never drop list");
             }
         }
 
