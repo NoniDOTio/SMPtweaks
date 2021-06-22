@@ -4,10 +4,14 @@ import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.utils.LoggingUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -71,7 +75,33 @@ public class ConfigCache {
                 LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
                 continue;
             }
-            rewardsList.add(new Reward(material, minLevel, maxLevel, minAmount, maxAmount, weight));
+            var itemStack = new ItemStack(material);
+
+            // Display Name
+            Object configDisplayName = reward.get("display_name");
+            if(configDisplayName != null) {
+                applyDisplayName(configDisplayName, itemStack, "for " + material);
+            }
+
+            // Item Lore
+            List configLore = (List) reward.get("lore");
+            if(configLore != null) {
+                applyLore(configLore, itemStack, "in recipe for " + material);
+            }
+
+            // Enchantments
+            var enchantmentsList = (List) reward.get("enchantments");
+            if(enchantmentsList != null) {
+                applyEnchantments(enchantmentsList, itemStack, "for reward '" + material + "'");
+            }
+
+            // Potion Effect
+            var potionEffect = reward.get("potion_type");
+            if(potionEffect != null && material == Material.POTION) {
+                applyPotionEffect(potionEffect, itemStack, "for reward '" + material + "'");
+            }
+
+            rewardsList.add(new Reward(itemStack, minLevel, maxLevel, minAmount, maxAmount, weight));
         }
 
         //
@@ -95,37 +125,31 @@ public class ConfigCache {
             // Display Name
             Object configDisplayName = customRecipe.get("display_name");
             if(configDisplayName != null) {
-                var displayName = configDisplayName.toString();
-                var itemMeta = itemStack.getItemMeta();
-                if(itemMeta != null && displayName != null && !displayName.equals("")) {
-                    itemMeta.setDisplayName(displayName);
-                    itemStack.setItemMeta(itemMeta);
-                } else {
-                    LoggingUtils.warn("Invalid display name in recipe for " + material);
-                }
+                applyDisplayName(configDisplayName, itemStack, "for " + material);
             }
 
             // Item Lore
             List configLore = (List) customRecipe.get("lore");
             if(configLore != null) {
-                List<String> lore = new ArrayList<>();
-                for(Object configLine : configLore) {
-                    String line = configLine == null ? "" : configLine.toString();
-                    lore.add(line);
-                }
-                var itemMeta = itemStack.getItemMeta();
-                if(itemMeta != null && !lore.isEmpty()) {
-                    itemMeta.setLore(lore);
-                    itemStack.setItemMeta(itemMeta);
-                } else {
-                    LoggingUtils.warn("Invalid lore in recipe for " + material);
-                }
+                applyLore(configLore, itemStack, "in recipe for " + material);
             }
 
             // Amount
             String amountString = customRecipe.get("amount") == null ? "1" : customRecipe.get("amount").toString();
             var amount = Integer.parseInt(amountString);
             itemStack.setAmount(Math.min(64, amount));
+
+            // Enchantments
+            var enchantmentsList = (List) customRecipe.get("enchantments");
+            if(enchantmentsList != null) {
+                applyEnchantments(enchantmentsList, itemStack, "in recipe for " + material);
+            }
+
+            // Potion Effect
+            var potionEffect = customRecipe.get("potion_type");
+            if(potionEffect != null && material == Material.POTION) {
+                applyPotionEffect(potionEffect, itemStack, "in recipe for " + material);
+            }
 
             // Recipe
             if(shapeless) {
@@ -214,6 +238,80 @@ public class ConfigCache {
                 LoggingUtils.warn("Changing spawn rate multiplier '" + multiplierString + "' for '" + typeString + "' to 0 because it is lower than allowed");
             }
             entitySpawnRates.put(type, multiplier);
+        }
+    }
+
+    private void applyLore(List configLore, ItemStack itemStack, String context) {
+        List<String> lore = new ArrayList<>();
+        for(Object configLine : configLore) {
+            String line = configLine == null ? "" : configLine.toString();
+            lore.add(line);
+        }
+        var itemMeta = itemStack.getItemMeta();
+        if(itemMeta != null && !lore.isEmpty()) {
+            itemMeta.setLore(lore);
+            itemStack.setItemMeta(itemMeta);
+        } else {
+            LoggingUtils.warn("Invalid lore " + context);
+        }
+    }
+
+    private void applyDisplayName(Object configDisplayName, ItemStack itemStack, String context) {
+        var displayName = configDisplayName.toString();
+        var itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null || displayName == null || displayName.equals("")) {
+            LoggingUtils.warn("Invalid display name " + context);
+            return;
+        }
+        itemMeta.setDisplayName(displayName);
+        itemStack.setItemMeta(itemMeta);
+    }
+
+    private void applyPotionEffect(Object potionEffect, ItemStack itemStack, String context) {
+        var potionMeta = (PotionMeta) itemStack.getItemMeta();
+        PotionType potionType;
+        try {
+            potionType = PotionType.valueOf(potionEffect.toString().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            LoggingUtils.warn("Invalid potion type '" + potionEffect + "' " + context);
+            return;
+        }
+        potionMeta.setBasePotionData(new PotionData(potionType));
+        itemStack.setItemMeta(potionMeta);
+    }
+
+    private void applyEnchantments(List enchantmentsList, ItemStack itemStack, String context) {
+        for (Object enchantmentSingle : enchantmentsList) {
+            Map enchantmentMap = (Map) enchantmentSingle;
+
+            var enchantmentName = enchantmentMap.get("enchantment").toString();
+            if(enchantmentName == null) {
+                LoggingUtils.warn("Invalid enchantment name " + context);
+                return;
+            }
+
+            NamespacedKey enchantmentKey;
+            try {
+                enchantmentKey = NamespacedKey.minecraft(enchantmentName.toLowerCase());
+            } catch (IllegalArgumentException e) {
+                LoggingUtils.warn("Invalid enchantment '" + enchantmentName + "' " + context);
+                return;
+            }
+
+            var enchantment = Enchantment.getByKey(enchantmentKey);
+            if(enchantment == null) {
+                LoggingUtils.warn("Invalid enchantment '" + enchantmentName + "' " + context);
+                return;
+            }
+
+            int enchantmentLevel;
+            try {
+                enchantmentLevel = Integer.parseInt(enchantmentMap.get("level").toString());
+            } catch (NumberFormatException e) {
+                LoggingUtils.warn("Invalid enchantment level " + context);
+                return;
+            }
+            itemStack.addUnsafeEnchantment(enchantment, enchantmentLevel);
         }
     }
 

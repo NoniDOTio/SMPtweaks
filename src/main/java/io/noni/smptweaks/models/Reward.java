@@ -1,11 +1,10 @@
 package io.noni.smptweaks.models;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class Reward {
     String displayName;
-    Material material;
+    ItemStack itemStack;
     int weight;
 
     int minLevel;
@@ -13,18 +12,17 @@ public class Reward {
     int minAmount;
     int maxAmount;
 
-    public Reward(Material material, int minLevel, int maxLevel, int minAmount, int maxAmount, int weight) {
-        this.material = material;
+    public Reward(ItemStack itemStack, int minLevel, int maxLevel, int minAmount, int maxAmount, int weight) {
+        this.itemStack = itemStack;
         this.minLevel = minLevel;
         this.maxLevel = maxLevel;
         this.minAmount = minAmount;
         this.maxAmount = maxAmount;
         this.weight = weight;
-        this.displayName = makeDisplayName(material);
+        this.displayName = makeDisplayName();
     }
 
-    private String makeDisplayName(Material material) {
-        var itemStack = new ItemStack(material);
+    private String makeDisplayName() {
         var itemMeta = itemStack.getItemMeta();
 
         if(itemMeta !=null && itemMeta.hasLocalizedName()) {
@@ -40,8 +38,8 @@ public class Reward {
         return displayName;
     }
 
-    public Material getMaterial() {
-        return material;
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 
     public int getWeight() {

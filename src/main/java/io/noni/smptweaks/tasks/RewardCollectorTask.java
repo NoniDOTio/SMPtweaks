@@ -47,7 +47,7 @@ public class RewardCollectorTask extends BukkitRunnable {
         // Give item and xp reward to player
         var reward = new RedeemableReward(player);
         var xpToAdd = SMPtweaks.getCfg().getInt("rewards.xp");
-        Bukkit.getScheduler().runTask(SMPtweaks.getPlugin(), new RewardDistrubutorTask(player, xpToAdd, reward.getItem()));
+        Bukkit.getScheduler().runTask(SMPtweaks.getPlugin(), new RewardDistrubutorTask(player, xpToAdd, reward.getItemStack()));
 
         // Broadcast that player has claimed their reward
         if(SMPtweaks.getCfg().getBoolean("rewards.broadcast_collection")) {
@@ -79,7 +79,7 @@ public class RewardCollectorTask extends BukkitRunnable {
 
         // Tell player what they received
         ChatUtils.notify(player, TranslationUtils.get("item-received", new String[] {
-                reward.getItem().getAmount() + "x " + reward.getReward().getDisplayName()
+                reward.getItemStack().getAmount() + "x " + reward.getReward().getDisplayName()
         }));
         SMPtweaks.getDB().updateLastRewardClaimedDate(player);
     }

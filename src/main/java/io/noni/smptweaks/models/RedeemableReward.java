@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class RedeemableReward {
-    ItemStack item;
+    ItemStack itemStack;
     Reward reward;
 
     int xp;
@@ -41,18 +41,18 @@ public class RedeemableReward {
         reward = availableRewards.get(index);
 
         // Assemble the ItemStack
-        item = new ItemStack(reward.getMaterial());
+        itemStack = reward.getItemStack();
 
         // Calculate amount
         if(serverLevelsEnabled && SMPtweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
             float factor = (float)(reward.getMaxAmount() - reward.getMinAmount()) / ((float)(reward.getMaxLevel() + 1) - reward.getMinLevel());
             float adjustedAmount = factor * (level - reward.getMinLevel()) + reward.getMinAmount();
             int amount = Math.round(adjustedAmount);
-            item.setAmount(amount);
+            itemStack.setAmount(amount);
         } else {
             var rand = new Random();
             int amount = rand.nextInt((reward.getMaxAmount() + 1) - reward.getMinAmount()) + reward.getMinAmount();
-            item.setAmount(amount);
+            itemStack.setAmount(amount);
         }
 
         // Calculate XP
@@ -71,8 +71,8 @@ public class RedeemableReward {
      *
      * @return
      */
-    public ItemStack getItem() {
-        return item;
+    public ItemStack getItemStack() {
+        return itemStack;
     }
 
     /**
