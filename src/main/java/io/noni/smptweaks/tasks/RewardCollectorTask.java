@@ -7,6 +7,7 @@ import io.noni.smptweaks.utils.TranslationUtils;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class RewardCollectorTask extends BukkitRunnable {
-    private Player player;
+    private final Player player;
 
     public RewardCollectorTask(Player player) {
         this.player = player;
@@ -43,15 +44,10 @@ public class RewardCollectorTask extends BukkitRunnable {
             return;
         }
 
-        // Give item reward
+        // Give item and xp reward to player
         var reward = new RedeemableReward(player);
-        player.getInventory().addItem(reward.getItem());
-
-        // Give xp reward
         var xpToAdd = SMPtweaks.getCfg().getInt("rewards.xp");
-        if(xpToAdd > 0) {
-            player.setTotalExperience(player.getTotalExperience() + xpToAdd);
-        }
+        Bukkit.getScheduler().runTask(SMPtweaks.getPlugin(), new RewardDistrubutorTask(player, xpToAdd, reward.getItem()));
 
         // Broadcast that player has claimed their reward
         if(SMPtweaks.getCfg().getBoolean("rewards.broadcast_collection")) {

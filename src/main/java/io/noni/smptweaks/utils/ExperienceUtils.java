@@ -1,5 +1,9 @@
 package io.noni.smptweaks.utils;
 
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -67,5 +71,24 @@ public class ExperienceUtils {
         player.setLevel(level);
         player.setExp(0);
         player.giveExp(xp);
+    }
+
+    /**
+     * Spawn ExperienceOrbs
+     * @param xp
+     * @param orbSize
+     * @param world
+     * @param loc
+     */
+    public static void spawnOrbs(int xp, int orbSize, World world, Location loc) {
+        while(xp > 0) {
+            ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(loc, EntityType.EXPERIENCE_ORB);
+            orb.setExperience(Math.min(orbSize, xp));
+            xp = xp - orbSize;
+        }
+    }
+
+    public static void spawnOrbs(int xp, int orbSize, Player player) {
+        spawnOrbs(xp, orbSize, player.getWorld(), player.getLocation());
     }
 }

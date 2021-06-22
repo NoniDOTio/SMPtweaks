@@ -6,11 +6,7 @@ import io.noni.smptweaks.utils.ExperienceUtils;
 import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.GameRule;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -74,7 +70,7 @@ public class PlayerDeath implements Listener {
             // Spawn XP orbs on the ground
             if(SMPtweaks.getCfg().getBoolean("remove_xp_on_death.drop_on_ground")) {
                 var xpDropMultiplier = SMPtweaks.getCfg().getDouble("remove_xp_on_death.drop_amount_multiplier");
-                spawnOrbs(
+                ExperienceUtils.spawnOrbs(
                         (int) Math.floor(xpToRemove * xpDropMultiplier),
                         Math.max(50, xpToRemove / 10),
                         player.getWorld(),
@@ -243,20 +239,5 @@ public class PlayerDeath implements Listener {
         itemStack.setItemMeta((ItemMeta) damageableItemMeta);
 
         return itemStack;
-    }
-
-    /**
-     *
-     * @param xp
-     * @param orbSize
-     * @param world
-     * @param loc
-     */
-    private void spawnOrbs(int xp, int orbSize, World world, Location loc) {
-        while(xp > 0) {
-            ExperienceOrb orb = (ExperienceOrb) world.spawnEntity(loc, EntityType.EXPERIENCE_ORB);
-            orb.setExperience(Math.min(orbSize, xp));
-            xp = xp - orbSize;
-        }
     }
 }
