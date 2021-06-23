@@ -17,7 +17,8 @@ public class RewardDistrubutorTask implements Runnable {
 
     @Override
     public void run() {
-        player.getInventory().addItem(itemStack);
+        var itemsThatDidNotFit = player.getInventory().addItem(itemStack);
+        itemsThatDidNotFit.forEach((i, item) -> player.getWorld().dropItemNaturally(player.getLocation(), item));
         if(xp > 0) {
             ExperienceUtils.spawnOrbs(xp, xp > 100 ? 50 : 10, player);
         }
