@@ -64,31 +64,43 @@ respawn_food_level: 20 # The amount of half hunger points players have after the
 #
 disable_night_skip: false # Sleeping will not skip the night
 health_regen_while_in_bed: false # Give regeneration effect to players lying in bed
-day_duration_modifier: 0 # Number of ticks to make days longer or shorter
-night_duration_modifier: 0 # Number of ticks to make nights longer or shorter
+day_duration_modifier: 0 # Number of ticks to make days longer or shorter (inaccurate!)
+night_duration_modifier: 0 # Number of ticks to make nights longer or shorter (inaccurate!)
 clear_weather_at_dawn: false # Force sunshine in the morning, results in less bad weather overall
 #
 # Other tweaks
 #
-xp_multiplier: 1.0
-mending_repair_amount_multiplier: 1.0
+xp_multiplier: 1.0 # eg. 0.5 for half the experience gain
+mending_repair_amount_multiplier: 1.0 # eg. 2.0 to repair items twice as fast
 buff_vegetarian_food: false # Slightly increases saturation restored by some vegetarian foods
 shulkers_spawn_naturally: false # Occasionally spawn shulkers in the end
+ender_dragon_respawn_delay: 0 # After how many seconds the ender dragon respawns (eg. 3600 for one hour, 0 to turn off)
 #
 # Modify spawn rates
 # Allowed multiplier range is from 0 (no spawns at all) to 1 (normal spawn rate)
-# Keep in mind that if you reduce eg. Skeleton and Creeper spawns,
-# it will result in slightly higher spawn rates of other mobs as the mob cap will remain untouched
+# Keep in mind that if you reduce spawns of a certain mob type,
+# it will result in slightly higher spawn rates of other mobs as the mob cap will remain unchanged
 #
 spawn_rates:
   enabled: false
   mobs:
-    - type: SKELETON
-      multiplier: 0.8
     - type: CREEPER
-      multiplier: 0.6
+      multiplier: 0.7
     - type: PHANTOM
       multiplier: 0
+#
+# Add custom item drops for certain mobs
+# If you specify a custom item drop for the ender dragon, the drop will appear next to the exit portal
+# instead of the mobs death location
+#
+custom_drops:
+  enabled: false
+  mobs:
+    - type: ENDER_DRAGON
+      drops:
+        - material: DRAGON_EGG
+          amount: 1
+          chance: 1.0
 #
 # Custom crafting recipes
 #

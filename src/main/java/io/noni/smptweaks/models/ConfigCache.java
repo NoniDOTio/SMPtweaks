@@ -13,10 +13,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ConfigCache {
     private List<Material> alwaysDropMaterials = new ArrayList<>();
@@ -25,6 +22,7 @@ public class ConfigCache {
     private List<ShapedRecipe> shapedRecipes = new ArrayList<>();
     private List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
     private EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
+    private EnumMap<EntityType, Map<ItemStack, Float>> entityCustomDrops = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
 
@@ -97,7 +95,11 @@ public class ConfigCache {
 
             // Potion Effect
             var potionEffect = reward.get("potion_type");
-            if(potionEffect != null && material == Material.POTION) {
+            if(potionEffect != null && (
+                    material == Material.POTION ||
+                    material == Material.SPLASH_POTION ||
+                    material == Material.LINGERING_POTION
+            )) {
                 applyPotionEffect(potionEffect, itemStack, "for reward '" + material + "'");
             }
 
@@ -147,7 +149,11 @@ public class ConfigCache {
 
             // Potion Effect
             var potionEffect = customRecipe.get("potion_type");
-            if(potionEffect != null && material == Material.POTION) {
+            if(potionEffect != null && (
+                    material == Material.POTION ||
+                            material == Material.SPLASH_POTION ||
+                            material == Material.LINGERING_POTION
+            )) {
                 applyPotionEffect(potionEffect, itemStack, "in recipe for " + material);
             }
 
@@ -239,6 +245,98 @@ public class ConfigCache {
             }
             entitySpawnRates.put(type, multiplier);
         }
+
+        //
+        // Custom Drops
+        //
+        List<?> dropsMobList = SMPtweaks.getCfg().getList("custom_drops.mobs");
+        for (Object dropsMobSingle : dropsMobList){
+            var dropsMob = (Map) dropsMobSingle;
+            var dropsEntityTypeString = dropsMob.get("type").toString();
+            if(dropsEntityTypeString == null) continue;
+
+            // Check if entity type is valid
+            EntityType entityType;
+            try {
+                entityType = EntityType.valueOf(dropsEntityTypeString.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                LoggingUtils.warn("Invalid entity type '" + dropsEntityTypeString + "' in custom drops");
+                continue;
+            }
+
+            // Loop through drops
+            List<?> dropsList = (List) dropsMob.get("drops");
+            var drops = new HashMap<ItemStack, Float>();
+            for(Object dropSingle : dropsList) {
+                var drop = (Map) dropSingle;
+
+                // Material
+                var materialString = drop.get("material").toString();
+                var material = Material.getMaterial(materialString.toUpperCase());
+                if(material == null) {
+                    LoggingUtils.warn("Invalid material '" + materialString + "' in custom drops for '" + entityType + "'");
+                    continue;
+                }
+                var itemStack = new ItemStack(material);
+                String context = "in for item '" + materialString + "' in custom drops for '" + entityType + "'";
+
+                // Display Name
+                Object configDisplayName = drop.get("display_name");
+                if(configDisplayName != null) {
+                    applyDisplayName(configDisplayName, itemStack, context);
+                }
+
+                // Item Lore
+                var loreList = (List) drop.get("lore");
+                if(loreList != null) {
+                    applyLore(loreList, itemStack, context);
+                }
+
+                // Amount
+                String amountString = drop.get("amount") == null ? "1" : drop.get("amount").toString();
+                var amount = Integer.parseInt(amountString);
+                itemStack.setAmount(Math.min(64, amount));
+
+                // Enchantments
+                var enchantmentsList = (List) drop.get("enchantments");
+                if(enchantmentsList != null) {
+                    applyEnchantments(enchantmentsList, itemStack, context);
+                }
+
+                // Potion Effect
+                Object potionEffect = drop.get("potion_type");
+                if(potionEffect != null && (
+                        material == Material.POTION ||
+                                material == Material.SPLASH_POTION ||
+                                material == Material.LINGERING_POTION
+                )) {
+                    applyPotionEffect(potionEffect, itemStack, context);
+                }
+
+                // Drop Chance
+                var chanceString = drop.get("chance").toString();
+                float chance;
+                try {
+                    chance = Float.parseFloat(chanceString);
+                } catch (NullPointerException | NumberFormatException e) {
+                    LoggingUtils.warn("Invalid drop chance for item '" + materialString + "' in custom drops for '" + entityType + "'");
+                    continue;
+                }
+                if(chance > 1) {
+                    chance = 1F;
+                    LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + "' in custom drops for '" + entityType + "' to 1.0 because it is higher than allowed");
+                }
+                if(chance < 0) {
+                    chance = 0F;
+                    LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + "' in custom drops for '" + entityType + "' to 0 because it is lower than allowed");
+                }
+                drops.put(itemStack, chance);
+            }
+
+            if(!drops.isEmpty()) {
+                entityCustomDrops.put(entityType, drops);
+            }
+        }
     }
 
     private void applyLore(List configLore, ItemStack itemStack, String context) {
@@ -282,7 +380,7 @@ public class ConfigCache {
 
     private void applyEnchantments(List enchantmentsList, ItemStack itemStack, String context) {
         for (Object enchantmentSingle : enchantmentsList) {
-            Map enchantmentMap = (Map) enchantmentSingle;
+            var enchantmentMap = (Map) enchantmentSingle;
 
             var enchantmentName = enchantmentMap.get("enchantment").toString();
             if(enchantmentName == null) {
@@ -337,5 +435,9 @@ public class ConfigCache {
 
     public Map<EntityType, Float> getEntitySpawnRates() {
         return entitySpawnRates;
+    }
+
+    public Map<EntityType, Map<ItemStack, Float>> getEntityCustomDrops() {
+        return entityCustomDrops;
     }
 }

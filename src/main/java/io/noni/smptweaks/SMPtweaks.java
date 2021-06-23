@@ -110,6 +110,9 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("shulkers_spawn_naturally")
                     ? (isPaperServer ? new PaperPreCreatureSpawn() : new CreatureSpawn()) : null,
 
+            config.getBoolean("custom_drops.enabled")
+                    ? new EntityDeath() : null,
+
             config.getBoolean("server_levels.enabled")
                     ? new PlayerLeave() : null
         ).forEach(this::registerEvent);
