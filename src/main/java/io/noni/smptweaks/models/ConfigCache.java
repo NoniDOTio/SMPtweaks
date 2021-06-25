@@ -82,7 +82,7 @@ public class ConfigCache {
             }
 
             // Item Lore
-            List configLore = (List) reward.get("lore");
+            List<String> configLore = reward.get("lore") instanceof String ? List.of(reward.get("lore").toString()) : (List) reward.get("lore");
             if(configLore != null) {
                 applyLore(configLore, itemStack, "in recipe for " + material);
             }
@@ -131,7 +131,7 @@ public class ConfigCache {
             }
 
             // Item Lore
-            List configLore = (List) customRecipe.get("lore");
+            List<String> configLore = customRecipe.get("lore") instanceof String ? List.of(customRecipe.get("lore").toString()) : (List) customRecipe.get("lore");
             if(configLore != null) {
                 applyLore(configLore, itemStack, "in recipe for " + material);
             }
@@ -287,7 +287,7 @@ public class ConfigCache {
                 }
 
                 // Item Lore
-                var loreList = (List) drop.get("lore");
+                List<String> loreList = drop.get("lore") instanceof String ? List.of(drop.get("lore").toString()) : (List) drop.get("lore");
                 if(loreList != null) {
                     applyLore(loreList, itemStack, context);
                 }
