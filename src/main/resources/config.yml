@@ -99,7 +99,7 @@ custom_drops:
     - type: ENDER_DRAGON
       xp: 800
       commands:
-        - 'minecraft:effect give @a haste 60'
+        - 'minecraft:effect give @p regeneration 12'
       drops:
         - material: DRAGON_EGG
           amount: 1

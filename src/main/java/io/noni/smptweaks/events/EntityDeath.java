@@ -53,7 +53,7 @@ public class EntityDeath implements Listener {
         // Run commands
         if(commands != null) {
             for (String command : commands) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("{$player}", killer.getName()));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("@p", killer.getName()));
             }
         }
     }
