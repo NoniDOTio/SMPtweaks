@@ -22,7 +22,7 @@ public class ConfigCache {
     private List<ShapedRecipe> shapedRecipes = new ArrayList<>();
     private List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
     private EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
-    private EnumMap<EntityType, Map<ItemStack, Float>> entityCustomDrops = new EnumMap<>(EntityType.class);
+    private EnumMap<EntityType, CustomDrop> entityCustomDrops = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
 
@@ -84,7 +84,7 @@ public class ConfigCache {
             // Item Lore
             List<String> configLore = reward.get("lore") instanceof String ? List.of(reward.get("lore").toString()) : (List) reward.get("lore");
             if(configLore != null) {
-                applyLore(configLore, itemStack, "in recipe for " + material);
+                applyLore(configLore, itemStack, "for reward '" + material + "'");
             }
 
             // Enchantments
@@ -151,8 +151,8 @@ public class ConfigCache {
             var potionEffect = customRecipe.get("potion_type");
             if(potionEffect != null && (
                     material == Material.POTION ||
-                            material == Material.SPLASH_POTION ||
-                            material == Material.LINGERING_POTION
+                    material == Material.SPLASH_POTION ||
+                    material == Material.LINGERING_POTION
             )) {
                 applyPotionEffect(potionEffect, itemStack, "in recipe for " + material);
             }
@@ -264,78 +264,91 @@ public class ConfigCache {
                 continue;
             }
 
+            // XP
+            Integer xpDrop = null;
+            Object configXpDrop = dropsMob.get("xp");
+            if(configXpDrop != null) {
+                try {
+                    xpDrop = Integer.parseInt(configXpDrop.toString());
+                } catch (NumberFormatException e) {
+                    LoggingUtils.warn("Invalid XP drop amount for entity " + dropsEntityTypeString + " in custom drops");
+                }
+            }
+
+            // Command
+            List<String> commandList = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List) dropsMob.get("commands");
+
             // Loop through drops
             List<?> dropsList = (List) dropsMob.get("drops");
             var drops = new HashMap<ItemStack, Float>();
-            for(Object dropSingle : dropsList) {
-                var drop = (Map) dropSingle;
+            if(dropsList != null) {
+                for (Object dropSingle : dropsList) {
+                    var drop = (Map) dropSingle;
 
-                // Material
-                var materialString = drop.get("material").toString();
-                var material = Material.getMaterial(materialString.toUpperCase());
-                if(material == null) {
-                    LoggingUtils.warn("Invalid material '" + materialString + "' in custom drops for '" + entityType + "'");
-                    continue;
-                }
-                var itemStack = new ItemStack(material);
-                String context = "in for item '" + materialString + "' in custom drops for '" + entityType + "'";
+                    // Material
+                    var materialString = drop.get("material").toString();
+                    var material = Material.getMaterial(materialString.toUpperCase());
+                    if (material == null) {
+                        LoggingUtils.warn("Invalid material '" + materialString + "' in " + entityType + " custom drops");
+                        continue;
+                    }
+                    var itemStack = new ItemStack(material);
+                    String context = "for item " + materialString + " in " + entityType + " custom drops";
 
-                // Display Name
-                Object configDisplayName = drop.get("display_name");
-                if(configDisplayName != null) {
-                    applyDisplayName(configDisplayName, itemStack, context);
-                }
+                    // Display Name
+                    Object configDisplayName = drop.get("display_name");
+                    if (configDisplayName != null) {
+                        applyDisplayName(configDisplayName, itemStack, context);
+                    }
 
-                // Item Lore
-                List<String> loreList = drop.get("lore") instanceof String ? List.of(drop.get("lore").toString()) : (List) drop.get("lore");
-                if(loreList != null) {
-                    applyLore(loreList, itemStack, context);
-                }
+                    // Item Lore
+                    List<String> loreList = drop.get("lore") instanceof String ? List.of(drop.get("lore").toString()) : (List) drop.get("lore");
+                    if (loreList != null) {
+                        applyLore(loreList, itemStack, context);
+                    }
 
-                // Amount
-                String amountString = drop.get("amount") == null ? "1" : drop.get("amount").toString();
-                var amount = Integer.parseInt(amountString);
-                itemStack.setAmount(Math.min(64, amount));
+                    // Amount
+                    String amountString = drop.get("amount") == null ? "1" : drop.get("amount").toString();
+                    var amount = Integer.parseInt(amountString);
+                    itemStack.setAmount(Math.min(64, amount));
 
-                // Enchantments
-                var enchantmentsList = (List) drop.get("enchantments");
-                if(enchantmentsList != null) {
-                    applyEnchantments(enchantmentsList, itemStack, context);
-                }
+                    // Enchantments
+                    var enchantmentsList = (List) drop.get("enchantments");
+                    if (enchantmentsList != null) {
+                        applyEnchantments(enchantmentsList, itemStack, context);
+                    }
 
-                // Potion Effect
-                Object potionEffect = drop.get("potion_type");
-                if(potionEffect != null && (
-                        material == Material.POTION ||
-                                material == Material.SPLASH_POTION ||
-                                material == Material.LINGERING_POTION
-                )) {
-                    applyPotionEffect(potionEffect, itemStack, context);
-                }
+                    // Potion Effect
+                    Object potionEffect = drop.get("potion_type");
+                    if (potionEffect != null && (
+                            material == Material.POTION ||
+                            material == Material.SPLASH_POTION ||
+                            material == Material.LINGERING_POTION
+                    )) {
+                        applyPotionEffect(potionEffect, itemStack, context);
+                    }
 
-                // Drop Chance
-                var chanceString = drop.get("chance").toString();
-                float chance;
-                try {
-                    chance = Float.parseFloat(chanceString);
-                } catch (NullPointerException | NumberFormatException e) {
-                    LoggingUtils.warn("Invalid drop chance for item '" + materialString + "' in custom drops for '" + entityType + "'");
-                    continue;
+                    // Drop Chance
+                    var chanceString = drop.get("chance").toString();
+                    float chance;
+                    try {
+                        chance = Float.parseFloat(chanceString);
+                    } catch (NullPointerException | NumberFormatException e) {
+                        LoggingUtils.warn("Invalid drop chance for item " + materialString + " in " + entityType + " custom drops");
+                        continue;
+                    }
+                    if (chance > 1) {
+                        chance = 1F;
+                        LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item " + materialString + " in " + entityType + " custom drops to 1.0 because it is higher than allowed");
+                    }
+                    if (chance < 0) {
+                        chance = 0F;
+                        LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + " in " + entityType + " custom drops to 0 because it is lower than allowed");
+                    }
+                    drops.put(itemStack, chance);
                 }
-                if(chance > 1) {
-                    chance = 1F;
-                    LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + "' in custom drops for '" + entityType + "' to 1.0 because it is higher than allowed");
-                }
-                if(chance < 0) {
-                    chance = 0F;
-                    LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + "' in custom drops for '" + entityType + "' to 0 because it is lower than allowed");
-                }
-                drops.put(itemStack, chance);
             }
-
-            if(!drops.isEmpty()) {
-                entityCustomDrops.put(entityType, drops);
-            }
+            entityCustomDrops.put(entityType, new CustomDrop(xpDrop, drops, commandList));
         }
     }
 
@@ -437,7 +450,7 @@ public class ConfigCache {
         return entitySpawnRates;
     }
 
-    public Map<EntityType, Map<ItemStack, Float>> getEntityCustomDrops() {
+    public Map<EntityType, CustomDrop> getEntityCustomDrops() {
         return entityCustomDrops;
     }
 }
