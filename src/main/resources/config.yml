@@ -12,9 +12,9 @@ mysql:
   host: ''
   username: ''
   password: ''
-  database: 'smptweaks_player'
+  database: 'smptweaks'
 #
-# Whether PAPI placeholders should be enabled. This requires PlaceholderAPI to be installed
+# Whether PAPI placeholders should be enabled. This requires the plugin PlaceholderAPI to be installed
 #
 papi_placeholders:
   enabled: false
@@ -89,18 +89,18 @@ spawn_rates:
     - type: PHANTOM
       multiplier: 0
 #
-# Add custom item drops for certain mobs
+# Specify what happens when certain mobs die
 # If you specify a custom item drop for the ender dragon, the drop will appear next to the exit portal
 # instead of the mobs death location
 #
 custom_drops:
   enabled: false
   mobs:
-    - type: ENDER_DRAGON
-      xp: 800
-      commands:
+    - type: ENDER_DRAGON # Entity type
+      xp: 800 # Overwrite how much experience the mob drops
+      commands: # List of commands that will execute
         - 'minecraft:effect give @p regeneration 12'
-      drops:
+      drops: # List of items that may drop ADDITIONALLY to vanilla drops
         - material: DRAGON_EGG
           amount: 1
           chance: 1.0
@@ -137,7 +137,7 @@ enable_commands:
 rewards:
   enabled: false
   cooldown: 82800 # Cooldown in seconds between collecting rewards
-  scale_amount_with_level: true # Whether the amount received scales with server level
+  scale_amount_with_level: true # Whether the amount received scales with server level, otherwise random
   broadcast_collection: true # Whether reward collection will be broadcasted to chat
   xp: 50 # How much experience the player receives when collecting their reward
   contents:
@@ -158,7 +158,7 @@ rewards:
 #
 server_levels:
   enabled: false
-  count_mending_xp: true # Whether experience that will be used for mending counts towards server level
+  count_mending_xp: true # Whether experience that is used for mending counts towards server level
   broadcast_levelup: true # Whether levelup will be broadcasted to chat
   thresholds: [
       0,
