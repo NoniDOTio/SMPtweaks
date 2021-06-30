@@ -21,7 +21,9 @@ public class PlayerJoin implements Listener {
             playerMeta.pushToPDC();
         }
 
+        if(SMPtweaks.getCfg().getBoolean("rewards.enabled")) {
+            new RewardReminderTask(player).runTaskLaterAsynchronously(SMPtweaks.getPlugin(), 240L);
+        }
         new PlayerMetaLoaderTask(player).runTaskAsynchronously(SMPtweaks.getPlugin());
-        new RewardReminderTask(player).runTaskLaterAsynchronously(SMPtweaks.getPlugin(), 240L);
     }
 }
