@@ -39,12 +39,12 @@ public class DatabaseManager {
         }
 
         if(!canConnect()) {
-            LoggingUtils.error("Unable to connect to database.");
+            LoggingUtils.error("Unable to connect to database");
             return;
         }
 
         if(!isSetUpCorrectly()) {
-            LoggingUtils.warn("The database is not set up correctly.");
+            LoggingUtils.warn("The database is not set up correctly");
             setUp();
         }
     }
@@ -65,7 +65,7 @@ public class DatabaseManager {
             try {
                 if(!databaseFile.createNewFile()) return null;
             } catch (IOException e) {
-                LoggingUtils.error("Could not create SQLite database file.");
+                LoggingUtils.error("Could not create SQLite database file");
                 e.printStackTrace();
                 return null;
             }
@@ -80,7 +80,7 @@ public class DatabaseManager {
         try(var ignored = this.hikariDataSource.getConnection()) {
             return true;
         } catch (SQLException throwables) {
-            LoggingUtils.error("Unable to connect to database.");
+            LoggingUtils.error("Unable to connect to database");
             throwables.printStackTrace();
             return false;
         }
@@ -98,7 +98,6 @@ public class DatabaseManager {
             );
             return preparedStatement.execute();
         } catch (SQLException throwables) {
-            LoggingUtils.error("The database is not set up correctly.");
             return false;
         }
     }
@@ -120,8 +119,9 @@ public class DatabaseManager {
                     ")"
             );
             preparedStatement.execute();
+            LoggingUtils.info("Setting up database");
         } catch (SQLException throwables) {
-            LoggingUtils.error("Could not set up database.");
+            LoggingUtils.error("Could not set up database");
             throwables.printStackTrace();
         }
     }
