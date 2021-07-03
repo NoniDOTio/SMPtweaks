@@ -24,8 +24,12 @@ public class EntityDeath implements Listener {
         if(customDrop == null) return;
 
         var possibleDrops = customDrop.getPossibleItemDrops();
+        var discardVanillaDrops = customDrop.getDiscardVanillaDrops();
         var xpDrop = customDrop.getXp();
         var commands = customDrop.getCommands();
+
+        // Discard vanilla drops
+        if(discardVanillaDrops) e.getDrops().clear();
 
         // Overwrite XP
         if(xpDrop != null) {
@@ -51,10 +55,8 @@ public class EntityDeath implements Listener {
         });
 
         // Run commands
-        if(commands != null) {
-            for (String command : commands) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("@p", killer.getName()));
-            }
-        }
+        if(commands != null) commands.forEach(command ->
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("@p", killer.getName()))
+        );
     }
 }

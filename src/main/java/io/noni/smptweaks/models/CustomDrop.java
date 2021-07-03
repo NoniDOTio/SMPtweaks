@@ -7,11 +7,12 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public record CustomDrop(Integer xp, Map<ItemStack, Float> possibleItemDrops, List<String> commands) {
+public record CustomDrop(Integer xp, Map<ItemStack, Float> possibleItemDrops, boolean discardVanillaDrops, List<String> commands) {
 
-    public CustomDrop(@Nullable Integer xp, @NotNull Map<ItemStack, Float> possibleItemDrops, List<String> commands) {
+    public CustomDrop(@Nullable Integer xp, @NotNull Map<ItemStack, Float> possibleItemDrops, boolean discardVanillaDrops, List<String> commands) {
         this.xp = xp;
         this.possibleItemDrops = possibleItemDrops;
+        this.discardVanillaDrops = discardVanillaDrops;
         this.commands = commands;
     }
 
@@ -25,5 +26,9 @@ public record CustomDrop(Integer xp, Map<ItemStack, Float> possibleItemDrops, Li
 
     public List<String> getCommands() {
         return commands;
+    }
+
+    public boolean getDiscardVanillaDrops() {
+        return discardVanillaDrops;
     }
 }

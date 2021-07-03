@@ -275,6 +275,13 @@ public class ConfigCache {
                 }
             }
 
+            // Whether vanilla drops should be discarded
+            boolean discardVanillaDrops = false;
+            Object configDiscardVanillaDrops = dropsMob.get("discard_vanilla_drops");
+            if(configDiscardVanillaDrops != null) {
+                discardVanillaDrops = Boolean.parseBoolean(configDiscardVanillaDrops.toString());
+            }
+
             // Command
             List<String> commandList = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List) dropsMob.get("commands");
 
@@ -348,7 +355,7 @@ public class ConfigCache {
                     drops.put(itemStack, chance);
                 }
             }
-            entityCustomDrops.put(entityType, new CustomDrop(xpDrop, drops, commandList));
+            entityCustomDrops.put(entityType, new CustomDrop(xpDrop, drops, discardVanillaDrops, commandList));
         }
     }
 
