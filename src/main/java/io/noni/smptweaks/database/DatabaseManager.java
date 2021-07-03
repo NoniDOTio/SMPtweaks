@@ -18,10 +18,12 @@ import java.util.Date;
 public class DatabaseManager {
     private final HikariDataSource hikariDataSource;
     private static final FileConfiguration config = SMPtweaks.getPlugin().getConfig();
+    private final String table;
 
     public DatabaseManager() {
         this.hikariDataSource = new HikariDataSource();
         this.hikariDataSource.setMaximumPoolSize(10);
+        this.table = config.getString("mysql.table", "smptweaks_player");
 
         if(config.getBoolean("mysql.enabled")) {
             var host = config.getString("mysql.host");
@@ -108,7 +110,7 @@ public class DatabaseManager {
     public void setUp() {
         try(var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
-                    "CREATE TABLE IF NOT EXISTS `smptweaks_player` (" +
+                    "CREATE TABLE IF NOT EXISTS `" + table + "` (" +
                     "`uuid` VARCHAR(255) UNIQUE NULL PRIMARY KEY," +
                     "`name` VARCHAR(255) NOT NULL," +
                     "`level` SMALLINT DEFAULT 1 NOT NULL," +
@@ -135,7 +137,7 @@ public class DatabaseManager {
         try (var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
                     "SELECT `level`, `total_xp`, `xp_display_mode`, `last_special_item_drop` " +
-                    "FROM `smptweaks_player` " +
+                    "FROM `" + table + "` " +
                     "WHERE `uuid` = ? " +
                     "LIMIT 1"
             );
@@ -163,7 +165,7 @@ public class DatabaseManager {
         try (var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
                     "SELECT `name` " +
-                    "FROM `smptweaks_player` " +
+                    "FROM `" + table + "` " +
                     "WHERE `uuid` = ? " +
                     "LIMIT 1"
             );
@@ -188,12 +190,12 @@ public class DatabaseManager {
 
             if (!playerInDB(player)) {
                 preparedStatement = con.prepareStatement("" +
-                        "INSERT INTO `smptweaks_player` (`name`, `level`, `total_xp`, `xp_display_mode`, `uuid`) " +
+                        "INSERT INTO `" + table + "` (`name`, `level`, `total_xp`, `xp_display_mode`, `uuid`) " +
                         "VALUES(?, ?, ?, ?, ?)"
                 );
             } else {
                 preparedStatement = con.prepareStatement("" +
-                        "UPDATE `smptweaks_player` " +
+                        "UPDATE `" + table + "` " +
                         "SET " +
                         "`name` = ?, " +
                         "`level` = ?, " +
@@ -221,7 +223,7 @@ public class DatabaseManager {
         try (var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
                     "SELECT `last_reward_claimed` " +
-                    "FROM `smptweaks_player` " +
+                    "FROM `" + table + "` " +
                     "WHERE `uuid` = ? " +
                     "LIMIT 1"
             );
@@ -245,7 +247,7 @@ public class DatabaseManager {
     public void updateLastRewardClaimedDate(Player player) {
         try(var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
-                    "UPDATE `smptweaks_player` " +
+                    "UPDATE `" + table + "` " +
                     "SET " +
                     "`last_reward_claimed` = ? " +
                     "WHERE `uuid` = ?"

@@ -13,6 +13,7 @@ mysql:
   username: ''
   password: ''
   database: 'smptweaks'
+  table: 'smptweaks_player'
 #
 # Whether PAPI placeholders should be enabled. This requires the plugin PlaceholderAPI to be installed
 #
