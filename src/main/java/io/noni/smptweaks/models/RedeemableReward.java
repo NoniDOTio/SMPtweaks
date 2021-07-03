@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RedeemableReward {
     ItemStack itemStack;
@@ -34,7 +35,7 @@ public class RedeemableReward {
 
         // Choose random item
         var index = 0;
-        for (double rand = Math.random() * totalWeight; index < availableRewards.size() - 1; ++index) {
+        for (double rand = ThreadLocalRandom.current().nextFloat() * totalWeight; index < availableRewards.size() - 1; ++index) {
             rand -= availableRewards.get(index).getWeight();
             if (rand <= 0.0) break;
         }

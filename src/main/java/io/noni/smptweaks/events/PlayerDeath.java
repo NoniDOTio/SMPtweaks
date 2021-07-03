@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
-
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerDeath implements Listener {
 
@@ -114,7 +114,7 @@ public class PlayerDeath implements Listener {
                 }
 
                 // Drop item logic
-                if (Math.random() < inventoryChancePerSlot) {
+                if (ThreadLocalRandom.current().nextFloat() < inventoryChancePerSlot) {
                     int itemStackSize = itemStack.getAmount();
 
                     if(minAffectedStackSize < itemStack.getMaxStackSize()) {
@@ -156,7 +156,7 @@ public class PlayerDeath implements Listener {
             ItemStack boots = player.getInventory().getBoots();
 
             // Helmet
-            if(helmet != null && Math.random() < equipmentChancePerSlot) {
+            if(helmet != null && ThreadLocalRandom.current().nextFloat() < equipmentChancePerSlot) {
                 player.getInventory().setHelmet(null);
                 if(equipmentDropOnGround) {
                     player.getWorld().dropItemNaturally(player.getLocation(), helmet);
@@ -164,7 +164,7 @@ public class PlayerDeath implements Listener {
             }
 
             // Chestplate
-            if(chestplate != null && Math.random() < equipmentChancePerSlot) {
+            if(chestplate != null && ThreadLocalRandom.current().nextFloat() < equipmentChancePerSlot) {
                 player.getInventory().setChestplate(null);
                 if(equipmentDropOnGround) {
                     player.getWorld().dropItemNaturally(player.getLocation(), chestplate);
@@ -172,7 +172,7 @@ public class PlayerDeath implements Listener {
             }
 
             // Leggings
-            if(leggings != null && Math.random() < equipmentChancePerSlot) {
+            if(leggings != null && ThreadLocalRandom.current().nextFloat() < equipmentChancePerSlot) {
                 player.getInventory().setLeggings(null);
                 if(equipmentDropOnGround) {
                     player.getWorld().dropItemNaturally(player.getLocation(), leggings);
@@ -180,7 +180,7 @@ public class PlayerDeath implements Listener {
             }
 
             // Boots
-            if(boots != null && Math.random() < equipmentChancePerSlot) {
+            if(boots != null && ThreadLocalRandom.current().nextFloat() < equipmentChancePerSlot) {
                 player.getInventory().setBoots(null);
                 if(equipmentDropOnGround) {
                     player.getWorld().dropItemNaturally(player.getLocation(), boots);
@@ -201,7 +201,7 @@ public class PlayerDeath implements Listener {
      * @return
      */
     private int randomize(double amount, double deviation) {
-        double multiplier = 1 + (Math.random() * 2 * deviation) - deviation;
+        double multiplier = 1 + (ThreadLocalRandom.current().nextFloat() * 2 * deviation) - deviation;
         return (int) Math.round(amount * multiplier);
     }
 
