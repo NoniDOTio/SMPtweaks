@@ -17,10 +17,10 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
         var playerMeta = SMPtweaks.getDB().getPlayerMeta(player);
 
         if(playerMeta != null) {
-            LoggingUtils.info("Loading PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());
+            LoggingUtils.info("Loading meta data for " + player.getName() + " with UUID " + player.getUniqueId());
             playerMeta.pushToPDC();
         } else {
-            LoggingUtils.info("Could not find existing PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());
+            LoggingUtils.info("Could not find existing meta data for " + player.getName() + " with UUID " + player.getUniqueId());
         }
     }
 }

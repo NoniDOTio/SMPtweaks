@@ -14,7 +14,7 @@ public class PlayerMetaStorerTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        LoggingUtils.info("Storing PlayerMeta for " + player.getName() + " with UUID " + player.getUniqueId().toString());
+        LoggingUtils.info("Storing meta data for " + player.getName() + " with UUID " + player.getUniqueId());
         SMPtweaks.getDB().savePlayerMeta(player);
     }
 }
