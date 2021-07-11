@@ -15,6 +15,7 @@ import io.noni.smptweaks.utils.TranslationUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.Recipe;
@@ -43,13 +44,13 @@ public final class SMPtweaks extends JavaPlugin {
         plugin = this;
 
         // Check if optional Paper classes are available
-        boolean isPaperServer;
+        boolean isPaperServer = false;
         try {
             Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
+            Class.forName("com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent");
             isPaperServer = true;
             LoggingUtils.info("Paper events will be used in order to improve performance");
         } catch (ClassNotFoundException e) {
-            isPaperServer = false;
             LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
         }
 
@@ -109,6 +110,10 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("spawn_rates.enabled") ||
             config.getBoolean("shulkers_spawn_naturally")
                     ? (isPaperServer ? new PaperPreCreatureSpawn() : new CreatureSpawn()) : null,
+
+            config.getBoolean("spawn_rates.enabled") &&
+            configCache.getEntitySpawnRates().containsKey(EntityType.PHANTOM)
+                    ? (isPaperServer ? new PaperPhantomPreSpawn() : null) : null,
 
             config.getBoolean("custom_drops.enabled")
                     ? new EntityDeath() : null,
