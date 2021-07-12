@@ -316,8 +316,13 @@ public class ConfigCache {
 
                     // Amount
                     String amountString = drop.get("amount") == null ? "1" : drop.get("amount").toString();
-                    var amount = Integer.parseInt(amountString);
-                    itemStack.setAmount(Math.min(64, amount));
+                    try {
+                        var amount = Integer.parseInt(amountString);
+                        itemStack.setAmount(Math.min(64, amount));
+                    } catch (NumberFormatException e) {
+                        LoggingUtils.warn("Invalid amount '" + amountString + "' for item " + materialString + " in " + entityType + " custom drops. Defaulting to 1");
+                        itemStack.setAmount(1);
+                    }
 
                     // Enchantments
                     var enchantmentsList = (List) drop.get("enchantments");
