@@ -24,8 +24,11 @@ public class PaperPreCreatureSpawn implements Listener {
 
         var entityType = e.getType();
         Float multiplier = SMPtweaks.getConfigCache().getEntitySpawnRates().get(entityType);
-        if(multiplier != null && ThreadLocalRandom.current().nextFloat() > multiplier) {
+        if(multiplier == 0) {
             e.setShouldAbortSpawn(true);
+            e.setCancelled(true);
+        } else if(multiplier != null && ThreadLocalRandom.current().nextFloat() > multiplier) {
+            e.setCancelled(true);
         }
 
         // Shulker spawn logic
@@ -41,7 +44,7 @@ public class PaperPreCreatureSpawn implements Listener {
                 if(nearbyEntity.getType() == EntityType.SHULKER) return;
             }
             if(loc.getWorld() != null) {
-                e.setShouldAbortSpawn(true);
+                e.setCancelled(true);
                 loc.getWorld().spawn(e.getSpawnLocation(), Shulker.class);
             }
         }

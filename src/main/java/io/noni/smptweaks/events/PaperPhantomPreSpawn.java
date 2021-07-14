@@ -13,8 +13,11 @@ public class PaperPhantomPreSpawn implements Listener {
     @EventHandler
     void onPaperPhantomPreSpawn(PhantomPreSpawnEvent e) {
         float multiplier = SMPtweaks.getConfigCache().getEntitySpawnRates().get(EntityType.PHANTOM);
-        if(ThreadLocalRandom.current().nextFloat() > multiplier) {
+        if(multiplier == 0) {
             e.setShouldAbortSpawn(true);
+            e.setCancelled(true);
+        } else if(ThreadLocalRandom.current().nextFloat() > multiplier) {
+            e.setCancelled(true);
         }
     }
 }
