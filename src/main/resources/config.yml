@@ -66,8 +66,8 @@ respawn_food_level: 20 # The amount of half hunger points players have after the
 #
 disable_night_skip: false # Sleeping will not skip the night
 health_regen_while_in_bed: false # Give regeneration effect to players lying in bed
-day_duration_modifier: 0 # Number of ticks to make days longer or shorter (inaccurate!)
-night_duration_modifier: 0 # Number of ticks to make nights longer or shorter (inaccurate!)
+day_duration_modifier: 0 # Number of ticks to make days longer or shorter (eg. 2000)
+night_duration_modifier: 0 # Number of ticks to make nights longer or shorter (eg. -3000)
 clear_weather_at_dawn: false # Force sunshine in the morning, results in less bad weather overall
 #
 # Other tweaks
