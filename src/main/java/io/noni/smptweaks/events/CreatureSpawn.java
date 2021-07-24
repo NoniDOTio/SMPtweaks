@@ -17,8 +17,8 @@ public class CreatureSpawn implements Listener {
     @EventHandler
     void onCreatureSpawn(CreatureSpawnEvent e) {
         if(
-                e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL ||
-                e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.RAID ||
+                e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.NATURAL &&
+                e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.RAID &&
                 e.getSpawnReason() != CreatureSpawnEvent.SpawnReason.PATROL
         ) {
             return;
