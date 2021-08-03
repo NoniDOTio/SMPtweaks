@@ -95,7 +95,7 @@ public class DatabaseManager {
         try(var con = this.hikariDataSource.getConnection()) {
             var preparedStatement = con.prepareStatement("" +
                     "SELECT 1 " +
-                    "FROM `smptweaks_player` " +
+                    "FROM `" + table + "` " +
                     "LIMIT 1"
             );
             return preparedStatement.execute();
@@ -121,7 +121,7 @@ public class DatabaseManager {
                     ")"
             );
             preparedStatement.execute();
-            LoggingUtils.info("Setting up database");
+            LoggingUtils.info("Successfully set up database");
         } catch (SQLException throwables) {
             LoggingUtils.error("Could not set up database");
             throwables.printStackTrace();
