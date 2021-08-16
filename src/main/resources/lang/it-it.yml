@@ -16,7 +16,7 @@ mending-repair: 'riparato con {$1}XP'
 playerdeath-lost-xp-and-items: 'Hai perso alcuni item e punti esperienza'
 preferences-saved: 'I tuoi cambiamenti sono stati salvati'
 reward-available: 'La tua ricompensa di accesso è disponibile! Scrivi in chat /collect per ottenerla'
-reward-broadcast: '{$1} ha ottenuto la loro'
+reward-broadcast: '{$1} ha ottenuto la sua'
 reward-broadcast-hoverable-text: "ricompensa d'accesso"
 reward-broadcast-end: ''
 reward-broadcast-hover-text: "Scrivi in chat /collect per ottenere la tua ricompensa d'accesso"
