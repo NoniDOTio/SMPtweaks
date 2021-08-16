@@ -1,0 +1,31 @@
+bed-leave-no-time-skip: 'Ti senti riposato, ma la notte ancora continua...'
+error-online-player-not-found: 'Questo player è offline o non esiste'
+generic-hours: 'ore'
+generic-minutes: 'minuti'
+generic-seconds: 'secondi'
+item-received: '{$1} ricevuto'
+level-lookup-no-player-specified: 'Perfavore specifica il nome del giocatore da controllare'
+level-lookup-self: 'Sei livello {$1} con il {$2}% verso il livello {$3}'
+level-lookup-player: '{$1} è livello {$2} con il {$3}% verso il livello {$4}'
+level-progress-no-display-method-specified: "Perfavore specifica se si vuole visualizzare l'avanzamento del livello in chat o nella barra azione"
+levelup-broadcast: '{$1} ha raggiunto'
+levelup-broadcast-hoverable-text: 'livello {$1}'
+levelup-broadcast-end: ''
+levelup-broadcast-hover-text: '&6Per questo livello:&r {$1} XP &7·&r &6Totale:&r {$2} XP'
+mending-repair: 'riparato con {$1}XP'
+playerdeath-lost-xp-and-items: 'Hai perso un alcuni item e punti esperienza'
+preferences-saved: 'I tuoi cambiamenti sono stati salvati'
+reward-available: 'La tua ricompensa di accesso è disponibile! Scrivi in chat /collect per ottenerla'
+reward-broadcast: '{$1} ha ottenuto la loro'
+reward-broadcast-hoverable-text: "ricompensa d'accesso"
+reward-broadcast-end: ''
+reward-broadcast-hover-text: "Scrivi in chat /collect per ottenere la tua ricompensa d'accesso"
+reward-not-available-yet: "Devi aspettare {$1} prima di poter ottenera un'altra ricompensa d'accesso"
+whereis-message: '{$1} è nel {$2} in posizione {$3}' # Steve is in the Nether at 127 64 -37
+whereis-in-overworld: 'mondo in superficie'
+whereis-in-nether: 'nether'
+whereis-in-end: 'end'
+xp-current: 'XP corrente'
+xp-gained: '{$1}XP guadagnati'
+xp-total: 'XP totale'
+xp-until-next: "XP per l'avanzamento"
