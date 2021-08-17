@@ -25,40 +25,40 @@ papi_placeholders:
 #
 remove_xp_on_death:
   enabled: false
-  base: 5
-  portion_of_current: 0.4
-  randomize: true
-  max: 1000
-  drop_on_ground: true
-  drop_amount_multiplier: 1.0
-  disable_for_pvp_deaths: false
-  disable_for_non_pvp_deaths: false
+  base: 5 # Min amount of XP that is removed
+  portion_of_current: 0.5 # How much of the players current XP is removed (eg. 0.5 to remove half of it)
+  randomize: true # Whether the amound removed should be slightly randomized
+  max: 10000 # Max amount of XP that is removed
+  drop_on_ground: true # Whether the XP should only be removed or also drop on the ground
+  drop_amount_multiplier: 0.5 # How much of the removed XP is dropped (eg. 0.5 to drop half of it)
+  disable_for_pvp_deaths: false # Skip removing XP logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing XP logic for all death causes except pvp
 remove_inventory_on_death:
   enabled: false
-  chance_per_slot: 1.0
-  portion_per_slot: 0.6
-  randomize: true
-  include_non_stackable_items: false
-  drop_on_ground: true
-  drop_amount_multiplier: 1.0
-  always_drop:
+  chance_per_slot: 1.0 # Chance that an inventory slot is affected (1.0 to affect every slot)
+  portion_per_slot: 0.6 # Portion of the slot that is removed (0.5 to remove half of the stack the player carries)
+  randomize: true # Whether the amount removed shouöd be slightly randomized)
+  include_non_stackable_items: false # Whether non-stackable items (tools, etc.) should be affected
+  drop_on_ground: true # Whether the items should only be removed or also drop on the ground
+  drop_amount_multiplier: 1.0 # How much of the removed items is dropped (1.0 to drop all items that have been removed from the inventory)
+  always_drop: # List of items to always fully drop
     - DIRT
     - COBBLESTONE
-  never_drop:
+  never_drop: # List of items to never drop
     - DRAGON_EGG
-  disable_for_pvp_deaths: false
-  disable_for_non_pvp_deaths: false
+  disable_for_pvp_deaths: false # Skip removing items logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing items logic for all death causes except pvp
 remove_equipment_on_death:
   enabled: false
-  chance_per_slot: 0.3
-  drop_on_ground: true
-  disable_for_pvp_deaths: false
-  disable_for_non_pvp_deaths: false
+  chance_per_slot: 0.3 # Chance that an equipment inventory slot is affected (1.0 to affect every slot)
+  drop_on_ground: true # Whether the equipment should only be removed or also drop on the ground
+  disable_for_pvp_deaths: false # Skip removing equipment logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing equipment logic for all death causes except pvp
 decrease_item_durability_on_death:
   enabled: false
-  multiplier: 0.8
-  disable_for_pvp_deaths: false
-  disable_for_non_pvp_deaths: false
+  multiplier: 0.8 # Durability of all items will be multiplied with this (0.8 means all items will lose 20% durability)
+  disable_for_pvp_deaths: false # Skip decreasing item durability for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip decreasing item durability for all death causes except pvp
 respawn_health: 20 # The amount of half hearts players have after they respawn
 respawn_food_level: 20 # The amount of half hunger points players have after they respawn
 #
