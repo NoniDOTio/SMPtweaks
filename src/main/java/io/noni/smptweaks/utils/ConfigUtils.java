@@ -48,6 +48,6 @@ public class ConfigUtils {
      * @return
      */
     private static String prepareValue(@NotNull String value) {
-        return value.trim().replaceAll("^'|'$", "");
+        return value.trim().replaceAll("^'|'$", "").replaceAll("^\"|\"$", "");
     }
 }
