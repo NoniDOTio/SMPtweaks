@@ -76,6 +76,7 @@ xp_multiplier: 1.0 # eg. 0.5 for half the experience gain
 mending_repair_amount_multiplier: 1.0 # eg. 2.0 to repair items twice as fast
 buff_vegetarian_food: false # Slightly increases saturation restored by some vegetarian foods
 shulkers_spawn_naturally: false # Occasionally spawn shulkers in the end
+better_healing_arrows: false # Disable onhit damage and knockback when shooting a player
 #
 # Modify spawn rates
 # Allowed multiplier range is from 0 (no spawns at all) to 1 (normal spawn rate)
