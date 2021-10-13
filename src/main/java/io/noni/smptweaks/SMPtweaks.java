@@ -121,6 +121,9 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("better_healing_arrows")
                     ? new EntityDamageByEntity() : null,
 
+            config.getBoolean("better_healing_arrows")
+                    ? new ProjectileLaunch() : null,
+
             config.getBoolean("server_levels.enabled")
                     ? new PlayerLeave() : null
         ).forEach(this::registerEvent);

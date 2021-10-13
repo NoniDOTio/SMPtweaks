@@ -1,6 +1,5 @@
 package io.noni.smptweaks.events;
 
-import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -24,9 +23,10 @@ public class EntityDamageByEntity implements Listener {
         if(arrow.getBasePotionData().getType().getEffectType() != PotionEffectType.HEAL) {
             return;
         }
-        player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 1.0F, 1F);
-        player.getWorld().spawnParticle(Particle.HEART, player.getLocation().add(0, 3, 0), 1);
+
+        player.getWorld().playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 0.7F,  0.5F + (float) player.getHealth() / 15F);
         player.addPotionEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0));
+        arrow.remove();
         e.setCancelled(true);
     }
 }
