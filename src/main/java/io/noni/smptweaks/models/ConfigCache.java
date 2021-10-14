@@ -173,8 +173,8 @@ public class ConfigCache {
                     }
 
                     shapelessRecipe.addIngredient(Math.min(9, ingredientAmount), materialIngredient);
-                    shapelessRecipes.add(shapelessRecipe);
                 }
+                shapelessRecipes.add(shapelessRecipe);
             } else {
                 var shapedRecipe = new ShapedRecipe(recipeKey, itemStack);
 
