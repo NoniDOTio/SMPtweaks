@@ -118,10 +118,10 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("custom_drops.enabled")
                     ? new EntityDeath() : null,
 
-            config.getBoolean("better_healing_arrows")
+            config.getBoolean("better_tipped_arrows")
                     ? new EntityDamageByEntity() : null,
 
-            config.getBoolean("better_healing_arrows")
+            config.getBoolean("better_tipped_arrows")
                     ? new ProjectileLaunch() : null,
 
             config.getBoolean("server_levels.enabled")
@@ -220,7 +220,7 @@ public final class SMPtweaks extends JavaPlugin {
     @Override
     public void onDisable() {
         LoggingUtils.info("Disabling SMPtweaks...");
-        for (Player player : Bukkit.getServer().getOnlinePlayers()) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             new PlayerMetaStorerTask(player).run();
         }
     }
