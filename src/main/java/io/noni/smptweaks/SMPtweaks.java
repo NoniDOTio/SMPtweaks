@@ -221,7 +221,7 @@ public final class SMPtweaks extends JavaPlugin {
     public void onDisable() {
         LoggingUtils.info("Disabling SMPtweaks...");
         for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-            new PlayerMetaStorerTask(player).runTaskAsynchronously(this);
+            new PlayerMetaStorerTask(player).run();
         }
     }
 
