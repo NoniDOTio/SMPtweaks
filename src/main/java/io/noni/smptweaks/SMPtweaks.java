@@ -167,7 +167,7 @@ public final class SMPtweaks extends JavaPlugin {
             ), 0L, 2L);
         }
         if(config.getBoolean("clear_weather_at_dawn")) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 100L);
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 200L);
         }
 
         //
