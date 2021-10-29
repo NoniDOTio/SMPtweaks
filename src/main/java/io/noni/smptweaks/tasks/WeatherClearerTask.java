@@ -13,7 +13,7 @@ public class WeatherClearerTask implements Runnable {
         }
 
         var world = Bukkit.getWorlds().get(0);
-        if(world.getTime() > 23000L && world.getTime() < 23100L) {
+        if(world.getTime() > 23000L && world.getTime() <= 23200L) {
             world.setStorm(false);
             LoggingUtils.debug("The weather was cleared");
         }
