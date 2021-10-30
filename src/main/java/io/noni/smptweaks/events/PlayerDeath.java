@@ -21,7 +21,7 @@ public class PlayerDeath implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
-        var player = e.getEntity().getPlayer();
+        var player = e.getEntity();
         boolean isPvpDeath = player.getKiller() != null;
 
         //
@@ -42,7 +42,7 @@ public class PlayerDeath implements Listener {
         }
 
         if(!player.getWorld().getGameRuleValue(GameRule.KEEP_INVENTORY)) {
-            LoggingUtils.warn("Skipping remaining PlayerDeath logic. You need to set keepInventory to TRUE in order to use this feature.");
+            LoggingUtils.warn("Skipping remaining PlayerDeath logic because keepInventory is set to 'false'");
             return;
         }
 
