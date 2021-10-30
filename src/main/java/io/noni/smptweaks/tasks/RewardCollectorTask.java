@@ -32,15 +32,15 @@ public class RewardCollectorTask extends BukkitRunnable {
         if(secondsToWait > 0) {
             String timeToWait;
             if(secondsToWait > 3600) {
-                timeToWait = "" + TimeUnit.HOURS.convert(secondsToWait, TimeUnit.SECONDS) + " " + TranslationUtils.get("generic-hours");
+                timeToWait = "" + TimeUnit.HOURS.convert(secondsToWait, TimeUnit.SECONDS) + " " + TranslationUtils.get("hours");
             } else if(secondsToWait > 60) {
-                timeToWait = "" + TimeUnit.MINUTES.convert(secondsToWait, TimeUnit.SECONDS) + " " + TranslationUtils.get("generic-minutes");
+                timeToWait = "" + TimeUnit.MINUTES.convert(secondsToWait, TimeUnit.SECONDS) + " " + TranslationUtils.get("minutes");
             } else {
-                timeToWait = "" + secondsToWait + " " + TranslationUtils.get("generic-seconds");
+                timeToWait = "" + secondsToWait + " " + TranslationUtils.get("seconds");
             }
 
             // Tell the player how long they have to wait
-            ChatUtils.commandResponse(player, TranslationUtils.get("reward-not-available-yet", new String[]{timeToWait}));
+            ChatUtils.commandResponse(player, TranslationUtils.get("reward-not-available-yet", timeToWait));
             return;
         }
 
@@ -53,9 +53,7 @@ public class RewardCollectorTask extends BukkitRunnable {
         if(SMPtweaks.getCfg().getBoolean("rewards.broadcast_collection")) {
             var broadcastMessage = new TextComponent();
             var beginPart = new TextComponent(
-                    TranslationUtils.get("reward-broadcast", new String[]{
-                            player.getName()
-                    }) + " "
+                    TranslationUtils.get("reward-broadcast", player.getName()) + " "
             );
             var levelPart = new TextComponent(
                     ChatColor.GREEN + "[" + TranslationUtils.get("reward-broadcast-hoverable-text") + "]" + ChatColor.RESET
@@ -78,9 +76,9 @@ public class RewardCollectorTask extends BukkitRunnable {
         }
 
         // Tell player what they received
-        ChatUtils.notify(player, TranslationUtils.get("item-received", new String[] {
+        ChatUtils.notify(player, TranslationUtils.get("item-received",
                 reward.getItemStack().getAmount() + "x " + reward.getReward().getDisplayName()
-        }));
+        ));
         SMPtweaks.getDB().updateLastRewardClaimedDate(player);
     }
 }

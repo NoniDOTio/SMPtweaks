@@ -10,7 +10,7 @@ public class LoggingUtils {
 
     /**
      * Log a debug message
-     * @param text
+     * @param text Text to log
      */
     public static void debug(String text) {
         if(!SMPtweaks.getCfg().getBoolean("verbose")) {
