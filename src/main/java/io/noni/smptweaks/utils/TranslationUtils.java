@@ -69,6 +69,15 @@ public class TranslationUtils {
     }
 
     /**
+     * Get translated string for key and replace a single variable
+     * @param key Translation key
+     * @return Formatted and translated string
+     */
+    public static String get(@NotNull String key, @NotNull String variable) {
+        return get(key, new String[]{variable});
+    }
+
+    /**
      * Get translated string for key and replace variables
      * @param key Translation key
      * @return Formatted and translated string
@@ -82,7 +91,6 @@ public class TranslationUtils {
             result = result.replace("{$" + i + "}", variable);
             i++;
         }
-
         return ChatColor.translateAlternateColorCodes('&', result);
     }
 }
