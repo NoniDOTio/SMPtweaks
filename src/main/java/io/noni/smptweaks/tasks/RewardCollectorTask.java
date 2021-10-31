@@ -26,8 +26,8 @@ public class RewardCollectorTask extends BukkitRunnable {
     public void run() {
         var lastRewardClaimedDatetime = SMPtweaks.getDB().getLastRewardClaimedDate(player);
         var cooldownBetweenRewards = SMPtweaks.getCfg().getInt("rewards.cooldown");
-        int secondsSince = (int) (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
-        int secondsToWait = cooldownBetweenRewards - secondsSince;
+        long secondsSince = (new Date().getTime() - lastRewardClaimedDatetime.getTime()) / 1000;
+        long secondsToWait = cooldownBetweenRewards - secondsSince;
 
         if(secondsToWait > 0) {
             String timeToWait;

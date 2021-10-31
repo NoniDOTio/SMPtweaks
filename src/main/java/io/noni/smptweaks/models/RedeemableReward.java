@@ -62,7 +62,7 @@ public class RedeemableReward {
 
     /**
      *
-     * @return
+     * @return Amount of XP that is given to the redeeming player
      */
     public int getXp() {
         return xp;
@@ -70,7 +70,7 @@ public class RedeemableReward {
 
     /**
      *
-     * @return
+     * @return ItemStack that is given to the redeeming player
      */
     public ItemStack getItemStack() {
         return itemStack;
@@ -78,7 +78,7 @@ public class RedeemableReward {
 
     /**
      *
-     * @return
+     * @return Reward that is given to the redeeming player
      */
     public Reward getReward() {
         return reward;

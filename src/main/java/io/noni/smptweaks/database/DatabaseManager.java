@@ -232,7 +232,7 @@ public class DatabaseManager {
             var resultSet = preparedStatement.executeQuery();
             if(resultSet.next()) {
                 var datetimeString = resultSet.getString("last_reward_claimed");
-                if(datetimeString == null) datetimeString = "0000-00-00 00:00:00";
+                if(datetimeString == null) datetimeString = "1970-01-01 00:00:00";
                 return (new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).parse(datetimeString);
             }
         } catch (SQLException | ParseException throwables) {
