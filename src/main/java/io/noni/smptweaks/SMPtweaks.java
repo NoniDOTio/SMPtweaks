@@ -49,7 +49,7 @@ public final class SMPtweaks extends JavaPlugin {
             Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
             Class.forName("com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent");
             isPaperServer = true;
-            LoggingUtils.info("Paper events will be used in order to improve performance");
+            LoggingUtils.info("Paper-API detected! SMPtweaks will use Paper events where possible");
         } catch (ClassNotFoundException e) {
             LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
         }
@@ -206,11 +206,11 @@ public final class SMPtweaks extends JavaPlugin {
      */
     private void registerPlaceholders() {
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            if(new io.noni.smptweaks.placeholders.LevelExpansion().register()) {
-                LoggingUtils.info("Registered PlaceholderAPI expansion");
-            } else {
+            if(!(new io.noni.smptweaks.placeholders.LevelExpansion().register())) {
                 LoggingUtils.warn("Unable to register PlaceholderAPI expansion");
             }
+        } else {
+            LoggingUtils.warn("Unable to find PlaceholderAPI plugin. Is it installed?");
         }
     }
 
