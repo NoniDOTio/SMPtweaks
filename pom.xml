@@ -116,7 +116,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.4.5</version>
+            <version>5.0.0</version>
         </dependency>
 
         <dependency>
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>20.1.0</version>
+            <version>22.0.0</version>
             <scope>provided</scope>
         </dependency>
 
