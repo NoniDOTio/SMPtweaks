@@ -13,22 +13,22 @@ public class Level {
     private final int threshold;
     private final int untilXp;
 
-    final static List<Integer> thresholds = SMPtweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
+    final static List<Integer> THRESHOLDS = SMPtweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
 
     public Level(int totalXp) {
         int i;
-        for(i = 0; i < thresholds.size(); i++) {
-            if(totalXp < thresholds.get(i)) {
+        for(i = 0; i < THRESHOLDS.size(); i++) {
+            if(totalXp < THRESHOLDS.get(i)) {
                 break;
             }
         }
         this.level = i;
-        this.threshold = thresholds.get(i - 1);
+        this.threshold = THRESHOLDS.get(i - 1);
         this.totalXp = totalXp;
         this.currentXp = totalXp - this.threshold;
         int untilXp;
         try {
-            untilXp = thresholds.get(i) - totalXp;
+            untilXp = THRESHOLDS.get(i) - totalXp;
         } catch (IndexOutOfBoundsException e) {
             untilXp = 0;
         }
@@ -38,17 +38,17 @@ public class Level {
     public Level(Player player) {
         this.totalXp = PDCUtils.get(player, PDCKey.TOTAL_XP);
         int i;
-        for(i = 0; i < thresholds.size(); i++) {
-            if(totalXp < thresholds.get(i)) {
+        for(i = 0; i < THRESHOLDS.size(); i++) {
+            if(totalXp < THRESHOLDS.get(i)) {
                 break;
             }
         }
         this.level = i;
-        this.threshold = thresholds.get(i - 1);
+        this.threshold = THRESHOLDS.get(i - 1);
         this.currentXp = totalXp - this.threshold;
         int untilXp;
         try {
-            untilXp = thresholds.get(i) - totalXp;
+            untilXp = THRESHOLDS.get(i) - totalXp;
         } catch (IndexOutOfBoundsException e) {
             untilXp = 0;
         }
@@ -89,13 +89,13 @@ public class Level {
      * Get how much xp is needed for the level
      */
     public int getSingleXpRequiredForLevel() {
-        return thresholds.get(this.level - 1) - thresholds.get(this.level - 2);
+        return THRESHOLDS.get(this.level - 1) - THRESHOLDS.get(this.level - 2);
     }
 
     /**
      * Get how much xp is needed in total for the level
      */
     public int getTotalXpRequiredForLevel() {
-        return thresholds.get(this.level - 1);
+        return THRESHOLDS.get(this.level - 1);
     }
 }
