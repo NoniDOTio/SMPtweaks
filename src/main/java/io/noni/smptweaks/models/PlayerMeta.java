@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 public class PlayerMeta {
     Player player;
 
-    Integer level;
-    Integer totalXp;
-    Integer xpDisplayMode;
-    Integer specialDropAvailable;
+    private Integer level;
+    private Integer totalXp;
+    private Integer xpDisplayMode;
+    private Integer specialDropAvailable;
 
     public PlayerMeta(Player player) {
         this.player = player;

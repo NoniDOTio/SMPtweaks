@@ -3,14 +3,13 @@ package io.noni.smptweaks.models;
 import org.bukkit.inventory.ItemStack;
 
 public class Reward {
-    String displayName;
-    ItemStack itemStack;
-    int weight;
-
-    int minLevel;
-    int maxLevel;
-    int minAmount;
-    int maxAmount;
+    private final String displayName;
+    private final ItemStack itemStack;
+    private final int weight;
+    private final int minLevel;
+    private final int maxLevel;
+    private final int minAmount;
+    private final int maxAmount;
 
     public Reward(ItemStack itemStack, int minLevel, int maxLevel, int minAmount, int maxAmount, int weight) {
         this.itemStack = itemStack;

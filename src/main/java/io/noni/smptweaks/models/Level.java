@@ -7,13 +7,13 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class Level {
-    int level;
-    int totalXp;
-    int currentXp;
-    int untilXp;
-    int threshold;
+    private final int level;
+    private final int totalXp;
+    private final int currentXp;
+    private final int threshold;
+    private final int untilXp;
 
-    List<Integer> thresholds = SMPtweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
+    final static List<Integer> thresholds = SMPtweaks.getPlugin().getConfig().getIntegerList("server_levels.thresholds");
 
     public Level(int totalXp) {
         int i;
@@ -26,11 +26,13 @@ public class Level {
         this.threshold = thresholds.get(i - 1);
         this.totalXp = totalXp;
         this.currentXp = totalXp - this.threshold;
+        int untilXp;
         try {
-            this.untilXp = thresholds.get(i) - totalXp;
+            untilXp = thresholds.get(i) - totalXp;
         } catch (IndexOutOfBoundsException e) {
-            this.untilXp = 0;
+            untilXp = 0;
         }
+        this.untilXp = untilXp;
     }
 
     public Level(Player player) {
@@ -44,11 +46,13 @@ public class Level {
         this.level = i;
         this.threshold = thresholds.get(i - 1);
         this.currentXp = totalXp - this.threshold;
+        int untilXp;
         try {
-            this.untilXp = thresholds.get(i) - totalXp;
+            untilXp = thresholds.get(i) - totalXp;
         } catch (IndexOutOfBoundsException e) {
-            this.untilXp = 0;
+            untilXp = 0;
         }
+        this.untilXp = untilXp;
     }
 
     public boolean hasLevelledUp(int lastAmountAdded) {

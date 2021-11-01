@@ -10,18 +10,16 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RedeemableReward {
-    ItemStack itemStack;
-    Reward reward;
-
-    int xp;
-    int level;
+    private final ItemStack itemStack;
+    private final Reward reward;
+    private final int xp;
 
     /**
      * RedeemableReward constructor
      */
     public RedeemableReward(Player player) {
         var serverLevelsEnabled = SMPtweaks.getCfg().getBoolean("server_levels.enabled");
-        this.level = new PlayerMeta(player).getLevel();
+        int level = new PlayerMeta(player).getLevel();
         List<Reward> availableRewards = new ArrayList<>();
 
         // Calculate total weight of all rewards

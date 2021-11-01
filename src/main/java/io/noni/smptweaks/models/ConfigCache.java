@@ -13,16 +13,21 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class ConfigCache {
-    private List<Material> alwaysDropMaterials = new ArrayList<>();
-    private List<Material> neverDropMaterials = new ArrayList<>();
-    private List<Reward> rewardsList = new ArrayList<>();
-    private List<ShapedRecipe> shapedRecipes = new ArrayList<>();
-    private List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
-    private EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
-    private EnumMap<EntityType, CustomDrop> entityCustomDrops = new EnumMap<>(EntityType.class);
+    private final List<Material> alwaysDropMaterials = new ArrayList<>();
+    private final List<Material> neverDropMaterials = new ArrayList<>();
+    private final List<Reward> rewardsList = new ArrayList<>();
+    private final List<ShapedRecipe> shapedRecipes = new ArrayList<>();
+    private final List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
+    private final EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
+    private final EnumMap<EntityType, CustomDrop> entityCustomDrops = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
 
