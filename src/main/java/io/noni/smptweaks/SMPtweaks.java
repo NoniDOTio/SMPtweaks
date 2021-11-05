@@ -5,6 +5,7 @@ import io.noni.smptweaks.commands.LevelCommand;
 import io.noni.smptweaks.commands.LevelTab;
 import io.noni.smptweaks.commands.WhereisCommand;
 import io.noni.smptweaks.database.DatabaseManager;
+import io.noni.smptweaks.events.AnvilInventoryClickEvent;
 import io.noni.smptweaks.events.CreatureSpawn;
 import io.noni.smptweaks.events.EntityDamageByEntity;
 import io.noni.smptweaks.events.EntityDeath;
@@ -119,6 +120,9 @@ public final class SMPtweaks extends JavaPlugin {
 
             config.getBoolean("buff_vegetarian_food")
                     ? new PlayerItemConsume() : null,
+
+            config.getBoolean("disable_too_expensive_repairs")
+                    ? new AnvilInventoryClickEvent() : null,
 
             config.getBoolean("server_levels.enabled")
                     ? new PlayerJoin() : null,
