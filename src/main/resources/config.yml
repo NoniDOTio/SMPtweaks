@@ -107,8 +107,6 @@ custom_drops:
         - material: DRAGON_EGG
           amount: 1
           chance: 1.0
-          commands:
-            - 'minecraft:say The Dragen egg was dropped for @p'
       discard_vanilla_drops: false # When true, vanilla loot is discarded and only items specified above will drop
 #
 # Custom crafting recipes
