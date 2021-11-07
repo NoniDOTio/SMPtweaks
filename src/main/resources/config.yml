@@ -93,8 +93,8 @@ spawn_rates:
       multiplier: 0
 #
 # Specify what happens when certain mobs die
-# If you specify a custom item drop for the ender dragon, the drop will appear next to the exit portal
-# instead of the mobs death location
+# If you specify a custom item drop for the ender dragon, the drop will appear close to x=0 z=0
+# instead of at the mobs' death location
 #
 custom_drops:
   enabled: false
