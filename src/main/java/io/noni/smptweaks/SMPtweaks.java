@@ -240,8 +240,6 @@ public final class SMPtweaks extends JavaPlugin {
      */
     @Override
     public void onDisable() {
-        LoggingUtils.info("Disabling SMPtweaks...");
-
         // Make sure Daylight cycle is turned back on
         if(config.getInt("day_duration_modifier") != 0) {
             Bukkit.getWorlds().get(0).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
