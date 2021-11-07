@@ -31,6 +31,7 @@ import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.GameRule;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -240,6 +241,13 @@ public final class SMPtweaks extends JavaPlugin {
     @Override
     public void onDisable() {
         LoggingUtils.info("Disabling SMPtweaks...");
+
+        // Make sure Daylight cycle is turned back on
+        if(config.getInt("day_duration_modifier") != 0) {
+            Bukkit.getWorlds().get(0).setGameRule(GameRule.DO_DAYLIGHT_CYCLE, true);
+        }
+
+        // Store all player data
         for (Player player : Bukkit.getOnlinePlayers()) {
             new PlayerMetaStorerTask(player).run();
         }
