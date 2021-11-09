@@ -125,7 +125,8 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("disable_too_expensive_repairs")
                     ? new AnvilInventoryClickEvent() : null,
 
-            config.getBoolean("server_levels.enabled")
+            config.getBoolean("server_levels.enabled") ||
+            config.getBoolean("rewards.enabled")
                     ? new PlayerJoin() : null,
 
             config.getBoolean("spawn_rates.enabled") ||
@@ -145,7 +146,8 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("better_tipped_arrows")
                     ? new ProjectileLaunch() : null,
 
-            config.getBoolean("server_levels.enabled")
+            config.getBoolean("server_levels.enabled") ||
+            config.getBoolean("rewards.enabled")
                     ? new PlayerLeave() : null
         ).forEach(this::registerEvent);
 
@@ -246,8 +248,13 @@ public final class SMPtweaks extends JavaPlugin {
         }
 
         // Store all player data
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            new PlayerMetaStorerTask(player).run();
+        if(
+            config.getBoolean("server_levels.enabled") ||
+            config.getBoolean("rewards.enabled")
+        ) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                new PlayerMetaStorerTask(player).run();
+            }
         }
     }
 
