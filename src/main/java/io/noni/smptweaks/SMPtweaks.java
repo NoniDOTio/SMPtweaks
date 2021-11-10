@@ -54,6 +54,7 @@ public final class SMPtweaks extends JavaPlugin {
      * Plugin startup logic
      */
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onEnable() {
         // Variable for checking startup duration
         long startingTime = System.currentTimeMillis();
@@ -206,7 +207,7 @@ public final class SMPtweaks extends JavaPlugin {
 
     /**
      * Register events
-     * @param listener
+     * @param listener The Listener to register
      */
     private void registerEvent(@Nullable Listener listener) {
         if(listener != null) {
@@ -216,7 +217,7 @@ public final class SMPtweaks extends JavaPlugin {
 
     /**
      * Register recipes
-     * @param recipe
+     * @param recipe The Recipe to add to Bukkit
      */
     private void registerRecipe(@Nullable Recipe recipe) {
         if(recipe != null) {
@@ -228,12 +229,13 @@ public final class SMPtweaks extends JavaPlugin {
      * Register placeholders
      */
     private void registerPlaceholders() {
-        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            if(!(new io.noni.smptweaks.placeholders.LevelExpansion().register())) {
-                LoggingUtils.warn("Unable to register PlaceholderAPI expansion");
-            }
-        } else {
+        if(getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
             LoggingUtils.warn("Unable to find PlaceholderAPI plugin. Is it installed?");
+            return;
+        }
+
+        if(!(new io.noni.smptweaks.placeholders.LevelExpansion().register())) {
+            LoggingUtils.warn("Unable to register PlaceholderAPI expansion");
         }
     }
 
