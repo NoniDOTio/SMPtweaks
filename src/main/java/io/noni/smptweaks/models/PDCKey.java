@@ -17,16 +17,16 @@ public class PDCKey<T> {
         SPECIAL_DROP_AVAILABLE = new PDCKey("special_drop_available", PersistentDataType.INTEGER);
     }
 
-    public final NamespacedKey namespace;
+    public final NamespacedKey key;
     public final PersistentDataType<T, T> type;
 
-    private PDCKey(String namespace, PersistentDataType<T, T> type) {
-        this.namespace = new NamespacedKey(SMPtweaks.getPlugin(), namespace);
+    private PDCKey(String key, PersistentDataType<T, T> type) {
+        this.key = new NamespacedKey(SMPtweaks.getPlugin(), key);
         this.type = type;
     }
 
     public NamespacedKey getKey() {
-        return namespace;
+        return key;
     }
 
     public PersistentDataType<T, T> getType() {

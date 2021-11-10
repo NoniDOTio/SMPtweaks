@@ -27,7 +27,7 @@ public class ConfigCache {
     private final List<ShapedRecipe> shapedRecipes = new ArrayList<>();
     private final List<ShapelessRecipe> shapelessRecipes = new ArrayList<>();
     private final EnumMap<EntityType, Float> entitySpawnRates = new EnumMap<>(EntityType.class);
-    private final EnumMap<EntityType, CustomDrop> entityCustomDrops = new EnumMap<>(EntityType.class);
+    private final EnumMap<EntityType, CustomDropSet> entityCustomDrops = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
 
@@ -234,7 +234,10 @@ public class ConfigCache {
             float multiplier;
             try {
                 multiplier = Float.parseFloat(multiplierString);
-            } catch (NullPointerException | NumberFormatException e) {
+            } catch (NullPointerException e) {
+                LoggingUtils.warn("Missing spawn rate multiplier for '" + typeString + "'");
+                continue;
+            } catch (NumberFormatException e) {
                 LoggingUtils.warn("Invalid spawn rate multiplier for '" + typeString + "'");
                 continue;
             }
@@ -287,12 +290,18 @@ public class ConfigCache {
                 discardVanillaDrops = Boolean.parseBoolean(configDiscardVanillaDrops.toString());
             }
 
-            // Command
-            List<String> commandList = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List) dropsMob.get("commands");
+            // Commands to run when the mob dies
+            List<String> commandsList;
+            try {
+                commandsList = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List<String>) dropsMob.get("commands");
+            } catch (ClassCastException e) {
+                LoggingUtils.warn("Incorrectly formatted commands for entity " + dropsEntityTypeString + "");
+                commandsList = null;
+            }
 
             // Loop through drops
             List<?> dropsList = (List) dropsMob.get("drops");
-            var drops = new HashMap<ItemStack, Float>();
+            var drops = new HashMap<CustomDrop, Float>();
             if(dropsList != null) {
                 for (Object dropSingle : dropsList) {
                     var drop = (Map) dropSingle;
@@ -362,10 +371,20 @@ public class ConfigCache {
                         chance = 0F;
                         LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + " in " + entityType + " custom drops to 0 because it is lower than allowed");
                     }
-                    drops.put(itemStack, chance);
+
+                    // Commands
+                    List<String> dropCommandsList;
+                    try {
+                        dropCommandsList = drop.get("commands") instanceof String ? List.of(drop.get("commands").toString()) : (List<String>) drop.get("commands");
+                    } catch (ClassCastException e) {
+                        LoggingUtils.warn("Incorrectly formatted commands in drops for entity " + dropsEntityTypeString + "");
+                        dropCommandsList = null;
+                    }
+
+                    drops.put(new CustomDrop(itemStack, dropCommandsList), chance);
                 }
             }
-            entityCustomDrops.put(entityType, new CustomDrop(xpDrop, drops, discardVanillaDrops, commandList));
+            entityCustomDrops.put(entityType, new CustomDropSet(xpDrop, drops, commandsList, discardVanillaDrops));
         }
     }
 
@@ -467,7 +486,7 @@ public class ConfigCache {
         return entitySpawnRates;
     }
 
-    public Map<EntityType, CustomDrop> getEntityCustomDrops() {
+    public Map<EntityType, CustomDropSet> getEntityCustomDrops() {
         return entityCustomDrops;
     }
 }

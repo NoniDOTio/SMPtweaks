@@ -17,7 +17,7 @@ public class PDCUtils {
      * @return
      */
     public static <T> boolean has(PersistentDataHolder holder, PDCKey<T> key) {
-        return holder.getPersistentDataContainer().has(key.namespace, key.type);
+        return holder.getPersistentDataContainer().has(key.key, key.type);
     }
 
     /**
@@ -28,7 +28,7 @@ public class PDCUtils {
      * @return
      */
     public static <T> T get(PersistentDataHolder holder, PDCKey<T> key) {
-        return holder.getPersistentDataContainer().get(key.namespace, key.type);
+        return holder.getPersistentDataContainer().get(key.key, key.type);
     }
 
     /**
@@ -39,7 +39,7 @@ public class PDCUtils {
      * @param <T>
      */
     public static <T> void set(PersistentDataHolder holder, PDCKey<T> key, T value) {
-        holder.getPersistentDataContainer().set(key.namespace, key.type, value);
+        holder.getPersistentDataContainer().set(key.key, key.type, value);
     }
 
 }

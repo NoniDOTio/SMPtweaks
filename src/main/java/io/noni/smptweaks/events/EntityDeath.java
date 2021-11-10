@@ -23,10 +23,10 @@ public class EntityDeath implements Listener {
         var customDrop = entityCustomDrops.get(entityType);
         if(customDrop == null) return;
 
-        var possibleDrops = customDrop.getPossibleItemDrops();
-        var discardVanillaDrops = customDrop.getDiscardVanillaDrops();
-        var xpDrop = customDrop.getXp();
-        var commands = customDrop.getCommands();
+        var possibleDrops = customDrop.possibleDrops();
+        var discardVanillaDrops = customDrop.discardVanillaDrops();
+        var xpDrop = customDrop.xp();
+        var commands = customDrop.commands();
 
         // Discard vanilla drops
         if(discardVanillaDrops) e.getDrops().clear();
@@ -44,14 +44,23 @@ public class EntityDeath implements Listener {
         }
 
         // Select drops
-        possibleDrops.forEach((itemStack, chance) -> {
+        if(possibleDrops != null) possibleDrops.forEach((drop, chance) -> {
             if(chance < ThreadLocalRandom.current().nextFloat()) return;
 
-            if(entityType == EntityType.ENDER_DRAGON) {
-                e.getEntity().getWorld().dropItemNaturally(new Location(e.getEntity().getWorld(), 0, 74, 7), itemStack);
-            } else {
-                e.getDrops().add(itemStack);
+            // Drop ItemStack
+            if(drop.itemStack() != null) {
+                if(entityType == EntityType.ENDER_DRAGON) {
+                    e.getEntity().getWorld().dropItemNaturally(new Location(e.getEntity().getWorld(), 0, 74, 7), drop.itemStack());
+                } else {
+                    e.getDrops().add(drop.itemStack());
+                }
             }
+
+            // Run commands
+            var dropCommands = drop.commands();
+            if(dropCommands != null) dropCommands.forEach(command ->
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("@p", killer.getName()))
+            );
         });
 
         // Run commands

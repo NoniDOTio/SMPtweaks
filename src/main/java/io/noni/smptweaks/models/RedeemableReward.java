@@ -25,32 +25,32 @@ public class RedeemableReward {
         // Calculate total weight of all rewards
         var totalWeight = 0.0;
         for(Reward singleReward : SMPtweaks.getConfigCache().getRewardsList()) {
-            if(!serverLevelsEnabled || (level >= singleReward.getMinLevel() && level <= singleReward.getMaxLevel())) {
+            if(!serverLevelsEnabled || (level >= singleReward.minLevel() && level <= singleReward.maxLevel())) {
                 availableRewards.add(singleReward);
-                totalWeight += singleReward.getWeight();
+                totalWeight += singleReward.weight();
             }
         }
 
         // Choose random item
         var index = 0;
         for (double rand = ThreadLocalRandom.current().nextFloat() * totalWeight; index < availableRewards.size() - 1; ++index) {
-            rand -= availableRewards.get(index).getWeight();
+            rand -= availableRewards.get(index).weight();
             if (rand <= 0.0) break;
         }
         reward = availableRewards.get(index);
 
         // Assemble the ItemStack
-        itemStack = reward.getItemStack();
+        itemStack = reward.itemStack();
 
         // Calculate amount
         if(serverLevelsEnabled && SMPtweaks.getCfg().getBoolean("rewards.scale_amount_with_level")) {
-            float factor = (float)(reward.getMaxAmount() - reward.getMinAmount()) / ((float)(reward.getMaxLevel() + 1) - reward.getMinLevel());
-            float adjustedAmount = factor * (level - reward.getMinLevel()) + reward.getMinAmount();
+            float factor = (float)(reward.maxAmount() - reward.minAmount()) / ((float)(reward.maxLevel() + 1) - reward.minLevel());
+            float adjustedAmount = factor * (level - reward.minLevel()) + reward.minAmount();
             int amount = Math.round(adjustedAmount);
             itemStack.setAmount(amount);
         } else {
             var rand = new Random();
-            int amount = rand.nextInt((reward.getMaxAmount() + 1) - reward.getMinAmount()) + reward.getMinAmount();
+            int amount = rand.nextInt((reward.maxAmount() + 1) - reward.minAmount()) + reward.minAmount();
             itemStack.setAmount(amount);
         }
 

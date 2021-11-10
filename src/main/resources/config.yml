@@ -101,12 +101,14 @@ custom_drops:
   mobs:
     - type: ENDER_DRAGON # Entity type
       xp: 800 # Overwrite how much experience the mob drops
-      commands: # List of commands that will execute
+      commands: # List of commands that will execute whenever the entity dies
         - 'minecraft:effect give @p regeneration 12'
       drops: # List of items the mob may drop
         - material: DRAGON_EGG
           amount: 1
           chance: 1.0
+          commands: # List of commands that will execute whenever this drop is dropped
+            - 'minecraft:msg @p The Ender Dragon has dropped its egg!'
       discard_vanilla_drops: false # When true, vanilla loot is discarded and only items specified above will drop
 #
 # Custom crafting recipes
