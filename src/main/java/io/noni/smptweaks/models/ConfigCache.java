@@ -12,6 +12,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -30,7 +31,6 @@ public class ConfigCache {
     private final EnumMap<EntityType, CustomDropSet> entityCustomDrops = new EnumMap<>(EntityType.class);
 
     public ConfigCache() {
-
         //
         // Item Dropping
         //
@@ -61,54 +61,25 @@ public class ConfigCache {
         //
         // Rewards
         //
-        List<?> rewardList = SMPtweaks.getPlugin().getConfig().getList("rewards.contents");
+        List<?> configRewards = SMPtweaks.getPlugin().getConfig().getList("rewards.contents");
 
-        for (Object rewardSingle : rewardList) {
-            Map reward = (Map) rewardSingle;
-            int level = reward.get("level") == null ? 0 : Integer.parseInt(reward.get("level").toString());
-            int minLevel = reward.get("min_level") == null ? level : Integer.parseInt(reward.get("min_level").toString());
-            int maxLevel = reward.get("max_level") == null ? Integer.MAX_VALUE : Integer.parseInt(reward.get("max_level").toString());
-            int amount = reward.get("amount") == null ? 1 : Integer.parseInt(reward.get("amount").toString());
-            int minAmount = reward.get("min_amount") == null ? amount : Integer.parseInt(reward.get("min_amount").toString());
-            int maxAmount = reward.get("max_amount") == null ? amount : Integer.parseInt(reward.get("max_amount").toString());
-            int weight = reward.get("weight") == null ? 1 : Integer.parseInt(reward.get("weight").toString());
+        if(configRewards != null) {
+            for (Object configReward : configRewards) {
+                Map<?,?> reward = (Map<?,?>) configReward;
+                int level = reward.get("level") == null ? 0 : Integer.parseInt(reward.get("level").toString());
+                int minLevel = reward.get("min_level") == null ? level : Integer.parseInt(reward.get("min_level").toString());
+                int maxLevel = reward.get("max_level") == null ? Integer.MAX_VALUE : Integer.parseInt(reward.get("max_level").toString());
+                int amount = reward.get("amount") == null ? 1 : Integer.parseInt(reward.get("amount").toString());
+                int minAmount = reward.get("min_amount") == null ? amount : Integer.parseInt(reward.get("min_amount").toString());
+                int maxAmount = reward.get("max_amount") == null ? amount : Integer.parseInt(reward.get("max_amount").toString());
+                int weight = reward.get("weight") == null ? 1 : Integer.parseInt(reward.get("weight").toString());
 
-            var material = Material.getMaterial(reward.get("material").toString().toUpperCase());
-            if(material == null) {
-                LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
-                continue;
+                ItemStack itemStack = makeRewardItem(reward);
+                if (itemStack == null) {
+                    continue;
+                }
+                rewardsList.add(new Reward(itemStack, minLevel, maxLevel, minAmount, maxAmount, weight));
             }
-            var itemStack = new ItemStack(material);
-
-            // Display Name
-            Object configDisplayName = reward.get("display_name");
-            if(configDisplayName != null) {
-                applyDisplayName(configDisplayName, itemStack, "for " + material);
-            }
-
-            // Item Lore
-            List<String> configLore = reward.get("lore") instanceof String ? List.of(reward.get("lore").toString()) : (List) reward.get("lore");
-            if(configLore != null) {
-                applyLore(configLore, itemStack, "for reward '" + material + "'");
-            }
-
-            // Enchantments
-            var enchantmentsList = (List) reward.get("enchantments");
-            if(enchantmentsList != null) {
-                applyEnchantments(enchantmentsList, itemStack, "for reward '" + material + "'");
-            }
-
-            // Potion Effect
-            var potionEffect = reward.get("potion_type");
-            if(potionEffect != null && (
-                    material == Material.POTION ||
-                    material == Material.SPLASH_POTION ||
-                    material == Material.LINGERING_POTION
-            )) {
-                applyPotionEffect(potionEffect, itemStack, "for reward '" + material + "'");
-            }
-
-            rewardsList.add(new Reward(itemStack, minLevel, maxLevel, minAmount, maxAmount, weight));
         }
 
         //
@@ -117,7 +88,7 @@ public class ConfigCache {
         List<?> customRecipesList = SMPtweaks.getCfg().getList("custom_recipes.recipes");
         var i = 1;
         for (Object customRecipeSingle : customRecipesList) {
-            var customRecipe = (Map) customRecipeSingle;
+            var customRecipe = (Map<?,?>) customRecipeSingle;
             boolean shapeless = customRecipe.get("shape") == null;
             var recipeKey = new NamespacedKey(SMPtweaks.getPlugin(), "custom_recipe_" + i );
 
@@ -136,7 +107,7 @@ public class ConfigCache {
             }
 
             // Item Lore
-            List<String> configLore = customRecipe.get("lore") instanceof String ? List.of(customRecipe.get("lore").toString()) : (List) customRecipe.get("lore");
+            List<String> configLore = customRecipe.get("lore") instanceof String ? List.of(customRecipe.get("lore").toString()) : (List<String>) customRecipe.get("lore");
             if(configLore != null) {
                 applyLore(configLore, itemStack, "in recipe for " + material);
             }
@@ -147,7 +118,7 @@ public class ConfigCache {
             itemStack.setAmount(Math.min(64, amount));
 
             // Enchantments
-            var enchantmentsList = (List) customRecipe.get("enchantments");
+            var enchantmentsList = (List<?>) customRecipe.get("enchantments");
             if(enchantmentsList != null) {
                 applyEnchantments(enchantmentsList, itemStack, "in recipe for " + material);
             }
@@ -165,9 +136,9 @@ public class ConfigCache {
             // Recipe
             if(shapeless) {
                 var shapelessRecipe = new ShapelessRecipe(recipeKey, itemStack);
-                List ingredients = (List) customRecipe.get("ingredients");
+                var ingredients = (List<?>) customRecipe.get("ingredients");
                 for (Object ingredientSingle : ingredients) {
-                    Map ingredient = (Map) ingredientSingle;
+                    var ingredient = (Map<?,?>) ingredientSingle;
                     var materialIngredient = Material.getMaterial(ingredient.get("material").toString());
                     var ingredientCountString = ingredient.get("amount") == null ? "1" : ingredient.get("amount").toString();
                     var ingredientAmount = Integer.parseInt(ingredientCountString);
@@ -182,8 +153,7 @@ public class ConfigCache {
                 shapelessRecipes.add(shapelessRecipe);
             } else {
                 var shapedRecipe = new ShapedRecipe(recipeKey, itemStack);
-
-                ArrayList<?> shape = (ArrayList) customRecipe.get("shape");
+                var shape = (ArrayList<?>) customRecipe.get("shape");
                 var firstLine = shape.get(0).toString();
                 var secondLine = shape.get(1).toString();
                 var thirdLine = shape.get(2).toString();
@@ -194,9 +164,9 @@ public class ConfigCache {
                         thirdLine
                 );
 
-                List ingredients = (List) customRecipe.get("ingredients");
+                var ingredients = (List<?>) customRecipe.get("ingredients");
                 for (Object ingredientSingle : ingredients) {
-                    var ingredient = (Map) ingredientSingle;
+                    var ingredient = (Map<?,?>) ingredientSingle;
                     var materialIngredient = Material.getMaterial(ingredient.get("material").toString());
 
                     if(materialIngredient == null) {
@@ -216,7 +186,7 @@ public class ConfigCache {
         //
         List<?> spawnRatesList = SMPtweaks.getCfg().getList("spawn_rates.mobs");
         for (Object spawnRateSingle : spawnRatesList) {
-            var spawnRate = (Map) spawnRateSingle;
+            var spawnRate = (Map<?,?>) spawnRateSingle;
             var typeObject = spawnRate.get("type");
             if(typeObject == null) {
                 continue;
@@ -257,9 +227,9 @@ public class ConfigCache {
         //
         // Custom Drops
         //
-        List<?> dropsMobList = SMPtweaks.getCfg().getList("custom_drops.mobs");
-        for (Object dropsMobSingle : dropsMobList){
-            var dropsMob = (Map) dropsMobSingle;
+        List<?> configDropsMobs = SMPtweaks.getCfg().getList("custom_drops.mobs");
+        for (Object configDropsMob : configDropsMobs){
+            var dropsMob = (Map<?,?>) configDropsMob;
             var dropsEntityTypeString = dropsMob.get("type").toString();
             if(dropsEntityTypeString == null) continue;
 
@@ -291,104 +261,177 @@ public class ConfigCache {
             }
 
             // Commands to run when the mob dies
-            List<String> commandsList;
+            List<String> configCommands;
             try {
-                commandsList = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List<String>) dropsMob.get("commands");
+                configCommands = dropsMob.get("commands") instanceof String ? List.of(dropsMob.get("commands").toString()) : (List<String>) dropsMob.get("commands");
             } catch (ClassCastException e) {
                 LoggingUtils.warn("Incorrectly formatted commands for entity " + dropsEntityTypeString + "");
-                commandsList = null;
+                configCommands = null;
             }
 
-            // Loop through drops
-            List<?> dropsList = (List) dropsMob.get("drops");
+            // Loop through custom drops for this mob
+            List<?> configDrops = (List<?>) dropsMob.get("drops");
             var drops = new HashMap<CustomDrop, Float>();
-            if(dropsList != null) {
-                for (Object dropSingle : dropsList) {
-                    var drop = (Map) dropSingle;
+            if(configDrops != null) {
+                for (Object configDrop : configDrops) {
+                    var drop = (Map<?,?>) configDrop;
 
-                    // Material
-                    var materialString = drop.get("material").toString();
-                    var material = Material.getMaterial(materialString.toUpperCase());
-                    if (material == null) {
-                        LoggingUtils.warn("Invalid material '" + materialString + "' in " + entityType + " custom drops");
-                        continue;
-                    }
-                    var itemStack = new ItemStack(material);
-                    String context = "for item " + materialString + " in " + entityType + " custom drops";
-
-                    // Display Name
-                    Object configDisplayName = drop.get("display_name");
-                    if (configDisplayName != null) {
-                        applyDisplayName(configDisplayName, itemStack, context);
-                    }
-
-                    // Item Lore
-                    List<String> loreList = drop.get("lore") instanceof String ? List.of(drop.get("lore").toString()) : (List) drop.get("lore");
-                    if (loreList != null) {
-                        applyLore(loreList, itemStack, context);
-                    }
-
-                    // Amount
-                    String amountString = drop.get("amount") == null ? "1" : drop.get("amount").toString();
+                    // Item
+                    ItemStack itemStack;
+                    String materialString;
                     try {
-                        var amount = Integer.parseInt(amountString);
-                        itemStack.setAmount(Math.min(64, amount));
-                    } catch (NumberFormatException e) {
-                        LoggingUtils.warn("Invalid amount '" + amountString + "' for item " + materialString + " in " + entityType + " custom drops. Defaulting to 1");
-                        itemStack.setAmount(1);
+                        materialString = drop.get("material").toString();
+                        itemStack = makeCustomDropItem(drop, entityType);
+                    } catch (NullPointerException e) {
+                        materialString = null;
+                        itemStack = null;
                     }
+                    String dropDescription = (materialString == null) ? "command": "item " + materialString;
 
-                    // Enchantments
-                    var enchantmentsList = (List) drop.get("enchantments");
-                    if (enchantmentsList != null) {
-                        applyEnchantments(enchantmentsList, itemStack, context);
-                    }
-
-                    // Potion Effect
-                    Object potionEffect = drop.get("potion_type");
-                    if (potionEffect != null && (
-                            material == Material.POTION ||
-                            material == Material.SPLASH_POTION ||
-                            material == Material.LINGERING_POTION
-                    )) {
-                        applyPotionEffect(potionEffect, itemStack, context);
+                    // Commands
+                    List<String> configDropCommands;
+                    try {
+                        configDropCommands = drop.get("commands") instanceof String ? List.of(drop.get("commands").toString()) : (List<String>) drop.get("commands");
+                    } catch (ClassCastException e) {
+                        LoggingUtils.warn("Incorrectly formatted commands in drops for entity " + dropsEntityTypeString + "");
+                        configDropCommands = null;
                     }
 
                     // Drop Chance
-                    var chanceString = drop.get("chance").toString();
+                    var configChance = drop.get("chance").toString();
                     float chance;
                     try {
-                        chance = Float.parseFloat(chanceString);
+                        chance = Float.parseFloat(configChance);
                     } catch (NullPointerException | NumberFormatException e) {
-                        LoggingUtils.warn("Invalid drop chance for item " + materialString + " in " + entityType + " custom drops");
+                        LoggingUtils.warn("Invalid drop chance for " + dropDescription + " in " + entityType + " custom drops");
                         continue;
                     }
                     if (chance > 1) {
                         chance = 1F;
-                        LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item " + materialString + " in " + entityType + " custom drops to 1.0 because it is higher than allowed");
+                        LoggingUtils.warn("Changing drop chance '" + configChance + "' for " + dropDescription + " in " + entityType + " custom drops to 1.0 because it is higher than allowed");
                     }
                     if (chance < 0) {
                         chance = 0F;
-                        LoggingUtils.warn("Changing drop chance '" + chanceString + "' for item '" + materialString + " in " + entityType + " custom drops to 0 because it is lower than allowed");
+                        LoggingUtils.warn("Changing drop chance '" + configChance + "' for '" + dropDescription + " in " + entityType + " custom drops to 0 because it is lower than allowed");
                     }
 
-                    // Commands
-                    List<String> dropCommandsList;
-                    try {
-                        dropCommandsList = drop.get("commands") instanceof String ? List.of(drop.get("commands").toString()) : (List<String>) drop.get("commands");
-                    } catch (ClassCastException e) {
-                        LoggingUtils.warn("Incorrectly formatted commands in drops for entity " + dropsEntityTypeString + "");
-                        dropCommandsList = null;
-                    }
-
-                    drops.put(new CustomDrop(itemStack, dropCommandsList), chance);
+                    drops.put(new CustomDrop(itemStack, configDropCommands), chance);
                 }
             }
-            entityCustomDrops.put(entityType, new CustomDropSet(xpDrop, drops, commandsList, discardVanillaDrops));
+            entityCustomDrops.put(entityType, new CustomDropSet(xpDrop, drops, configCommands, discardVanillaDrops));
         }
     }
 
-    private void applyLore(List configLore, ItemStack itemStack, String context) {
+    /**
+     * Parse the reward item described in the config
+     * @param reward Raw description of the item from the config
+     * @return The parsed item or null if parsing failed
+     */
+    @Nullable
+    private ItemStack makeRewardItem(Map<?,?> reward) {
+        var material = Material.getMaterial(reward.get("material").toString().toUpperCase());
+        if(material == null) {
+            LoggingUtils.warn("Invalid reward '" + reward.get("material").toString() + "'");
+            return null;
+        }
+        var itemStack = new ItemStack(material);
+
+        // Display Name
+        Object configDisplayName = reward.get("display_name");
+        if(configDisplayName != null) {
+            applyDisplayName(configDisplayName, itemStack, "for " + material);
+        }
+
+        // Item Lore
+        List<String> configLore = reward.get("lore") instanceof String ? List.of(reward.get("lore").toString()) : (List<String>) reward.get("lore");
+        if(configLore != null) {
+            applyLore(configLore, itemStack, "for reward '" + material + "'");
+        }
+
+        // Enchantments
+        var configEnchantments = (List<?>) reward.get("enchantments");
+        if(configEnchantments != null) {
+            applyEnchantments(configEnchantments, itemStack, "for reward '" + material + "'");
+        }
+
+        // Potion Effect
+        var configPotionEffect = reward.get("potion_type");
+        if(configPotionEffect != null && (
+                material == Material.POTION ||
+                material == Material.SPLASH_POTION ||
+                material == Material.LINGERING_POTION
+        )) {
+            applyPotionEffect(configPotionEffect, itemStack, "for reward '" + material + "'");
+        }
+        return itemStack;
+    }
+
+    /**
+     * Parse the custom drop item described in the config
+     * @param configDrop Raw description of the item from the config
+     * @param entityType EntityType that is supposed to drop the custom drop, used to throw more accurate erros and warnings
+     * @return The resulting item or null if parsing failed
+     */
+    @Nullable
+    private ItemStack makeCustomDropItem(Map<?,?> configDrop, EntityType entityType) {
+        var materialString = configDrop.get("material").toString();
+
+        // Material
+        var material = Material.getMaterial(materialString.toUpperCase());
+        if (material == null) {
+            LoggingUtils.warn("Invalid material '" + materialString + "' in " + entityType + " custom drops");
+            return null;
+        }
+        var itemStack = new ItemStack(material);
+        String context = "for item " + materialString + " in " + entityType + " custom drops";
+
+        // Display Name
+        Object configDisplayName = configDrop.get("display_name");
+        if (configDisplayName != null) {
+            applyDisplayName(configDisplayName, itemStack, context);
+        }
+
+        // Item Lore
+        List<String> loreList = configDrop.get("lore") instanceof String ? List.of(configDrop.get("lore").toString()) : (List<String>) configDrop.get("lore");
+        if (loreList != null) {
+            applyLore(loreList, itemStack, context);
+        }
+
+        // Amount
+        String amountString = configDrop.get("amount") == null ? "1" : configDrop.get("amount").toString();
+        try {
+            var amount = Integer.parseInt(amountString);
+            itemStack.setAmount(Math.min(64, amount));
+        } catch (NumberFormatException e) {
+            LoggingUtils.warn("Invalid amount '" + amountString + "' for item " + materialString + " in " + entityType + " custom drops. Defaulting to 1");
+            itemStack.setAmount(1);
+        }
+
+        // Enchantments
+        var enchantmentsList = (List<?>) configDrop.get("enchantments");
+        if (enchantmentsList != null) {
+            applyEnchantments(enchantmentsList, itemStack, context);
+        }
+
+        // Potion Effect
+        Object potionEffect = configDrop.get("potion_type");
+        if (potionEffect != null && (
+                material == Material.POTION ||
+                material == Material.SPLASH_POTION ||
+                material == Material.LINGERING_POTION
+        )) {
+            applyPotionEffect(potionEffect, itemStack, context);
+        }
+        return itemStack;
+    }
+
+    /**
+     * Set lore of an ItemStack
+     * @param configLore A list of strings where each entry represents a line
+     * @param itemStack The ItemStack to add the lore to
+     * @param context Additional information to for more descriptive errors and warnings
+     */
+    private void applyLore(List<?> configLore, ItemStack itemStack, String context) {
         List<String> lore = new ArrayList<>();
         for(Object configLine : configLore) {
             String line = configLine == null ? "" : configLine.toString();
@@ -403,6 +446,12 @@ public class ConfigCache {
         }
     }
 
+    /**
+     * Set display name of an ItemStack
+     * @param configDisplayName The display name
+     * @param itemStack The ItemStack to name
+     * @param context Additional information to for more descriptive errors and warnings
+     */
     private void applyDisplayName(Object configDisplayName, ItemStack itemStack, String context) {
         var displayName = configDisplayName.toString();
         var itemMeta = itemStack.getItemMeta();
@@ -414,22 +463,39 @@ public class ConfigCache {
         itemStack.setItemMeta(itemMeta);
     }
 
-    private void applyPotionEffect(Object potionEffect, ItemStack itemStack, String context) {
+    /**
+     * Apply potion effect to ItemStack
+     * @param configPotionEffect Raw string of potion effect to apply
+     * @param itemStack The ItemStack to apply the potion effect to
+     * @param context Additional information to for more descriptive errors and warnings
+     */
+    private void applyPotionEffect(Object configPotionEffect, ItemStack itemStack, String context) {
         var potionMeta = (PotionMeta) itemStack.getItemMeta();
         PotionType potionType;
         try {
-            potionType = PotionType.valueOf(potionEffect.toString().toUpperCase());
+            potionType = PotionType.valueOf(configPotionEffect.toString().toUpperCase());
         } catch (IllegalArgumentException e) {
-            LoggingUtils.warn("Invalid potion type '" + potionEffect + "' " + context);
+            LoggingUtils.warn("Invalid potion type '" + configPotionEffect + "' " + context);
             return;
         }
-        potionMeta.setBasePotionData(new PotionData(potionType));
-        itemStack.setItemMeta(potionMeta);
+
+        try {
+            potionMeta.setBasePotionData(new PotionData(potionType));
+            itemStack.setItemMeta(potionMeta);
+        } catch (NullPointerException e) {
+            LoggingUtils.warn("Unable to apply potion data " + context);
+        }
     }
 
-    private void applyEnchantments(List enchantmentsList, ItemStack itemStack, String context) {
+    /**
+     * Add enchantments to ItemStack
+     * @param enchantmentsList List of Maps that contain enchantment name and
+     * @param itemStack The ItemStack to add the enchantment to
+     * @param context Additional information to for more descriptive errors and warnings
+     */
+    private void applyEnchantments(List<?> enchantmentsList, ItemStack itemStack, String context) {
         for (Object enchantmentSingle : enchantmentsList) {
-            var enchantmentMap = (Map) enchantmentSingle;
+            var enchantmentMap = (Map<?,?>) enchantmentSingle;
 
             var enchantmentName = enchantmentMap.get("enchantment").toString();
             if(enchantmentName == null) {
