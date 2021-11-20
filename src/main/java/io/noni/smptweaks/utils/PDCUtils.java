@@ -21,7 +21,7 @@ public class PDCUtils {
     }
 
     /**
-     * Set a variables value from the players PersistentDataContainer
+     * Get a variables value from the players PersistentDataContainer
      * @param holder
      * @param key
      * @param <T>
@@ -40,6 +40,15 @@ public class PDCUtils {
      */
     public static <T> void set(PersistentDataHolder holder, PDCKey<T> key, T value) {
         holder.getPersistentDataContainer().set(key.key, key.type, value);
+    }
+
+    /**
+     * Initialize variable
+     */
+    public static <T> void setIfAbsent(PersistentDataHolder holder, PDCKey<T> key, T value) {
+        if(!holder.getPersistentDataContainer().has(key.key, key.type)) {
+            holder.getPersistentDataContainer().set(key.key, key.type, value);
+        }
     }
 
 }

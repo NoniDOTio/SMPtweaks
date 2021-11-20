@@ -73,8 +73,8 @@ public class ChatUtils {
 
     /**
      * Message a player a system notification
-     * @param player
-     * @param message
+     * @param player Player to send the message to
+     * @param message Lines of message content
      */
     public static void systemNotify(Player player, String message) {
         player.sendMessage(ChatColor.GREEN + message);
@@ -82,8 +82,8 @@ public class ChatUtils {
 
     /**
      * Message a player an array of system notifications
-     * @param player
-     * @param messages
+     * @param player Player to send the messages to
+     * @param messages Lines of message content
      */
     public static void systemNotify(Player player, String[] messages) {
         for (String message : messages) {
@@ -93,7 +93,8 @@ public class ChatUtils {
 
     /**
      * Send a simple message to player
-     * @param message
+     * @param player Player to send the message to
+     * @param message Content of the message
      */
     public static void chat(Player player, String message) {
         player.sendMessage(ChatColor.WHITE + message);
@@ -101,7 +102,8 @@ public class ChatUtils {
 
     /**
      * Send an array of simple messages
-     * @param messages
+     * @param player Player to send the message to
+     * @param messages Text lines of the message
      */
     public static void chat(Player player, String[] messages) {
         for (String message : messages) {
