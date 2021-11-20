@@ -2,6 +2,10 @@ package io.noni.smptweaks.commands;
 
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -32,15 +36,24 @@ public class WhereisCommand implements CommandExecutor {
             var worldName = targetPlayerLocation.getWorld().getName();
             var worldString = beautifyWorldName(worldName);
 
-            var x = "" + ChatColor.WHITE + targetPlayerLocation.getBlockX() + ChatColor.RESET;
-            var y = "" + ChatColor.WHITE + targetPlayerLocation.getBlockY() + ChatColor.RESET;
-            var z = "" + ChatColor.WHITE + targetPlayerLocation.getBlockZ() + ChatColor.RESET;
+            var x = "" + targetPlayerLocation.getBlockX();
+            var y = "" + targetPlayerLocation.getBlockY();
+            var z = "" + targetPlayerLocation.getBlockZ();
 
-            ChatUtils.commandResponse(player, TranslationUtils.get("whereis-message", new String[]{
-                    targetPlayer.getName(),
-                    worldString,
-                    x + " " + y + " " + z
-            }));
+            TextComponent mainComponent = new TextComponent(
+                    ChatColor.GOLD +
+                    TranslationUtils.get("whereis-message", new String[]{
+                            targetPlayer.getName(),
+                            worldString
+                    }) + " "
+            );
+            TextComponent coordinatesComponent = new TextComponent("" + ChatColor.WHITE + x + " " + y + " " + z);
+            coordinatesComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                    TranslationUtils.get("click-to-copy")
+            )));
+            coordinatesComponent.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, x + " " + y + " " + z));
+            mainComponent.addExtra(coordinatesComponent);
+            ChatUtils.chatRaw(player, mainComponent);
             return true;
         }
 

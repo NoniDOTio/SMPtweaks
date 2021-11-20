@@ -1,4 +1,5 @@
 bed-leave-no-time-skip: 'Ti senti riposato, ma la notte ancora continua...'
+click-to-copy: 'Clicca per copiare'
 error-online-player-not-found: 'Questo player è offline o non esiste'
 hours: 'ore'
 minutes: 'minuti'
@@ -21,7 +22,7 @@ reward-broadcast-hoverable-text: "ricompensa d'accesso"
 reward-broadcast-end: ''
 reward-broadcast-hover-text: "Scrivi in chat /collect per ottenere la tua ricompensa d'accesso"
 reward-not-available-yet: "Devi aspettare {$1} prima di poter ottenera un'altra ricompensa d'accesso"
-whereis-message: '{$1} è nel {$2} in posizione {$3}' # Steve is in the Nether at 127 64 -37
+whereis-message: '{$1} è nel {$2} in posizione' # Steve is in the Nether at 127 64 -37
 whereis-in-overworld: 'mondo in superficie'
 whereis-in-nether: 'nether'
 whereis-in-end: 'end'

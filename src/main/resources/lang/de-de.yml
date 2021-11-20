@@ -1,4 +1,5 @@
 bed-leave-no-time-skip: 'Du fühlst dich erholt, aber die Nacht ist noch lang...'
+click-to-copy: 'Klicke um zu kopieren'
 error-online-player-not-found: 'Dieser Spieler existiert nicht oder ist nicht online'
 hours: 'Stunden'
 minutes: 'Minuten'
@@ -21,7 +22,7 @@ reward-broadcast-hoverable-text: 'Login-Belohnung'
 reward-broadcast-end: 'abgeholt!'
 reward-broadcast-hover-text: 'Tippe /collect um deine Belohnung ebenfalls abzuholen'
 reward-not-available-yet: 'Du musst noch {$1} warten bis du die nächste Login-Belohnung abholen kannst'
-whereis-message: '{$1} ist {$2} bei {$3}' # Steve ist in der Oberwelt bei 127 64 -37
+whereis-message: '{$1} ist {$2} bei' # Steve ist in der Oberwelt bei 127 64 -37
 whereis-in-overworld: 'in der Oberwelt'
 whereis-in-nether: 'im Nether'
 whereis-in-end: 'im Ende'
