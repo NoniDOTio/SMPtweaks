@@ -230,7 +230,7 @@ public final class SMPtweaks extends JavaPlugin {
      */
     private void registerPlaceholders() {
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            LoggingUtils.warn("Unable to find PlaceholderAPI plugin. Is it installed?");
+            LoggingUtils.warn("Unable to find PlaceholderAPI. Is it installed?");
             return;
         }
 

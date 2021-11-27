@@ -20,7 +20,7 @@ public class PlayerMetaLoaderTask extends BukkitRunnable {
             LoggingUtils.info("Loading meta data for " + player.getName() + " with UUID " + player.getUniqueId());
             playerMeta.pushToPDC();
         } else {
-            LoggingUtils.info("Could not find existing meta data for " + player.getName() + " with UUID " + player.getUniqueId());
+            LoggingUtils.info("Unable to find meta data for " + player.getName() + " with UUID " + player.getUniqueId());
         }
     }
 }
