@@ -17,16 +17,20 @@ public class TranslationUtils {
     }
 
     public static Map<String, String> loadTranslations(@Nullable String languageCode) {
-        if(languageCode == null) languageCode = "en-US";
+        // Get default translation file
         InputStream baseStream = SMPtweaks.getPlugin().getResource("lang/" + "en-US".toLowerCase() + ".yml");
-        InputStream translationsStream = SMPtweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
-
-        // Load base translations
         if(baseStream == null) {
             LoggingUtils.error("Default translations are missing, aborting");
             return null;
         }
+        // Assume "en-US" if no language code is provided
+        if(languageCode == null) {
+            languageCode = "en-US";
+        }
+        // Get translation file for selected language
+        InputStream translationsStream = SMPtweaks.getPlugin().getResource("lang/" + languageCode.toLowerCase() + ".yml");
 
+        // Load default translations
         Map<String, String> fallbackMap;
         try {
             fallbackMap = ConfigUtils.parseSimpleConfig(baseStream);
@@ -42,7 +46,7 @@ public class TranslationUtils {
             return fallbackMap;
         }
 
-        Map<String, String> translatedMap = null;
+        Map<String, String> translatedMap;
         try {
             translatedMap = ConfigUtils.parseSimpleConfig(translationsStream);
         } catch (IOException e) {
@@ -57,6 +61,7 @@ public class TranslationUtils {
         return mergedMap;
     }
 
+
     /**
      * Get translated string for key
      * @param key Translation key
@@ -68,6 +73,7 @@ public class TranslationUtils {
         return ChatColor.translateAlternateColorCodes('&', result);
     }
 
+
     /**
      * Get translated string for key and replace a single variable
      * @param key Translation key
@@ -76,6 +82,7 @@ public class TranslationUtils {
     public static String get(@NotNull String key, @NotNull String variable) {
         return get(key, new String[]{variable});
     }
+
 
     /**
      * Get translated string for key and replace variables
