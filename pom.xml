@@ -6,7 +6,7 @@
 
     <groupId>io.noni</groupId>
     <artifactId>SMPtweaks</artifactId>
-    <version>1.0.19-rc</version>
+    <version>1.0.20-rc</version>
     <packaging>jar</packaging>
 
     <name>SMPtweaks</name>
