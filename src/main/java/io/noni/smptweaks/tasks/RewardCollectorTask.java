@@ -3,6 +3,7 @@ package io.noni.smptweaks.tasks;
 import io.noni.smptweaks.SMPtweaks;
 import io.noni.smptweaks.models.RedeemableReward;
 import io.noni.smptweaks.utils.ChatUtils;
+import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -76,9 +77,11 @@ public class RewardCollectorTask extends BukkitRunnable {
         }
 
         // Tell player what they received
-        ChatUtils.notify(player, TranslationUtils.get("item-received",
-                reward.getItemStack().getAmount() + "x " + reward.getReward().getDisplayName()
-        ));
+        var amoundAndItemName = reward.getItemStack().getAmount() + "x " + reward.getReward().getDisplayName();
+        ChatUtils.notify(player, TranslationUtils.get("item-received", amoundAndItemName));
+
+        // ...and log the event
+        LoggingUtils.debug("Gave " + amoundAndItemName + " to " + player.getName());
         SMPtweaks.getDB().updateLastRewardClaimedDate(player);
     }
 }
