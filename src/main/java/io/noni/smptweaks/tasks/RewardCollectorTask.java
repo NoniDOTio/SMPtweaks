@@ -81,7 +81,7 @@ public class RewardCollectorTask extends BukkitRunnable {
         ChatUtils.notify(player, TranslationUtils.get("item-received", amoundAndItemName));
 
         // ...and log the event
-        LoggingUtils.debug("Gave " + amoundAndItemName + " to " + player.getName());
+        LoggingUtils.info("Gave " + amoundAndItemName + " to " + player.getName());
         SMPtweaks.getDB().updateLastRewardClaimedDate(player);
     }
 }

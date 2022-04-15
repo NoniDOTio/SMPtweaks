@@ -11,6 +11,7 @@ import io.noni.smptweaks.events.EntityDamageByEntity;
 import io.noni.smptweaks.events.EntityDeath;
 import io.noni.smptweaks.events.PaperPhantomPreSpawn;
 import io.noni.smptweaks.events.PaperPreCreatureSpawn;
+import io.noni.smptweaks.events.PaperShulkerSpawn;
 import io.noni.smptweaks.events.PlayerBedEnter;
 import io.noni.smptweaks.events.PlayerBedLeave;
 import io.noni.smptweaks.events.PlayerDeath;
@@ -22,6 +23,7 @@ import io.noni.smptweaks.events.PlayerJoin;
 import io.noni.smptweaks.events.PlayerLeave;
 import io.noni.smptweaks.events.PlayerRespawn;
 import io.noni.smptweaks.events.ProjectileLaunch;
+import io.noni.smptweaks.events.ShulkerSpawn;
 import io.noni.smptweaks.events.TimeSkip;
 import io.noni.smptweaks.models.ConfigCache;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
@@ -130,9 +132,11 @@ public final class SMPtweaks extends JavaPlugin {
             config.getBoolean("rewards.enabled")
                     ? new PlayerJoin() : null,
 
-            config.getBoolean("spawn_rates.enabled") ||
-            config.getBoolean("shulkers_spawn_naturally")
+            config.getBoolean("spawn_rates.enabled")
                     ? (isPaperServer ? new PaperPreCreatureSpawn() : new CreatureSpawn()) : null,
+
+            config.getBoolean("shulkers_spawn_naturally")
+                    ? (isPaperServer ? new PaperShulkerSpawn() : new ShulkerSpawn()) : null,
 
             config.getBoolean("spawn_rates.enabled") &&
             configCache.getEntitySpawnRates().containsKey(EntityType.PHANTOM)
