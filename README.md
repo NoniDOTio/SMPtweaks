@@ -11,15 +11,15 @@ SMPTweaks is fully modular, largely async and built in a lightweight way with hi
 
 ---
 
-- SMPTweaks supports **Spigot**, **Paper** and should work on any of their forks such as **Tuinity**, **Purpur**, etc.
+- SMPTweaks supports **Spigot**, **Paper** and should work on any of their forks such as **Purpur**, **Airplane** etc.
 - If you wish to use placeholders, you will have to install the plugin **PlaceholderAPI**
-- Java 16 or higher and Minecraft version 1.17.X
+- Java 16 or higher, Minecraft version 1.17 and above
 
 ### Contribute
 
 ---
 
-Wanna help making this plugin better?
+Want to help improve SMPtweaks?
 - Read how to contribute a translation [here](https://github.com/NoniDOTio/SMPtweaks/tree/master/src/main/resources/lang)
 - If you enjoy programming, feel free to look through the open issues and see if there's anything you'd ike to PR into the project.
 
