@@ -1,0 +1,269 @@
+#
+# General plugin settings
+#
+verbose: false
+language: en-US
+#
+# MYSQL Settings
+# If you leave this the way it is, the plugin will use SQLite instead
+#
+mysql:
+  enabled: false
+  host: ''
+  username: ''
+  password: ''
+  database: 'smptweaks'
+  table: 'smptweaks_player'
+#
+# Whether PAPI placeholders should be enabled. This requires the plugin PlaceholderAPI to be installed
+#
+papi_placeholders:
+  enabled: false
+#
+# Whether players should drop items and experience on death
+# Note: keepInventory needs to be ON in order to use this feature
+#
+remove_xp_on_death:
+  enabled: false
+  base: 5 # Min amount of XP that is removed
+  portion_of_current: 0.5 # How much of the players current XP is removed (eg. 0.5 to remove half of it)
+  randomize: true # Whether the amound removed should be slightly randomized
+  max: 10000 # Max amount of XP that is removed
+  drop_on_ground: true # Whether the XP should only be removed or also drop on the ground
+  drop_amount_multiplier: 0.5 # How much of the removed XP is dropped (eg. 0.5 to drop half of it)
+  disable_for_pvp_deaths: false # Skip removing XP logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing XP logic for all death causes except pvp
+remove_inventory_on_death:
+  enabled: false
+  chance_per_slot: 1.0 # Chance that an inventory slot is affected (1.0 to affect every slot)
+  portion_per_slot: 0.6 # Portion of the slot that is removed (0.5 to remove half of the stack the player carries)
+  randomize: true # Whether the amount removed shouöd be slightly randomized)
+  include_non_stackable_items: false # Whether non-stackable items (tools, etc.) should be affected
+  drop_on_ground: true # Whether the items should only be removed or also drop on the ground
+  drop_amount_multiplier: 1.0 # How much of the removed items is dropped (1.0 to drop all items that have been removed from the inventory)
+  always_drop: # List of items to always fully drop
+    - DIRT
+    - COBBLESTONE
+  never_drop: # List of items to never drop
+    - DRAGON_EGG
+  disable_for_pvp_deaths: false # Skip removing items logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing items logic for all death causes except pvp
+remove_equipment_on_death:
+  enabled: false
+  chance_per_slot: 0.3 # Chance that an equipment inventory slot is affected (1.0 to affect every slot)
+  drop_on_ground: true # Whether the equipment should only be removed or also drop on the ground
+  disable_for_pvp_deaths: false # Skip removing equipment logic for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip removing equipment logic for all death causes except pvp
+decrease_item_durability_on_death:
+  enabled: false
+  multiplier: 0.8 # Durability of all items will be multiplied with this (0.8 means all items will lose 20% durability)
+  disable_for_pvp_deaths: false # Skip decreasing item durability for pvp deaths
+  disable_for_non_pvp_deaths: false # Skip decreasing item durability for all death causes except pvp
+respawn_health: 20 # The amount of half hearts players have after they respawn
+respawn_food_level: 20 # The amount of half hunger points players have after they respawn
+#
+# Day-night cycle & weather tweaks
+#
+disable_night_skip: false # Sleeping will not skip the night
+health_regen_while_in_bed: false # Give regeneration effect to players lying in bed
+day_duration_modifier: 0 # Number of ticks to make days longer or shorter (eg. 2000)
+night_duration_modifier: 0 # Number of ticks to make nights longer or shorter (eg. -3000)
+clear_weather_at_dawn: false # Force sunshine in the morning, results in less bad weather overall
+#
+# Other tweaks
+#
+xp_multiplier: 1.0 # eg. 0.5 for half the experience gain
+mending_repair_amount_multiplier: 1.0 # eg. 2.0 to repair items twice as fast
+buff_vegetarian_food: false # Slightly increases saturation restored by some vegetarian foods
+shulkers_spawn_naturally: false # Occasionally spawn shulkers in the end
+better_tipped_arrows: false # Disable onhit damage and knockback when shooting a player with tipped arrows that have positive effects
+disable_too_expensive_repairs: false # Cap anvil repair cost at 39 levels, enchanting in an avil may still be 'too expensive'
+#
+# Modify spawn rates
+# Allowed multiplier range is from 0 (no spawns at all) to 1 (normal spawn rate)
+# Keep in mind that if you reduce spawns of a certain mob type,
+# it will result in slightly more spawns of other mobs as the mob cap will remain unchanged
+#
+spawn_rates:
+  enabled: false
+  mobs:
+    - type: CREEPER
+      multiplier: 0.7
+    - type: PHANTOM
+      multiplier: 0
+#
+# Specify what happens when certain mobs die
+# If you specify a custom item drop for the ender dragon, the drop will appear close to x=0 z=0
+# instead of at the mobs' death location
+#
+custom_drops:
+  enabled: false
+  mobs:
+    - type: ENDER_DRAGON # Entity type
+      xp: 800 # Overwrite how much experience the mob drops
+      commands: # List of commands that will execute whenever the entity dies
+        - 'minecraft:effect give @p regeneration 12'
+      drops: # List of items the mob may drop
+        - material: DRAGON_EGG
+          amount: 1
+          chance: 1.0
+          commands: # List of commands that will execute whenever this drop is dropped
+            - 'minecraft:msg @p The Ender Dragon has dropped its egg!'
+      discard_vanilla_drops: false # When true, vanilla loot is discarded and only items specified above will drop
+#
+# Custom crafting recipes
+#
+custom_recipes:
+  enabled: false
+  recipes:
+    - material: ELYTRA
+      shape:
+        - 'MDM'
+        - 'M M'
+        - 'M M'
+      ingredients:
+        - material: DRAGON_EGG
+          key: D
+        - material: PHANTOM_MEMBRANE
+          key: M
+    - material: LEATHER
+      amount: 1
+      ingredients:
+        - material: ROTTEN_FLESH
+          amount: 9
+#
+# Select which commands you want to enable
+#
+enable_commands:
+  level: false
+  whereis: false
+#
+# Login Rewards
+#
+rewards:
+  enabled: false
+  cooldown: 82800 # Cooldown in seconds between collecting rewards
+  scale_amount_with_level: true # Whether the amount received scales with server level, otherwise random
+  broadcast_collection: true # Whether reward collection will be broadcasted to chat
+  xp: 50 # How much experience the player receives when collecting their reward
+  contents:
+    - material: BREAD
+      min_amount: 1
+      max_amount: 3
+      max_level: 10
+      weight: 10
+    - material: IRON_INGOT
+      max_amount: 6
+      min_level: 5
+      max_level: 20
+      weight: 5
+    - material: DIAMOND
+      min_level: 15
+#
+# Whether the SMPtweaks server level system is used
+#
+server_levels:
+  enabled: false
+  count_mending_xp: true # Whether experience that is used for mending counts towards server level
+  broadcast_levelup: true # Whether levelup will be broadcasted to chat
+  thresholds: [
+      0,
+      100,
+      240,
+      420,
+      640,
+      900,
+      1200,
+      1540,
+      1920,
+      2340,
+      2800,
+      3300,
+      3840,
+      4420,
+      5040,
+      5700,
+      6400,
+      7140,
+      7920,
+      8740,
+      9600,
+      10500,
+      11480,
+      12560,
+      13730,
+      15000,
+      16350,
+      17800,
+      19340,
+      20980,
+      22710,
+      24540,
+      26470,
+      28500,
+      30630,
+      32860,
+      35190,
+      37630,
+      40170,
+      42810,
+      45560,
+      48420,
+      51390,
+      54470,
+      57660,
+      60960,
+      64370,
+      67900,
+      71540,
+      75300,
+      79180,
+      83180,
+      87490,
+      92140,
+      97150,
+      102500,
+      108200,
+      114400,
+      121000,
+      128100,
+      135600,
+      143600,
+      152100,
+      161200,
+      170900,
+      181100,
+      192000,
+      203600,
+      215900,
+      228900,
+      242600,
+      257200,
+      272600,
+      289000,
+      306200,
+      324400,
+      343700,
+      364000,
+      385500,
+      408200,
+      432100,
+      457400,
+      487800,
+      524500,
+      568700,
+      621900,
+      685900,
+      762900,
+      855400,
+      966600,
+      1100100,
+      1260600,
+      1453200,
+      1684600,
+      1962500,
+      2296000,
+      2696500,
+      3277200,
+      4000000
+  ]
