@@ -137,6 +137,7 @@ custom_recipes:
 enable_commands:
   level: false
   whereis: false
+  track: false
 #
 # Login Rewards
 #

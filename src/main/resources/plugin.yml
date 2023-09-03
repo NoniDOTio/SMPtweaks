@@ -18,3 +18,6 @@ commands:
     description: Collect login reward.
     aliases: [ daily ]
     usage:  /collect
+  track:
+    description: Track a player.
+    usage:  /track <player> -or- /track

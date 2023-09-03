@@ -1,33 +1,12 @@
 package io.noni.smptweaks;
 
-import io.noni.smptweaks.commands.CollectCommand;
-import io.noni.smptweaks.commands.LevelCommand;
-import io.noni.smptweaks.commands.LevelTab;
-import io.noni.smptweaks.commands.WhereisCommand;
+import io.noni.smptweaks.commands.*;
 import io.noni.smptweaks.database.DatabaseManager;
-import io.noni.smptweaks.events.AnvilInventoryClickEvent;
-import io.noni.smptweaks.events.CreatureSpawn;
-import io.noni.smptweaks.events.EntityDamageByEntity;
-import io.noni.smptweaks.events.EntityDeath;
-import io.noni.smptweaks.events.PaperPhantomPreSpawn;
-import io.noni.smptweaks.events.PaperPreCreatureSpawn;
-import io.noni.smptweaks.events.PaperShulkerSpawn;
-import io.noni.smptweaks.events.PlayerBedEnter;
-import io.noni.smptweaks.events.PlayerBedLeave;
-import io.noni.smptweaks.events.PlayerDeath;
-import io.noni.smptweaks.events.PlayerExpChange;
-import io.noni.smptweaks.events.PlayerExpPickup;
-import io.noni.smptweaks.events.PlayerItemConsume;
-import io.noni.smptweaks.events.PlayerItemMend;
-import io.noni.smptweaks.events.PlayerJoin;
-import io.noni.smptweaks.events.PlayerLeave;
-import io.noni.smptweaks.events.PlayerRespawn;
-import io.noni.smptweaks.events.ProjectileLaunch;
-import io.noni.smptweaks.events.ShulkerSpawn;
-import io.noni.smptweaks.events.TimeSkip;
+import io.noni.smptweaks.events.*;
 import io.noni.smptweaks.models.ConfigCache;
 import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
 import io.noni.smptweaks.tasks.TimeModifierTask;
+import io.noni.smptweaks.tasks.TrackerUpdateTask;
 import io.noni.smptweaks.tasks.WeatherClearerTask;
 import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
@@ -42,7 +21,7 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Stream;
 
 public final class SMPtweaks extends JavaPlugin {
@@ -51,6 +30,7 @@ public final class SMPtweaks extends JavaPlugin {
     private static FileConfiguration config;
     private static ConfigCache configCache;
     private static Map<String, String> translations;
+    private static Map<UUID, UUID> playerTrackers = new HashMap<>();
 
     /**
      * Plugin startup logic
@@ -70,7 +50,7 @@ public final class SMPtweaks extends JavaPlugin {
             Class.forName("com.destroystokyo.paper.event.entity.PreCreatureSpawnEvent");
             Class.forName("com.destroystokyo.paper.event.entity.PhantomPreSpawnEvent");
             isPaperServer = true;
-            LoggingUtils.info("Paper-API detected! SMPtweaks will use Paper events where possible");
+            LoggingUtils.info("Paper-API detected! SMPtweaks will use Paper events");
         } catch (ClassNotFoundException e) {
             LoggingUtils.info("This server doesn't seem to run Paper or a Paper-fork, falling back to using Spigot events");
         }
@@ -153,7 +133,10 @@ public final class SMPtweaks extends JavaPlugin {
 
             config.getBoolean("server_levels.enabled") ||
             config.getBoolean("rewards.enabled")
-                    ? new PlayerLeave() : null
+                    ? new PlayerLeave() : null,
+
+            config.getBoolean("enable_commands.track")
+                    ? new TrackedPlayerLeave() : null
         ).forEach(this::registerEvent);
 
         //
@@ -180,6 +163,9 @@ public final class SMPtweaks extends JavaPlugin {
         if(config.getBoolean("rewards.enabled")) {
             getCommand("collect").setExecutor(new CollectCommand());
         }
+        if(config.getBoolean("enable_commands.track")) {
+            getCommand("track").setExecutor(new TrackCommand());
+        }
         if(config.getBoolean("enable_commands.level") && config.getBoolean("server_levels.enabled")) {
             getCommand("level").setExecutor(new LevelCommand());
             getCommand("level").setTabCompleter(new LevelTab());
@@ -196,6 +182,9 @@ public final class SMPtweaks extends JavaPlugin {
         }
         if(config.getBoolean("clear_weather_at_dawn")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 200L);
+        }
+        if(config.getBoolean("enable_commands.track")) {
+            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new TrackerUpdateTask(), 0L, 20L);
         }
 
         //
@@ -297,10 +286,18 @@ public final class SMPtweaks extends JavaPlugin {
     }
 
     /**
-     * Get hashmap of translations
+     * Get translations map
      * @return Translations
      */
     public static Map<String, String> getTranslations() {
         return translations;
+    }
+
+    /**
+     * Get playerTrackers map
+     * @return playerTrackers
+     */
+    public static Map<UUID, UUID> getPlayerTrackers() {
+        return playerTrackers;
     }
 }

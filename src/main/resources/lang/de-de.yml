@@ -22,6 +22,10 @@ reward-broadcast-hoverable-text: 'Login-Belohnung'
 reward-broadcast-end: 'abgeholt!'
 reward-broadcast-hover-text: 'Tippe /collect um deine Belohnung ebenfalls abzuholen'
 reward-not-available-yet: 'Du musst noch {$1} warten bis du die nächste Login-Belohnung abholen kannst'
+tracker-tracking: 'Folge {$1} · {$2} Blöcke entfernt'
+tracker-auto-removed: 'Dein Tracker wurde gelöscht, weil der Spieler seit einiger Zeit offline ist'
+tracker-player-in-different-dimension: '{$1} ist {$2}' # Steve ist im Ende
+tracker-offline: 'Spieler ist offline'
 whereis-message: '{$1} ist {$2} bei' # Steve ist in der Oberwelt bei 127 64 -37
 whereis-in-overworld: 'in der Oberwelt'
 whereis-in-nether: 'im Nether'
