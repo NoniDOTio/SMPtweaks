@@ -184,7 +184,7 @@ public final class SMPtweaks extends JavaPlugin {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WeatherClearerTask(), 0L, 200L);
         }
         if(config.getBoolean("enable_commands.track")) {
-            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new TrackerUpdateTask(), 0L, 20L);
+            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new TrackerUpdateTask(), 0L, 10L);
         }
 
         //

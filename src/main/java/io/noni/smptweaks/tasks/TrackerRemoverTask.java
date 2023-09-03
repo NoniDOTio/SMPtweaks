@@ -1,6 +1,7 @@
 package io.noni.smptweaks.tasks;
 
 import io.noni.smptweaks.SMPtweaks;
+import io.noni.smptweaks.utils.ActionBarUtils;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bukkit.Bukkit;
@@ -49,6 +50,7 @@ public class TrackerRemoverTask extends BukkitRunnable {
             }
 
             ChatUtils.notify(playerWithInactiveTrackerUuid, TranslationUtils.get("tracker-auto-removed"));
+            ActionBarUtils.clear(playerWithInactiveTrackerUuid);
         }
     }
 }

@@ -23,10 +23,18 @@ public class ActionBarUtils {
 
     /**
      * Send a negative action bar message to a player
-     * @param player The player to display the action bar to
+     * @param player Player to display the action bar to
      * @param message Content of the message
      */
     public static void negativeNotify(@NotNull Player player, @NotNull String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.RED + message));
+    }
+
+    /**
+     * Clear action bar by sending an empty message to a player
+     * @param player Player whose action bar to clear
+     */
+    public static void clear(Player player) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(""));
     }
 }

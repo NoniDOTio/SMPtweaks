@@ -1,6 +1,7 @@
 package io.noni.smptweaks.commands;
 
 import io.noni.smptweaks.SMPtweaks;
+import io.noni.smptweaks.utils.ActionBarUtils;
 import io.noni.smptweaks.utils.ChatUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -27,23 +28,27 @@ public class TrackCommand implements CommandExecutor {
             return false;
         }
 
-        final var targetPlayer = Bukkit.getPlayer(args[0]);
         final var player = (Player) sender;
+        if(args[0].equalsIgnoreCase("clear")) {
+            SMPtweaks.getPlayerTrackers().remove(player.getUniqueId());
+            ChatUtils.commandResponse(player, TranslationUtils.get("tracker-removed"));
+            ActionBarUtils.clear(player);
+            return true;
+        }
 
+        final var targetPlayer = Bukkit.getPlayer(args[0]);
         if(targetPlayer == null) {
             ChatUtils.negative(player, TranslationUtils.get("error-online-player-not-found"));
             return true;
         }
 
         if(targetPlayer.equals(player)) {
-            ChatUtils.negative(player, "You cannot track yourself");
+            ChatUtils.negative(player, TranslationUtils.get("tracker-cannot-track-yourself"));
             return true;
         }
 
         SMPtweaks.getPlayerTrackers().put(player.getUniqueId(), targetPlayer.getUniqueId());
-
-        ChatUtils.commandResponse(player, "You are now tracking " + targetPlayer.getName());
-
+        ChatUtils.commandResponse(player, TranslationUtils.get("tracker-success", targetPlayer.getName()));
         return true;
     }
 }
