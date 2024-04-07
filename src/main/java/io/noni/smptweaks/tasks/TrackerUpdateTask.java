@@ -58,13 +58,37 @@ public class TrackerUpdateTask implements Runnable {
             double cross = direction.clone().crossProduct(trackedPlayerToPlayer).getY() / distanceInBlocks;
             double dot = direction.dot(trackedPlayerToPlayer) / distanceInBlocks;
 
+            String relativePositionIndicator = getRelativePositionIndicator(distanceInBlocks, playerLocation, trackedPlayerLocation);
             String arrow = getArrowSymbol(cross, dot);
             ActionBarUtils.notify(player, TranslationUtils.get("tracker-tracking", new String[]{
                     trackedPlayer.getName(),
                     NumberUtils.format((int) distanceInBlocks)
-            }) + " " +  arrow);
+            }) + " " +  arrow + " " +  relativePositionIndicator);
         });
     }
+
+
+    @NotNull
+    private static String getRelativePositionIndicator(double distanceInBlocks, Location playerLocation, Location trackedPlayerLocation) {
+        if (distanceInBlocks > 320) {
+            return "";
+        }
+
+        int playerY = playerLocation.getBlockY();
+        int trackedPlayerY = trackedPlayerLocation.getBlockY();
+        int distanceY = Math.abs(playerY - trackedPlayerY);
+
+        if(distanceInBlocks > distanceY * 4) {
+            return "";
+        }
+        if (playerY > trackedPlayerY + 3) {
+            return  "(" + TranslationUtils.get("tracker-below") + ")";
+        } else if (playerY < trackedPlayerY - 3) {
+            return  "(" + TranslationUtils.get("tracker-above") + ")";
+        }
+        return "";
+    }
+
 
     @NotNull
     private static String getArrowSymbol(double cross, double dot) {

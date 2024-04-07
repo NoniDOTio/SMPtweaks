@@ -22,9 +22,11 @@ reward-broadcast-hoverable-text: 'Login Reward'
 reward-broadcast-end: ''
 reward-broadcast-hover-text: 'Type /collect to claim your login reward'
 reward-not-available-yet: 'You need to wait {$1} until you can collect another login reward'
-tracker-success: 'You are now tracking {$1}' # You are now tracking Steve
+tracker-success: 'You are now tracking {$1}. Use /track clear to stop' # You are now tracking Steve
 tracker-cannot-track-yourself: 'You cannot track yourself'
 tracker-tracking: 'Tracking {$1} · {$2} blocks away' # Tracking Steve · 1,274 blocks away
+tracker-above: 'above'
+tracker-below: 'below'
 tracker-removed: 'Your tracker was removed'
 tracker-auto-removed: 'Your tracker was removed because the player has been offline for a while'
 tracker-player-in-different-dimension: '{$1} is {$2}' # Steve is in The End
