@@ -138,6 +138,7 @@ enable_commands:
   level: false
   whereis: false
   track: false
+  coords: false
 #
 # Login Rewards
 #

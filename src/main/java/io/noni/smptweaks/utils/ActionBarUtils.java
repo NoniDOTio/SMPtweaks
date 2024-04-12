@@ -31,6 +31,15 @@ public class ActionBarUtils {
     }
 
     /**
+     * Send a raw action bar textComponent to a player
+     * @param player Player to display the action bar to
+     * @param textComponent Content of the textComponent
+     */
+    public static void raw(@NotNull Player player, @NotNull TextComponent textComponent) {
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, textComponent);
+    }
+
+    /**
      * Clear action bar by sending an empty message to a player
      * @param player Player whose action bar to clear
      */

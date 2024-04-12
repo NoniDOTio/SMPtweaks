@@ -21,3 +21,6 @@ commands:
   track:
     description: Track a player.
     usage:  /track <player> -or- /track
+  coords:
+    description: Display your current coordinates or share them with others.
+    usage: /coords -or- /coords <on|off> -or- /coords <share|copy>

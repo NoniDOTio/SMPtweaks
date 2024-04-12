@@ -4,10 +4,7 @@ import io.noni.smptweaks.commands.*;
 import io.noni.smptweaks.database.DatabaseManager;
 import io.noni.smptweaks.events.*;
 import io.noni.smptweaks.models.ConfigCache;
-import io.noni.smptweaks.tasks.PlayerMetaStorerTask;
-import io.noni.smptweaks.tasks.TimeModifierTask;
-import io.noni.smptweaks.tasks.TrackerUpdateTask;
-import io.noni.smptweaks.tasks.WeatherClearerTask;
+import io.noni.smptweaks.tasks.*;
 import io.noni.smptweaks.utils.LoggingUtils;
 import io.noni.smptweaks.utils.TranslationUtils;
 import org.bstats.bukkit.Metrics;
@@ -31,6 +28,7 @@ public final class SMPtweaks extends JavaPlugin {
     private static ConfigCache configCache;
     private static Map<String, String> translations;
     private static Map<UUID, UUID> playerTrackers = new HashMap<>();
+    private static List<UUID> coordinateDisplays = new ArrayList<>();
 
     /**
      * Plugin startup logic
@@ -166,6 +164,9 @@ public final class SMPtweaks extends JavaPlugin {
         if(config.getBoolean("enable_commands.track")) {
             getCommand("track").setExecutor(new TrackCommand());
         }
+        if(config.getBoolean("enable_commands.coords")) {
+            getCommand("coords").setExecutor(new CoordsCommand());
+        }
         if(config.getBoolean("enable_commands.level") && config.getBoolean("server_levels.enabled")) {
             getCommand("level").setExecutor(new LevelCommand());
             getCommand("level").setTabCompleter(new LevelTab());
@@ -185,6 +186,9 @@ public final class SMPtweaks extends JavaPlugin {
         }
         if(config.getBoolean("enable_commands.track")) {
             Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new TrackerUpdateTask(), 0L, 10L);
+        }
+        if(config.getBoolean("enable_commands.coords")) {
+            Bukkit.getScheduler().scheduleAsyncRepeatingTask(this, new CoordsDisplayTask(), 0L, 10L);
         }
 
         //
@@ -300,4 +304,10 @@ public final class SMPtweaks extends JavaPlugin {
     public static Map<UUID, UUID> getPlayerTrackers() {
         return playerTrackers;
     }
+
+    /**
+     * Get coordinateDisplays list
+     * @return coordinateDisplays
+     */
+    public static List<UUID> getCoordinateDisplays() { return coordinateDisplays; }
 }
